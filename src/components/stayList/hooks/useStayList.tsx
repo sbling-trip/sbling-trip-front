@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import axiosInstance from '@api/axios'
 import { Stay } from '@models/stay'
-import { ApiResponse } from '@models/api'
+
+interface ApiResponse {
+  result: Stay[]
+}
 
 const useStayList = () => {
   const [stays, setStays] = useState<Stay[]>([])
+  const [currentPage, setCurrentPage] = useState(0)
 
   const formatLocation = (address: string) => {
     const [province, city] = address.split(' ').slice(0, 2)
@@ -30,6 +34,8 @@ const useStayList = () => {
       const { data } = await axiosInstance.get<ApiResponse>(
         `/stay/list?cursor=${pageNum}`,
       )
+      console.log('data.result', data.result)
+      console.log('formatStays', formatStays(data.result))
       setStays((prevStays) => [...prevStays, ...formatStays(data.result)])
     } catch (error) {
       console.error('Error fetching stays:', error)
@@ -37,10 +43,24 @@ const useStayList = () => {
   }
 
   useEffect(() => {
-    fetchStays(0)
+    fetchStays(currentPage)
   }, [])
 
-  return { stays }
+  const loadMore = async () => {
+    try {
+      const { data } = await axiosInstance.get<ApiResponse>(
+        `/stay/list?cursor=${currentPage}`,
+      )
+      setStays((prevStays) => [...prevStays, ...formatStays(data.result)])
+      setCurrentPage((prevPage) => prevPage + 1)
+    } catch (error) {
+      console.error('Error fetching more stays:', error)
+    }
+  }
+
+  console.log('currentPage', currentPage)
+
+  return { stays, loadMore }
 }
 
 export default useStayList
