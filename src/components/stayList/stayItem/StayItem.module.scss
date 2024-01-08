@@ -1,0 +1,51 @@
+@import 'src/styles/mixins';
+
+.stayItem {
+  width: calc(50% - 30px);
+}
+
+.stayItemInner {
+  display: flex;
+  height: 250px;
+  overflow: hidden;
+  border: 1px solid var(--gray300);
+}
+
+.stayItemLeft {
+  width: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.stayItemRight {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0px 30px;
+
+  h2 {
+    margin-bottom: 10px;
+    @include t2;
+  }
+
+  span {
+    display: block;
+    @include t6;
+  }
+
+  .bottomFlexRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .reservationBtn {
+    border-radius: 4px;
+    @include StyledButton(small, success, null);
+  }
+}
