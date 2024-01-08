@@ -1,0 +1,95 @@
+@use 'src/styles/mixins/typography';
+
+@mixin StyledButton($size, $color, $border) {
+  // Button Size
+  @if $size == small {
+    font-size: typography.$t7;
+    padding: 8px 10px;
+  } @else if $size == medium {
+    font-size: typography.$t5;
+    padding: 10px 14px;
+  } @else if $size == large {
+    font-size: typography.$t3;
+    padding: 12px 16px;
+  } @else {
+    @warn "유효하지 않은 버튼 사이즈: #{$size}";
+  }
+
+  // Button Color
+  @if $color == primary {
+    background-color: var(--black);
+    color: var(--white);
+  } @else if $color == success {
+    background-color: var(--success);
+    color: var(--white);
+  } @else if $color == error {
+    background-color: var(--error);
+    color: var(--white);
+  } @else {
+    @warn "유효하지 않은 버튼 색상: #{$color}";
+  }
+
+  // Button Border
+  @if $border == primary {
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--black);
+  } @else if $border == success {
+    background-color: var(--white);
+    color: var(--success);
+    border: 1px solid var(--success);
+  } @else if $border == error {
+    background-color: var(--white);
+    color: var(--error);
+    border: 1px solid var(--error);
+  } @else {
+    @warn "유효하지 않은 버튼 테두리: #{$border}";
+  }
+
+  &:hover {
+    @if $color == primary {
+      @include BtnHoverPrimaryColor;
+    } @else if $color == success {
+      @include BtnHoverSuccessColor;
+    } @else if $color == error {
+      @include BtnHoverErrorColor;
+    }
+
+    @if $border == primary {
+      @include BtnHoverPrimaryBorder;
+    } @else if $border == success {
+      @include BtnHoverSuccessBorder;
+    } @else if $border == error {
+      @include BtnHoverErrorBorder;
+    }
+  }
+}
+
+// Button Hover Color
+@mixin BtnHoverPrimaryColor {
+  background-color: var(--gray800);
+}
+
+@mixin BtnHoverSuccessColor {
+  background-color: var(--blue600);
+}
+
+@mixin BtnHoverErrorColor {
+  background-color: var(--red500);
+}
+
+// Button Hover Border
+@mixin BtnHoverPrimaryBorder {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+@mixin BtnHoverSuccessBorder {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+@mixin BtnHoverErrorBorder {
+  background-color: var(--error);
+  color: var(--white);
+}
