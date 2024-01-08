@@ -1,5 +1,14 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import StayListPage from '@pages/stayList'
+
 function App() {
-  return;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<StayListPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
