@@ -11,7 +11,7 @@
   } @else if $size == large {
     font-size: typography.$t3;
     padding: 12px 16px;
-  } @else {
+  } @else if $size != null {
     @warn "유효하지 않은 버튼 사이즈: #{$size}";
   }
 
@@ -25,7 +25,7 @@
   } @else if $color == error {
     background-color: var(--error);
     color: var(--white);
-  } @else {
+  } @else if $color != null {
     @warn "유효하지 않은 버튼 색상: #{$color}";
   }
 
@@ -42,7 +42,7 @@
     background-color: var(--white);
     color: var(--error);
     border: 1px solid var(--error);
-  } @else {
+  } @else if $border != null {
     @warn "유효하지 않은 버튼 테두리: #{$border}";
   }
 
