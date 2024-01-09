@@ -1,0 +1,35 @@
+@import 'src/styles/mixins';
+
+.swiperContainer {
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background-position: center;
+  }
+}
+
+.swiper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+
+  --swiper-theme-color: var(--white);
+  --swiper-navigation-size: 35px;
+  --swiper-navigation-sides-offset: 20px;
+  --swiper-navigation-top-offset: 50%;
+
+  --swiper-pagination-color: var(--white);
+  --swiper-pagination-bottom: 15px;
+  --swiper-pagination-bullet-width: 15px;
+  --swiper-pagination-bullet-height: 15px;
+  --swiper-pagination-bullet-horizontal-gap: 7px;
+  --swiper-pagination-bullet-inactive-color: var(--gray300);
+  --swiper-pagination-bullet-inactive-opacity: 0.9;
+  --swiper-pagination-bullet-opacity: 1;
+
+  --swiper-pagination-fraction-color: var(--gray700);
+  --swiper-pagination-bottom: 10px;
+}
