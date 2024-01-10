@@ -25,7 +25,9 @@
       "@models/*": ["src/models/*"],
       "@assets/*": ["src/assets/*"],
       "@utils/*": ["src/utils/*"],
-      "@redux/*": ["src/redux/*"]
+      "@redux/*": ["src/redux/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@contexts/*": ["src/contexts/*"]
     },
 
     /* Linting */
