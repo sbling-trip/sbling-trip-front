@@ -1,0 +1,39 @@
+@import 'src/styles/mixins';
+
+.alert {
+  width: 320px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  background-color: var(--white);
+  overflow: hidden;
+  z-index: 11px;
+
+  .alertMsg {
+    margin-bottom: 30px;
+
+    h2 {
+      margin-bottom: 10px;
+      font-weight: 500;
+      @include t3;
+    }
+
+    h3 {
+      @include t5;
+    }
+  }
+
+  .flexRowContainer {
+    display: flex;
+    justify-content: flex-end;
+
+    .alertBtn {
+      border-radius: 8px;
+      @include StyledButton(medium, primary, null);
+    }
+  }
+}
