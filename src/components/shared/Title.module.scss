@@ -1,0 +1,9 @@
+@import 'src/styles/mixins';
+
+.title {
+  @include t1;
+}
+
+.subTitle {
+  @include t4;
+}
