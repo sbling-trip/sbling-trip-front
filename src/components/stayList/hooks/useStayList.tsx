@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import axiosInstance from '@api/axios'
 import { Stay } from '@models/stay'
-
-interface ApiResponse {
-  result: Stay[]
-}
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@redux/store'
+import { addStays, setStays } from '@redux/staySlice'
+import { ApiResponse } from '@models/api'
 
 const useStayList = () => {
-  const [stays, setStays] = useState<Stay[]>([])
   const [currentPage, setCurrentPage] = useState(0)
+  const [showMoreButton, setShowMoreButton] = useState(true)
+
+  const dispatch = useDispatch()
+  const { stays } = useSelector((state: RootState) => state.stay)
 
   const formatLocation = (address: string) => {
     const [province, city] = address.split(' ').slice(0, 2)
@@ -36,7 +39,14 @@ const useStayList = () => {
       )
       console.log('data.result', data.result)
       console.log('formatStays', formatStays(data.result))
-      setStays((prevStays) => [...prevStays, ...formatStays(data.result)])
+
+      if (pageNum === 0) {
+        dispatch(setStays(formatStays(data.result)))
+      } else {
+        dispatch(addStays(formatStays(data.result)))
+      }
+
+      setShowMoreButton(data.result.length > 0)
     } catch (error) {
       console.error('Error fetching stays:', error)
     }
@@ -48,19 +58,20 @@ const useStayList = () => {
 
   const loadMore = async () => {
     try {
+      const nextPage = currentPage + 1
       const { data } = await axiosInstance.get<ApiResponse>(
-        `/stay/list?cursor=${currentPage}`,
+        `/stay/list?cursor=${nextPage}`,
       )
-      setStays((prevStays) => [...prevStays, ...formatStays(data.result)])
-      setCurrentPage((prevPage) => prevPage + 1)
+
+      dispatch(addStays(formatStays(data.result)))
+      setCurrentPage(nextPage)
+      setShowMoreButton(data.result.length > 0)
     } catch (error) {
       console.error('Error fetching more stays:', error)
     }
   }
 
-  console.log('currentPage', currentPage)
-
-  return { stays, loadMore }
+  return { stays, loadMore, showMoreButton }
 }
 
 export default useStayList
