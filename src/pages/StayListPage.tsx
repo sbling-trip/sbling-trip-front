@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import useStayList from '@components/stayList/hooks/useStayList'
-import StayItem from '@components/stayList/stayItem'
+import StayItem from '@components/stayList/StayItem'
+import Title from '@components/shared/Title'
 
 import classNames from 'classnames/bind'
 import styles from './StayList.module.scss'
@@ -53,6 +54,11 @@ const StayListPage = () => {
   return (
     <main>
       <div className={cx('stayListContainer')}>
+        <Title
+          title="실시간 베스트"
+          subTitle=""
+          className={cx('stayListTitle')}
+        />
         <ul className={cx('stayItemWrap')}>
           {stays.length > 0 &&
             stays.map((stay, index) => [

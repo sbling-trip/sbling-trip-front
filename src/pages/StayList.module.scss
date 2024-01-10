@@ -1,0 +1,22 @@
+@import 'src/styles/mixins';
+
+.stayListContainer {
+  margin: 0 auto;
+  width: calc(100% - 20%);
+
+  .stayListTitle {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    h2 {
+      font-weight: 600;
+      @include t2;
+    }
+  }
+
+  .stayItemWrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
