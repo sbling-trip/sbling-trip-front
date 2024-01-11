@@ -33,7 +33,7 @@
 
     .alertBtn {
       border-radius: 8px;
-      @include StyledButton(medium, primary, null);
+      @include StyledButton(medium, success, null);
     }
   }
 }
