@@ -21,7 +21,7 @@ export const AlertContext = createContext<AlertContextValue | undefined>(
 
 const defaultValues: AlertProps = {
   isOpen: false,
-  onBtnClick: () => {},
+  onConfirmClick: () => {},
 }
 
 export const AlertContextProvider = ({
@@ -38,13 +38,19 @@ export const AlertContextProvider = ({
   }, [])
 
   const openAlert = useCallback(
-    ({ onBtnClick, ...options }: AlertOptions) => {
+    ({ onConfirmClick, onCancelClick, ...options }: AlertOptions) => {
       setAlertState({
         ...options,
-        onBtnClick: () => {
+        onConfirmClick: () => {
           closeAlert()
-          onBtnClick()
+          onConfirmClick()
         },
+        onCancelClick: onCancelClick
+          ? () => {
+              closeAlert()
+              onCancelClick()
+            }
+          : undefined,
         isOpen: true,
       })
     },

@@ -10,8 +10,10 @@ interface AlertProps {
   isOpen?: boolean
   title?: React.ReactNode
   subTitle?: React.ReactNode
-  btnTxt?: string
-  onBtnClick: () => void
+  confirmTxt?: string
+  cancelTxt?: string
+  onConfirmClick: () => void
+  onCancelClick?: () => void
   className?: string
 }
 
@@ -19,8 +21,10 @@ const Alert = ({
   isOpen,
   title,
   subTitle,
-  btnTxt = '확인',
-  onBtnClick,
+  confirmTxt = '확인',
+  cancelTxt = '취소',
+  onConfirmClick,
+  onCancelClick,
   className,
 }: AlertProps) => {
   if (!isOpen) {
@@ -38,11 +42,19 @@ const Alert = ({
           />
         )}
         <div className={cx('flexRowContainer')}>
+          {onCancelClick && (
+            <button
+              onClick={onCancelClick}
+              className={`${className ?? ''} ${cx('btn', 'cancel')}`}
+            >
+              {cancelTxt}
+            </button>
+          )}
           <button
-            onClick={onBtnClick}
-            className={`${className ?? ''} ${cx('alertBtn')}`}
+            onClick={onConfirmClick}
+            className={`${className ?? ''} ${cx('btn', 'comfirm')}`}
           >
-            {btnTxt}
+            {confirmTxt}
           </button>
         </div>
       </div>

@@ -1,39 +1,53 @@
 @import 'src/styles/mixins';
 
 .alert {
-  width: 320px;
-  padding: 30px 40px;
-  box-sizing: border-box;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  border-radius: 12px;
+  border-radius: 6px;
+  text-align: center;
   background-color: var(--white);
-  overflow: hidden;
   z-index: 11px;
 
+  width: 100%;
+  max-width: 380px;
+  padding: 30px 40px;
+
   .alertMsg {
-    margin-bottom: 30px;
+    padding: 20px 0;
+    font-weight: 500;
 
     h2 {
-      margin-bottom: 10px;
-      font-weight: 500;
-      @include t3;
+      margin-bottom: 5px;
+      @include t5;
     }
 
     h3 {
       @include t5;
     }
   }
+}
 
-  .flexRowContainer {
-    display: flex;
-    justify-content: flex-end;
+.flexRowContainer {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
 
-    .alertBtn {
-      border-radius: 8px;
-      @include StyledButton(medium, success, null);
-    }
+  .btn {
+    width: 100%;
+    border-radius: 6px;
+    @include StyledButton(medium, success, null);
+    padding: 10px 14px;
+  }
+}
+
+.btn.cancel {
+  @include StyledButton(medium, null, success);
+
+  &:hover {
+    color: var(--blue400);
+    background-color: var(--white);
   }
 }
