@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import StayListPage from '@pages/stayList'
+import StayListPage from '@pages/StayListPage'
 
 function App() {
   return (

@@ -19,4 +19,16 @@
     flex-wrap: wrap;
     justify-content: space-between;
   }
+
+  .showMoreBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    @include StyledButton(large, success, null);
+  }
 }
