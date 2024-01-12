@@ -1,0 +1,63 @@
+@import 'src/styles/mixins';
+
+header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+  background-color: var(--white);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+
+  nav {
+    margin: 0px auto;
+    width: calc(100% - 10%);
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 10px 0;
+
+    h1 {
+      font-weight: 600;
+      @include t1;
+    }
+  }
+
+  .navItem {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+    height: 100%;
+
+    .searchContainer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      margin-right: 5px;
+    }
+
+    .userContainer {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .userLogBtn {
+        border-radius: 8px;
+        color: var(--white);
+        background-color: var(--blue400);
+        @include StyledButton(small, null, null);
+
+        &:hover {
+          background-color: var(--blue500);
+        }
+      }
+
+      .userSignupBtn {
+        border-radius: 8px;
+        @include StyledButton(small, null, success);
+      }
+    }
+  }
+}
