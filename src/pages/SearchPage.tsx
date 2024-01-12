@@ -35,6 +35,20 @@ const SearchPage = () => {
     }
   }
 
+  const renderNoResult = () => (
+    <div className={cx('noResult')}>
+      <h3>검색 결과가 없습니다.</h3>
+    </div>
+  )
+
+  const renderSearchResults = () => (
+    <ul className={cx('stayItemWrap')}>
+      {filteredStays.map((stay) => (
+        <StayItem stay={stay} key={stay.staySeq} />
+      ))}
+    </ul>
+  )
+
   return (
     <main>
       <div className={cx('searchContainer')}>
@@ -55,17 +69,9 @@ const SearchPage = () => {
         </div>
         {searchTerm !== '' && (
           <div className={cx('searchResults')}>
-            {filteredStays.length === 0 ? (
-              <div className={cx('noResult')}>
-                <h3>검색 결과가 없습니다.</h3>
-              </div>
-            ) : (
-              <ul className={cx('stayItemWrap')}>
-                {filteredStays.map((stay) => (
-                  <StayItem stay={stay} key={stay.staySeq} />
-                ))}
-              </ul>
-            )}
+            {filteredStays.length === 0
+              ? renderNoResult()
+              : renderSearchResults()}
           </div>
         )}
       </div>
