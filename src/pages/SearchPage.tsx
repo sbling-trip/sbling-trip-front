@@ -1,38 +1,47 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import StayItem from '@components/stayList/StayItem'
 import useStayList from '@components/stayList/hooks/useStayList'
+import useDebounce from '@components/search/hooks/useDebounce'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
+import IconClose from '@assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
 import styles from './SearchPage.module.scss'
 
 const cx = classNames.bind(styles)
 
 const SearchPage = () => {
-  const location = useLocation()
+  const [searchParams] = useSearchParams()
+  const initialSearchQuery = searchParams.get('query') || ''
+  const [query, setQuery] = useState<string>(initialSearchQuery)
+  const debouncedQuery = useDebounce(query, 300)
+
   const navigate = useNavigate()
-
-  const queryParams = new URLSearchParams(location.search)
-  const initialSearchQuery = queryParams.get('query') || ''
-
-  const [searchTerm, setSearchTerm] = useState(initialSearchQuery)
 
   const { stays } = useStayList()
 
   const filteredStays = stays.filter(
     (stay) =>
-      stay.stayName.includes(searchTerm) || stay.address.includes(searchTerm),
+      stay.stayName.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+      stay.address.toLowerCase().includes(debouncedQuery.toLowerCase()),
   )
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchTerm.trim() !== '') {
-      navigate(`/search?query=${searchTerm}`)
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && debouncedQuery.trim() !== '') {
+      searchParams.set('query', debouncedQuery)
+      navigate(`/search?query=${debouncedQuery}`)
     }
+  }
+
+  const handleQueryClear = () => {
+    setQuery('')
+    searchParams.delete('query')
+    navigate(`/search`)
   }
 
   const renderNoResult = () => (
@@ -61,13 +70,22 @@ const SearchPage = () => {
               type="text"
               placeholder="원하는 숙소 혹은 지역을 검색해보세요."
               className={cx('searchInput')}
-              value={searchTerm}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
+              value={query}
+              onChange={handleQueryChange}
+              onKeyDown={handleSearchKeyDown}
             />
+            {query !== '' && (
+              <button
+                type="button"
+                className={cx('clearBtn')}
+                onClick={handleQueryClear}
+              >
+                <IconClose width={30} height={30} />
+              </button>
+            )}
           </div>
         </div>
-        {searchTerm !== '' && (
+        {query !== '' && (
           <div className={cx('searchResults')}>
             {filteredStays.length === 0
               ? renderNoResult()

@@ -19,12 +19,22 @@
     @include t5;
   }
 
-  .searchIcon {
+  .searchIcon,
+  .clearBtn {
     position: absolute;
-    left: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .searchIcon {
+    left: 18px;
+  }
+
+  .clearBtn {
+    right: 18px;
+    box-shadow: none;
+    color: var(--blue400);
   }
 
   .searchInput {
