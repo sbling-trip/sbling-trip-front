@@ -1,5 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { useAlertContext } from '@hooks/useAlertContext'
+import { useCallback } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import useAuth from '@auth/useAuth'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import IconUser from '@assets/icon/icon-user.svg?react'
@@ -9,20 +10,17 @@ import styles from './Navbar.module.scss'
 
 const cx = classNames.bind(styles)
 
+interface LogoutButtonProps {
+  onClick: () => void
+}
+
 const Navbar = () => {
-  const navigate = useNavigate()
+  const location = useLocation()
+  const isLoginOrSignupPage = ['/login', '/signup'].includes(location.pathname)
 
-  const { openAlert } = useAlertContext()
+  const { user, loggedIn, handleLogout } = useAuth()
 
-  const handleLogout = () => {
-    openAlert({
-      title: '로그아웃 하시겠습니까?',
-      onConfirmClick: () => {
-        navigate('/')
-      },
-      onCancelClick: () => {},
-    })
-  }
+  console.log('Navbar user', { user })
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -30,6 +28,52 @@ const Navbar = () => {
       behavior: 'smooth',
     })
   }
+
+  const LoginButton = () => (
+    <Link to="/login">
+      <button type="button" className={cx('userLogBtn')}>
+        로그인
+      </button>
+    </Link>
+  )
+
+  const LogoutButton = ({ onClick }: LogoutButtonProps) => (
+    <button type="button" onClick={onClick} className={cx('userLogBtn')}>
+      로그아웃
+    </button>
+  )
+
+  const SignupButton = () => (
+    <Link to="/signup">
+      <button type="button" className={cx('userSignupBtn')}>
+        회원가입
+      </button>
+    </Link>
+  )
+
+  const renderUserButton = useCallback(() => {
+    if (loggedIn) {
+      return (
+        <div className={cx('user')}>
+          <Link to="/my">
+            <IconUser width={35} height={35} fill="var(--blue400)" />
+          </Link>
+          <LogoutButton onClick={() => handleLogout()} />
+        </div>
+      )
+    }
+
+    if (!isLoginOrSignupPage) {
+      return (
+        <div className={cx('user')}>
+          <LoginButton />
+          <SignupButton />
+        </div>
+      )
+    }
+
+    return null
+  }, [handleLogout, isLoginOrSignupPage, loggedIn])
 
   return (
     <>
@@ -46,33 +90,12 @@ const Navbar = () => {
             </Link>
           </h1>
           <div className={cx('navItem')}>
-            <div className={cx('searchContainer')}>
+            <div className={cx('search')}>
               <Link to="/search">
-                <IconSearch width={30} height={30} fill="var(--gray700)" />
+                <IconSearch width={30} height={30} fill="var(--blue400)" />
               </Link>
             </div>
-            <div className={cx('userContainer')}>
-              <Link to="/my">
-                <IconUser width={35} height={35} fill="var(--gray700)" />
-              </Link>
-              <Link to="/login">
-                <button type="button" className={cx('userLogBtn')}>
-                  로그인
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button type="button" className={cx('userSignupBtn')}>
-                  회원가입
-                </button>
-              </Link>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className={cx('userLogBtn')}
-              >
-                로그아웃
-              </button>
-            </div>
+            {renderUserButton()}
           </div>
         </nav>
       </header>

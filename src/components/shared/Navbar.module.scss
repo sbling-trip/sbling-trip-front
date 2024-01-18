@@ -28,36 +28,36 @@ header {
     justify-content: flex-end;
     align-items: center;
     flex-grow: 1;
+    gap: 8px;
     height: 100%;
 
-    .searchContainer {
+    .search {
       position: relative;
       display: flex;
       align-items: center;
       height: 48px;
-      margin-right: 5px;
     }
 
-    .userContainer {
+    .user {
       display: flex;
-      gap: 10px;
       align-items: center;
+      gap: 10px;
+    }
 
-      .userLogBtn {
-        border-radius: 8px;
-        color: var(--white);
-        background-color: var(--blue400);
-        @include StyledButton(small, null, null);
+    .userLogBtn {
+      border-radius: 8px;
+      color: var(--white);
+      background-color: var(--blue400);
+      @include StyledButton(small, null, null);
 
-        &:hover {
-          background-color: var(--blue500);
-        }
+      &:hover {
+        background-color: var(--blue500);
       }
+    }
 
-      .userSignupBtn {
-        border-radius: 8px;
-        @include StyledButton(small, null, success);
-      }
+    .userSignupBtn {
+      border-radius: 8px;
+      @include StyledButton(small, null, success);
     }
   }
 }

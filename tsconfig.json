@@ -27,7 +27,8 @@
       "@utils/*": ["src/utils/*"],
       "@redux/*": ["src/redux/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@contexts/*": ["src/contexts/*"]
+      "@contexts/*": ["src/contexts/*"],
+      "@auth/*": ["src/auth/*"]
     },
 
     /* Linting */

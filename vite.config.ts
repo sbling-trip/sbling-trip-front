@@ -18,6 +18,7 @@ export default defineConfig({
       { find: '@redux', replacement: '/src/redux' },
       { find: '@hooks', replacement: '/src/hooks' },
       { find: '@contexts', replacement: '/src/contexts' },
+      { find: '@auth', replacement: '/src/auth' },
     ],
   },
 })
