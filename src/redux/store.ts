@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import staySlice from './staySlice'
+import userSlice from './userSlice'
 
 const reduxStore = configureStore({
   reducer: {
     stay: staySlice,
+    user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ['stay.stays'],
+        ignoredPaths: ['stay.stays', 'user.user'],
       },
     }),
 })
