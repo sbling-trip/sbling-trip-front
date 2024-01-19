@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlertContext } from '@hooks/useAlertContext'
+import axiosInstance from '@api/axios'
 import { RootState } from '@redux/store'
-import { clearUser } from '@redux/userSlice'
+import { clearUser, setUser } from '@redux/userSlice'
 
 const useAuth = () => {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -13,6 +14,12 @@ const useAuth = () => {
 
   const navigate = useNavigate()
   const { openAlert } = useAlertContext()
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${
+      import.meta.env.VITE_SERVER_URL
+    }/auth/google/redirect-login`
+  }
 
   const handleLogout = () => {
     openAlert({
@@ -26,17 +33,34 @@ const useAuth = () => {
     setLoggedIn(false)
   }
 
-  const handleGoogleLogin = () => {
-    window.location.href = `${
-      import.meta.env.VITE_SERVER_URL
-    }/auth/google/redirect-login`
+  const sendAuthorization = async (code: string) => {
+    try {
+      const { data } = await axiosInstance.post(`/auth/google/login`, { code })
+      dispatch(setUser(data.user))
+      navigate('/')
+    } catch (error) {
+      console.error('Error processing sendAuthorization:', error)
+    }
   }
 
-  if (user) {
-    setLoggedIn(true)
-  } else {
-    setLoggedIn(false)
+  const handleAuthorization = async () => {
+    const urlParams = new URLSearchParams(location.search)
+    const authorizationCode = urlParams.get('code') ?? ''
+
+    if (authorizationCode) {
+      await sendAuthorization(authorizationCode)
+    }
+
+    if (user) {
+      setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
+    }
   }
+
+  useEffect(() => {
+    handleAuthorization()
+  }, [user])
 
   return {
     loggedIn,
