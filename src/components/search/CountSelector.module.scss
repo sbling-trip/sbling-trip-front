@@ -1,0 +1,61 @@
+@import 'src/styles/mixins';
+
+.selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 8px;
+
+  .selectorText {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .title {
+      font-weight: 600;
+      @include t5;
+    }
+
+    .description {
+      color: var(--gray400);
+      font-weight: 600;
+      @include t6;
+    }
+  }
+
+  .selectorButton {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 120px;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 32px;
+    border: 1px solid var(--gray100);
+    box-shadow: none;
+
+    &:hover {
+      border: 1px solid var(--gray700);
+    }
+  }
+
+  .count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 0%;
+    width: 100%;
+    height: 100%;
+
+    span {
+      font-weight: 600;
+      @include t4;
+    }
+  }
+}
