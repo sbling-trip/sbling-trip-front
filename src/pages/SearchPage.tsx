@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import SearchSelector from '@components/search/SearchSelector'
+import LocationSearch from '@components/search/LocationSearch'
 import DatePicker from '@components/shared/DatePicker'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
@@ -10,7 +11,11 @@ import styles from './SearchPage.module.scss'
 const cx = classNames.bind(styles)
 
 const SearchPage = () => {
+  const [isLocationDropdownOpen, setLocationDropdownOpen] = useState(false)
   const [isDateDropdownOpen, setDateDropdownOpen] = useState(false)
+
+  const [searchLocation, setSearchLocation] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState('')
 
   const [displayedDate, setDisplayedDate] = useState('')
   const [selectedDate, setSelectedDate] = useState<{
@@ -26,11 +31,40 @@ const SearchPage = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    setDateDropdownOpen(false)
+    closeDropdowns()
   }
 
-  const handleDropdownToggle = (dropdown: string) => {
+  const handleLocationEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    handleLocationSubmit()
+  }
+
+  const handleLocationSubmit = () => {
+    setSelectedLocation(searchLocation)
+    setSearchLocation('')
+    setLocationDropdownOpen(false)
+  }
+
+  const handleLocationClear = () => {
+    setSelectedLocation('')
+  }
+
+  const handleInputClear = () => {
+    setSearchLocation('')
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchLocation(e.target.value)
+  }
+
+  const handleDropdownToggle = (dropdown: 'location' | 'date') => {
+    setLocationDropdownOpen(dropdown === 'location' ? (prev) => !prev : false)
     setDateDropdownOpen(dropdown === 'date' ? (prev) => !prev : false)
+  }
+
+  const closeDropdowns = () => {
+    setLocationDropdownOpen(false)
+    setDateDropdownOpen(false)
   }
 
   const handleDateResultClear = () => {
@@ -67,10 +101,22 @@ const SearchPage = () => {
             <div className={cx('contents')}>
               <SearchSelector
                 label="여행지"
-                isOpen={true}
-                selectedResult={''}
-                onToggle={() => {}}
-              ></SearchSelector>
+                isOpen={isLocationDropdownOpen}
+                selectedResult={selectedLocation}
+                setSelectedResult={setSelectedLocation}
+                onToggle={() => handleDropdownToggle('location')}
+              >
+                {isLocationDropdownOpen && (
+                  <LocationSearch
+                    searchTerm={searchLocation}
+                    submittedTerm={selectedLocation}
+                    onInputChange={handleInputChange}
+                    onInputClear={handleInputClear}
+                    onIconClick={handleLocationClear}
+                    onEnter={handleLocationEnter}
+                  />
+                )}
+              </SearchSelector>
               <div className={cx('division')}></div>
               <SearchSelector
                 label="일정"
