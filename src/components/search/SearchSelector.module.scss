@@ -1,0 +1,51 @@
+@import 'src/styles/mixins';
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+
+  height: 100%;
+  padding: 4px 32px;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 50px;
+    background-color: var(--blue50);
+  }
+
+  .selectorLabel {
+    @include t6;
+    font-weight: 600;
+  }
+
+  .selectedResult {
+    width: calc(100% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    color: var(--blue500);
+    font-weight: bold;
+    @include t4;
+
+    &.base {
+      color: var(--gray400);
+    }
+  }
+
+  .flexBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .iconArrow {
+    transform: rotate(90deg);
+  }
+}
