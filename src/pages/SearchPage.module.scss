@@ -2,67 +2,79 @@
 
 .searchContainer {
   width: 100%;
+  padding: 40px 30px;
+}
 
-  .searchHeader {
-    width: calc(100% - 20%);
-    margin: 0 auto;
-  }
+.header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: none;
+}
 
-  .searchHeaderInner {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    height: 60px;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    @include t5;
-  }
+.form {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  background-color: var(--white);
+  border: 1px solid var(--blue100);
+}
 
-  .searchIcon,
-  .clearBtn {
+.contents {
+  display: flex;
+  align-items: center;
+  height: 76px;
+  padding-right: 10px;
+}
+
+.division {
+  position: relative;
+
+  &::after {
+    content: '';
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 40px;
+    background-color: var(--gray100);
   }
+}
 
-  .searchIcon {
-    left: 18px;
-  }
+.date {
+  width: auto;
+  left: -50%;
+  padding: 30px 30px 15px;
+}
 
-  .clearBtn {
-    right: 18px;
+.dropdown {
+  position: absolute;
+  top: 90px;
+  max-height: 600px;
+  border-radius: 34px;
+  overflow-y: auto;
+  background-color: var(--white);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  animation: fadeInDown 0.3s ease-in-out;
+}
+
+.dropdownInner {
+  width: 100%;
+  padding: 20px 26px;
+  overflow-y: auto;
+}
+
+.btnContainer {
+  .submitBtn {
     box-shadow: none;
-    color: var(--blue400);
-  }
+    border-radius: 50%;
+    padding: 12px 15px;
+    background-color: var(--blue80);
 
-  .searchInput {
-    width: 100%;
-    height: 100%;
-    padding: 0px 16px 0px 55px;
-    font-weight: 500;
-    border-radius: 30px;
-    color: var(--gray600);
-    background-color: var(--blue50);
-    @include t5;
-  }
-
-  .searchResults {
-    margin: 0 auto;
-    width: calc(100% - 20%);
-    position: relative;
-
-    .noResult {
-      text-align: center;
-      @include t4;
+    &:hover {
+      background-color: var(--blue100);
     }
-  }
-
-  .stayItemWrap {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 30px 0;
   }
 }

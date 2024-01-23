@@ -1,97 +1,119 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import StayItem from '@components/stayList/StayItem'
-import useStayList from '@components/stayList/hooks/useStayList'
-import useDebounce from '@components/search/hooks/useDebounce'
+import { format, parseISO } from 'date-fns'
+import SearchSelector from '@components/search/SearchSelector'
+import DatePicker from '@components/shared/DatePicker'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
-import IconClose from '@assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
 import styles from './SearchPage.module.scss'
 
 const cx = classNames.bind(styles)
 
 const SearchPage = () => {
-  const [searchParams] = useSearchParams()
-  const initialSearchQuery = searchParams.get('query') || ''
-  const [query, setQuery] = useState<string>(initialSearchQuery)
-  const debouncedQuery = useDebounce(query, 300)
+  const [isDateDropdownOpen, setDateDropdownOpen] = useState(false)
 
-  const navigate = useNavigate()
+  const [displayedDate, setDisplayedDate] = useState('')
+  const [selectedDate, setSelectedDate] = useState<{
+    startDate?: string
+    endDate?: string
+    nights: number
+  }>({
+    startDate: undefined,
+    endDate: undefined,
+    nights: 0,
+  })
 
-  const { stays } = useStayList()
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
 
-  const filteredStays = stays.filter(
-    (stay) =>
-      stay.stayName.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
-      stay.address.toLowerCase().includes(debouncedQuery.toLowerCase()),
-  )
-
-  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
+    setDateDropdownOpen(false)
   }
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && debouncedQuery.trim() !== '') {
-      searchParams.set('query', debouncedQuery)
-      navigate(`/search?query=${debouncedQuery}`)
+  const handleDropdownToggle = (dropdown: string) => {
+    setDateDropdownOpen(dropdown === 'date' ? (prev) => !prev : false)
+  }
+
+  const handleDateResultClear = () => {
+    setDisplayedDate('')
+    setSelectedDate({
+      startDate: undefined,
+      endDate: undefined,
+      nights: 0,
+    })
+  }
+
+  const handleDatePickerComplete = () => {
+    if (selectedDate.startDate && selectedDate.endDate) {
+      const formattedStartDate = format(
+        parseISO(selectedDate.startDate),
+        'M월 dd일',
+      )
+      const formattedEndDate = format(
+        parseISO(selectedDate.endDate),
+        'M월 dd일',
+      )
+      setDisplayedDate(
+        `${formattedStartDate} - ${formattedEndDate} (${selectedDate.nights}박)`,
+      )
+      setDateDropdownOpen(false)
     }
   }
-
-  const handleQueryClear = () => {
-    setQuery('')
-    searchParams.delete('query')
-    navigate(`/search`)
-  }
-
-  const renderNoResult = () => (
-    <div className={cx('noResult')}>
-      <h3>검색 결과가 없습니다.</h3>
-    </div>
-  )
-
-  const renderSearchResults = () => (
-    <ul className={cx('stayItemWrap')}>
-      {filteredStays.map((stay) => (
-        <StayItem stay={stay} key={stay.staySeq} />
-      ))}
-    </ul>
-  )
 
   return (
     <main>
       <div className={cx('searchContainer')}>
-        <div className={cx('searchHeader')}>
-          <div className={cx('searchHeaderInner')}>
-            <div className={cx('searchIcon')}>
-              <IconSearch width={30} height={30} fill="var(--blue400)" />
-            </div>
-            <input
-              type="text"
-              placeholder="원하는 숙소 혹은 지역을 검색해보세요."
-              className={cx('searchInput')}
-              value={query}
-              onChange={handleQueryChange}
-              onKeyDown={handleSearchKeyDown}
-            />
-            {query !== '' && (
-              <button
-                type="button"
-                className={cx('clearBtn')}
-                onClick={handleQueryClear}
+        <header className={cx('header')}>
+          <form onSubmit={handleFormSubmit} className={cx('form')}>
+            <div className={cx('contents')}>
+              <SearchSelector
+                label="여행지"
+                isOpen={true}
+                selectedResult={''}
+                onToggle={() => {}}
+              ></SearchSelector>
+              <div className={cx('division')}></div>
+              <SearchSelector
+                label="일정"
+                isOpen={isDateDropdownOpen}
+                selectedResult={displayedDate}
+                setSelectedResult={setDisplayedDate}
+                onResultClear={handleDateResultClear}
+                onToggle={() => handleDropdownToggle('date')}
               >
-                <IconClose width={30} height={30} />
-              </button>
-            )}
-          </div>
-        </div>
-        {query !== '' && (
-          <div className={cx('searchResults')}>
-            {filteredStays.length === 0
-              ? renderNoResult()
-              : renderSearchResults()}
-          </div>
-        )}
+                <div
+                  className={cx('dropdown', 'date')}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className={cx('dropdownInner')}>
+                    <DatePicker
+                      startDate={selectedDate.startDate}
+                      endDate={selectedDate.endDate}
+                      onChange={(dateRange) => {
+                        setSelectedDate({
+                          startDate: dateRange.from,
+                          endDate: dateRange.to,
+                          nights: dateRange.nights,
+                        })
+                      }}
+                      onComplete={() => {
+                        handleDatePickerComplete()
+                      }}
+                    />
+                  </div>
+                </div>
+              </SearchSelector>
+              <div className={cx('btnContainer')}>
+                <button type="submit" className={cx('submitBtn')}>
+                  <IconSearch
+                    width={30}
+                    height={30}
+                    className={cx('iconSearch')}
+                  />
+                </button>
+              </div>
+            </div>
+          </form>
+        </header>
       </div>
     </main>
   )
