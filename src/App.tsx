@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import StayListPage from '@pages/StayListPage'
+import MainPage from '@pages/MainPage'
 import SearchPage from '@pages/SearchPage'
+
 import ScrollToTop from '@components/shared/ScrollToTop'
 import Navbar from '@components/shared/Navbar'
 
@@ -10,7 +11,7 @@ function App() {
       <ScrollToTop />
       <Navbar />
       <Routes>
-        <Route path="/" element={<StayListPage />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/search" element={<SearchPage />} />
       </Routes>
     </BrowserRouter>

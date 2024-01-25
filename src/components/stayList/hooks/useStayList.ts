@@ -37,8 +37,6 @@ const useStayList = () => {
       const { data } = await axiosInstance.get<ApiResponse>(
         `/stay/list?cursor=${pageNum}`,
       )
-      console.log('data.result', data.result)
-      console.log('formatStays', formatStays(data.result))
 
       if (pageNum === 0) {
         dispatch(setStays(formatStays(data.result)))
