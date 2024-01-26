@@ -5,6 +5,7 @@ $t4: 1.25rem; // 20px
 $t5: 1.0625rem; // 17px
 $t6: 0.9375rem; // 15px
 $t7: 0.8125rem; // 13px
+$t8: 0.75rem; // 12px
 
 @mixin t1 {
   font-size: $t1;
@@ -38,5 +39,10 @@ $t7: 0.8125rem; // 13px
 
 @mixin t7 {
   font-size: $t7;
+  line-height: 1.5;
+}
+
+@mixin t8 {
+  font-size: $t8;
   line-height: 1.5;
 }
