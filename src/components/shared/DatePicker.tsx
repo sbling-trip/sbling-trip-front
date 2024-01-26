@@ -14,6 +14,8 @@ export interface DatePickerProps {
   endDate?: string
   onChange: (dateRange: { from?: string; to?: string; nights: number }) => void
   onComplete: () => void
+  onReset: () => void
+  numberOfMonths?: number
 }
 
 const dateFormat = 'yyyy-MM-dd'
@@ -23,6 +25,8 @@ const DatePicker = ({
   endDate,
   onChange,
   onComplete,
+  onReset,
+  numberOfMonths = 1,
 }: DatePickerProps) => {
   const today = new Date()
 
@@ -55,6 +59,7 @@ const DatePicker = ({
       to: undefined,
       nights: 0,
     })
+    onReset()
   }
 
   const formatCaption: DateFormatter = (date, options) => {
@@ -70,7 +75,7 @@ const DatePicker = ({
         className={cx('dayPicker')}
         mode="range"
         locale={ko}
-        numberOfMonths={2}
+        numberOfMonths={numberOfMonths}
         fromDate={today}
         defaultMonth={today}
         onSelect={handleDayClick}

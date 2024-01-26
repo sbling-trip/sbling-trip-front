@@ -3,8 +3,8 @@
 .dayPicker {
   margin: 0;
 
-  --rdp-cell-size: 50px;
-  --rdp-caption-font-size: 22px;
+  --rdp-cell-size: 40px;
+  --rdp-caption-font-size: 20px;
   --rdp-background-color: transparent;
 
   --rdp-accent-color: var(--blue80);
@@ -21,6 +21,8 @@
 
   button:not(td button) {
     border: 1px solid var(--gray300);
+    width: 35px;
+    height: 35px;
 
     &:hover {
       background-color: var(--gray80) !important;
@@ -28,7 +30,7 @@
   }
 
   table {
-    margin: 40px 0;
+    margin: 30px 0 20px;
   }
 
   .selected {
@@ -69,7 +71,7 @@
     align-items: center;
     gap: 5px;
 
-    padding: 10px 12px;
+    padding: 8px 10px;
     border-radius: 50px;
     box-shadow: 0px 2px 6px 0 rgba(0, 0, 0, 0.2);
     font-weight: 600;
@@ -81,12 +83,12 @@
   }
 
   .complete {
-    padding: 11px 20px;
+    padding: 8px 12px;
     border: 2px solid var(--blue100);
     border-radius: 50px;
     color: var(--black);
     background-color: var(--blue80);
-    @include t4;
+    @include t5;
 
     &:hover {
       background-color: var(--white);

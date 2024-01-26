@@ -12,6 +12,9 @@ import styles from './SearchPage.module.scss'
 const cx = classNames.bind(styles)
 
 const SearchPage = () => {
+  const isMobile = window.innerWidth < 768
+  const numberOfMonths = isMobile ? 1 : 2
+
   const [isLocationDropdownOpen, setLocationDropdownOpen] = useState(false)
   const [isDateDropdownOpen, setDateDropdownOpen] = useState(false)
   const [isGuestDropdownOpen, setGuestDropdownOpen] = useState(false)
@@ -170,6 +173,8 @@ const SearchPage = () => {
                       onComplete={() => {
                         handleDatePickerComplete()
                       }}
+                      onReset={handleDateResultClear}
+                      numberOfMonths={numberOfMonths}
                     />
                   </div>
                 </div>
