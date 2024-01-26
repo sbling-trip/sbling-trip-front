@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import SearchSelector from '@components/search/SearchSelector'
 import LocationSearch from '@components/search/LocationSearch'
 import DatePicker from '@components/shared/DatePicker'
 import CountSelector from '@components/search/CountSelector'
+import useDropdown from '@hooks/useDropdown'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import classNames from 'classnames/bind'
@@ -14,10 +15,6 @@ const cx = classNames.bind(styles)
 const SearchPage = () => {
   const isMobile = window.innerWidth < 768
   const numberOfMonths = isMobile ? 1 : 2
-
-  const [isLocationDropdownOpen, setLocationDropdownOpen] = useState(false)
-  const [isDateDropdownOpen, setDateDropdownOpen] = useState(false)
-  const [isGuestDropdownOpen, setGuestDropdownOpen] = useState(false)
 
   const [searchLocation, setSearchLocation] = useState('')
   const [selectedLocation, setSelectedLocation] = useState('')
@@ -37,36 +34,15 @@ const SearchPage = () => {
     nights: 0,
   })
 
-  const locationDropdownRef = useRef<HTMLDivElement | null>(null)
-  const dateDropdownRef = useRef<HTMLDivElement | null>(null)
-  const guestDropdownRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        (isLocationDropdownOpen || isGuestDropdownOpen || isDateDropdownOpen) &&
-        (!locationDropdownRef.current ||
-          !locationDropdownRef.current.contains(e.target as Node)) &&
-        (!dateDropdownRef.current ||
-          !dateDropdownRef.current.contains(e.target as Node)) &&
-        (!guestDropdownRef.current ||
-          !guestDropdownRef.current.contains(e.target as Node))
-      ) {
-        closeDropdowns()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isLocationDropdownOpen, isDateDropdownOpen, isGuestDropdownOpen])
+  const [isLocationDropdownOpen, toggleLocationDropdown, locationDropdownRef] =
+    useDropdown(false)
+  const [isDateDropdownOpen, toggleDateDropdown, dateDropdownRef] =
+    useDropdown(false)
+  const [isGuestDropdownOpen, toggleGuestDropdown, guestDropdownRef] =
+    useDropdown(false)
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    closeDropdowns()
   }
 
   const handleLocationEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -77,7 +53,7 @@ const SearchPage = () => {
   const handleLocationSubmit = () => {
     setSelectedLocation(searchLocation)
     setSearchLocation('')
-    setLocationDropdownOpen(false)
+    toggleLocationDropdown()
   }
 
   const handleLocationClear = () => {
@@ -93,15 +69,13 @@ const SearchPage = () => {
   }
 
   const handleDropdownToggle = (dropdown: 'location' | 'date' | 'guest') => {
-    setLocationDropdownOpen(dropdown === 'location' ? (prev) => !prev : false)
-    setDateDropdownOpen(dropdown === 'date' ? (prev) => !prev : false)
-    setGuestDropdownOpen(dropdown === 'guest' ? (prev) => !prev : false)
-  }
-
-  const closeDropdowns = () => {
-    setLocationDropdownOpen(false)
-    setDateDropdownOpen(false)
-    setGuestDropdownOpen(false)
+    if (dropdown === 'location') {
+      toggleLocationDropdown()
+    } else if (dropdown === 'date') {
+      toggleDateDropdown()
+    } else if (dropdown === 'guest') {
+      toggleGuestDropdown()
+    }
   }
 
   const handleDateResultClear = () => {
