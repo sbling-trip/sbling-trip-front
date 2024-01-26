@@ -45,7 +45,7 @@
 .date {
   width: auto;
   left: -50%;
-  padding: 30px 30px 15px;
+  padding: 20px 15px 10px;
 }
 
 .guest {
@@ -56,18 +56,25 @@
 .dropdown {
   position: absolute;
   top: 90px;
-  max-height: 600px;
+  max-height: 500px;
   border-radius: 34px;
   overflow-y: auto;
   background-color: var(--white);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1;
   animation: fadeInDown 0.3s ease-in-out;
+
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.dropdown::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
 .dropdownInner {
   width: 100%;
-  padding: 20px 26px;
+  padding: 25px;
   overflow-y: auto;
 }
 

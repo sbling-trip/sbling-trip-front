@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { format, parseISO } from 'date-fns'
 import SearchSelector from '@components/search/SearchSelector'
 import LocationSearch from '@components/search/LocationSearch'
@@ -36,6 +36,32 @@ const SearchPage = () => {
     endDate: undefined,
     nights: 0,
   })
+
+  const locationDropdownRef = useRef<HTMLDivElement | null>(null)
+  const dateDropdownRef = useRef<HTMLDivElement | null>(null)
+  const guestDropdownRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        (isLocationDropdownOpen || isGuestDropdownOpen || isDateDropdownOpen) &&
+        (!locationDropdownRef.current ||
+          !locationDropdownRef.current.contains(e.target as Node)) &&
+        (!dateDropdownRef.current ||
+          !dateDropdownRef.current.contains(e.target as Node)) &&
+        (!guestDropdownRef.current ||
+          !guestDropdownRef.current.contains(e.target as Node))
+      ) {
+        closeDropdowns()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isLocationDropdownOpen, isDateDropdownOpen, isGuestDropdownOpen])
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,6 +160,7 @@ const SearchPage = () => {
                 selectedResult={selectedLocation}
                 setSelectedResult={setSelectedLocation}
                 onToggle={() => handleDropdownToggle('location')}
+                ref={locationDropdownRef}
               >
                 {isLocationDropdownOpen && (
                   <LocationSearch
@@ -154,6 +181,7 @@ const SearchPage = () => {
                 setSelectedResult={setDisplayedDate}
                 onResultClear={handleDateResultClear}
                 onToggle={() => handleDropdownToggle('date')}
+                ref={dateDropdownRef}
               >
                 <div
                   className={cx('dropdown', 'date')}
@@ -186,6 +214,7 @@ const SearchPage = () => {
                 showCloseIcon={false}
                 selectedResult={formatGuestCountsString()}
                 onToggle={() => handleDropdownToggle('guest')}
+                ref={guestDropdownRef}
               >
                 <div
                   className={cx('dropdown', 'guest')}
