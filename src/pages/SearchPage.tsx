@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { format, parseISO } from 'date-fns'
 import SearchSelector from '@components/search/SearchSelector'
 import LocationSearch from '@components/search/LocationSearch'
 import DatePicker from '@components/shared/DatePicker'
 import CountSelector from '@components/search/CountSelector'
 import useDropdown from '@hooks/useDropdown'
+import useDatePicker from '@hooks/useDatePicker'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import classNames from 'classnames/bind'
@@ -23,20 +23,19 @@ const SearchPage = () => {
   const [childCount, setChildCount] = useState(0)
   const [infantCount, setInfantCount] = useState(0)
 
-  const [displayedDate, setDisplayedDate] = useState('')
-  const [selectedDate, setSelectedDate] = useState<{
-    startDate?: string
-    endDate?: string
-    nights: number
-  }>({
-    startDate: undefined,
-    endDate: undefined,
-    nights: 0,
-  })
+  const {
+    displayedDate,
+    setDisplayedDate,
+    selectedDate,
+    setSelectedDate,
+    toggleDateDropdown,
+    handleDatePickerComplete,
+    handleReset,
+    isDateDropdownOpen,
+    dateDropdownRef,
+  } = useDatePicker()
 
   const [isLocationDropdownOpen, toggleLocationDropdown, locationDropdownRef] =
-    useDropdown(false)
-  const [isDateDropdownOpen, toggleDateDropdown, dateDropdownRef] =
     useDropdown(false)
   const [isGuestDropdownOpen, toggleGuestDropdown, guestDropdownRef] =
     useDropdown(false)
@@ -75,32 +74,6 @@ const SearchPage = () => {
       toggleDateDropdown()
     } else if (dropdown === 'guest') {
       toggleGuestDropdown()
-    }
-  }
-
-  const handleDateResultClear = () => {
-    setDisplayedDate('')
-    setSelectedDate({
-      startDate: undefined,
-      endDate: undefined,
-      nights: 0,
-    })
-  }
-
-  const handleDatePickerComplete = () => {
-    if (selectedDate.startDate && selectedDate.endDate) {
-      const formattedStartDate = format(
-        parseISO(selectedDate.startDate),
-        'M월 dd일',
-      )
-      const formattedEndDate = format(
-        parseISO(selectedDate.endDate),
-        'M월 dd일',
-      )
-      setDisplayedDate(
-        `${formattedStartDate} - ${formattedEndDate} (${selectedDate.nights}박)`,
-      )
-      setDateDropdownOpen(false)
     }
   }
 
@@ -153,7 +126,7 @@ const SearchPage = () => {
                 isOpen={isDateDropdownOpen}
                 selectedResult={displayedDate}
                 setSelectedResult={setDisplayedDate}
-                onResultClear={handleDateResultClear}
+                onResultClear={handleReset}
                 onToggle={() => handleDropdownToggle('date')}
                 ref={dateDropdownRef}
               >
@@ -175,7 +148,7 @@ const SearchPage = () => {
                       onComplete={() => {
                         handleDatePickerComplete()
                       }}
-                      onReset={handleDateResultClear}
+                      onReset={handleReset}
                       numberOfMonths={numberOfMonths}
                     />
                   </div>
