@@ -2,10 +2,12 @@ export interface Stay {
   staySeq: number
   stayName: string
   address: string
-  checkInTime: string
-  checkOutTime: string
+  originalAddress: string
+  formattedAddress: string
   description: string
-  stayDetail: string
   latitude: number
   longitude: number
+  refundPolicy: string
+  facilitiesDetail: string
+  foodBeverageArea: string
 }

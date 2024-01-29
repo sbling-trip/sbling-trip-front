@@ -1,5 +1,3 @@
-import { Stay } from './stay'
-
-export interface ApiResponse {
-  result: Stay[]
+export interface ApiResponse<T> {
+  result: T[]
 }

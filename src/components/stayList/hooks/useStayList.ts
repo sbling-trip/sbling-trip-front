@@ -3,7 +3,7 @@ import axiosInstance from '@api/axios'
 import { Stay } from '@models/stay'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@redux/store'
-import { addStays, setStays } from '@redux/staySlice'
+import { addStays, setCurrentStay, setStays } from '@redux/staySlice'
 import { ApiResponse } from '@models/api'
 
 const useStayList = () => {
@@ -14,12 +14,11 @@ const useStayList = () => {
   const { stays } = useSelector((state: RootState) => state.stay)
 
   const formatLocation = (address: string) => {
-    const [province, city] = address.split(' ').slice(0, 2)
+    const [province, city] = address.split(' ', 2)
     const filteredProvince = province.slice(0, 2)
     return `${filteredProvince} / ${city}`
   }
 
-  const formatTime = (time: string) => time?.slice(0, 5)
   const removeParentheses = (str: string) =>
     str?.replace(/\((.*?)\)/g, '').trim()
 
@@ -27,14 +26,13 @@ const useStayList = () => {
     data.map((stay) => ({
       ...stay,
       stayName: removeParentheses(stay.stayName),
-      address: formatLocation(stay.address),
-      checkInTime: formatTime(stay.checkInTime),
-      checkOutTime: formatTime(stay.checkOutTime),
+      originalAddress: stay.address,
+      formattedAddress: formatLocation(stay.address),
     }))
 
   const fetchStays = async (pageNum: number) => {
     try {
-      const { data } = await axiosInstance.get<ApiResponse>(
+      const { data } = await axiosInstance.get<ApiResponse<Stay>>(
         `/stay/list?cursor=${pageNum}`,
       )
 
@@ -50,6 +48,17 @@ const useStayList = () => {
     }
   }
 
+  const getStayBySeq = (staySeq: number) =>
+    stays.find((stay) => stay.staySeq === staySeq)
+
+  const fetchStayDetail = async (staySeq: number) => {
+    const existingStay = getStayBySeq(staySeq)
+
+    if (existingStay) {
+      dispatch(setCurrentStay(existingStay))
+    }
+  }
+
   useEffect(() => {
     fetchStays(currentPage)
   }, [])
@@ -57,7 +66,7 @@ const useStayList = () => {
   const loadMore = async () => {
     try {
       const nextPage = currentPage + 1
-      const { data } = await axiosInstance.get<ApiResponse>(
+      const { data } = await axiosInstance.get<ApiResponse<Stay>>(
         `/stay/list?cursor=${nextPage}`,
       )
 
@@ -69,7 +78,12 @@ const useStayList = () => {
     }
   }
 
-  return { stays, loadMore, showMoreButton }
+  return {
+    stays,
+    loadMore,
+    showMoreButton,
+    fetchStayDetail,
+  }
 }
 
 export default useStayList
