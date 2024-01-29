@@ -1,0 +1,156 @@
+@import 'src/styles/mixins';
+
+.stayDetailContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.stayDetailInner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 80px;
+}
+
+.mainContents {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 0 30px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+hr {
+  width: 100%;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom: 1px solid var(--gray100);
+}
+
+.infoBody {
+  max-width: 800px;
+
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+    .stayTitle {
+      width: 100%;
+      padding: 20px 0px 16px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-weight: bold;
+        @include t3;
+      }
+
+      h3 {
+        color: var(--gray700);
+        @include t5;
+      }
+    }
+
+    .intro {
+      max-height: 70px;
+      overflow: hidden;
+      position: relative;
+
+      &.showAll {
+        max-height: none;
+      }
+
+      p {
+        font-weight: 400;
+        white-space: pre-wrap;
+        line-height: 1.5;
+        color: var(--gray600);
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 38px;
+          background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 1) 90%
+          );
+        }
+
+        &.showAll {
+          max-height: none;
+
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .btnWrap {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      &.showAll {
+        display: none;
+      }
+
+      .showAllBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+
+        white-space: nowrap;
+        box-shadow: none;
+        font-weight: 600;
+        color: var(--blue500);
+      }
+
+      .iconArrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0px, 1fr));
+      margin-top: 10px;
+      color: var(--gray600);
+
+      li {
+        position: relative;
+        margin: 3px 0 8px 3px;
+        padding-left: 14px;
+        word-break: break-all;
+        @include t6;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 9px;
+          left: 0px;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: var(--gray600);
+        }
+      }
+    }
+  }
+}
