@@ -1,0 +1,138 @@
+@import 'src/styles/mixins';
+
+.loginContainer {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--blue50);
+}
+
+.loginFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 430px;
+  margin: 0 auto;
+}
+
+.formTitle {
+  width: 100%;
+  padding-top: 80px;
+  text-align: center;
+  color: var(--gray800);
+
+  h2 {
+    letter-spacing: 10px;
+    text-indent: 14px;
+    font-weight: bold;
+    @include t2;
+  }
+
+  h3 {
+    margin-top: 5px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    @include t3;
+  }
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+
+  .formBlock {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 25px;
+  }
+
+  input:not([type='checkbox']) {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--gray300);
+    background-color: var(--white);
+    @include t5;
+
+    &:focus {
+      border-color: var(--blue400);
+    }
+  }
+
+  label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .formLink {
+    margin-left: 5px;
+    text-decoration: underline;
+    font-weight: 500;
+    color: var(--gray500);
+    cursor: pointer;
+  }
+
+  .formLink:hover,
+  .formLink:focus {
+    color: var(--black);
+  }
+
+  .error {
+    margin-top: 8px;
+    font-weight: 500;
+    color: var(--error);
+  }
+
+  .btnBlock {
+    margin-top: 40px;
+
+    .submitBtn {
+      width: 100%;
+      font-weight: 600;
+      border-radius: 6px;
+      @include StyledButton(large, success, null);
+    }
+  }
+
+  .checkUser {
+    margin-top: 50px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .snsLoginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+    strong {
+      font-weight: 500;
+    }
+
+    .snsLogin {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+
+      .btn {
+        box-shadow: none;
+      }
+
+      .google {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 1px solid var(--gray200);
+      }
+    }
+  }
+
+  hr {
+    border: 0.5px solid var(--gray300);
+  }
+}
