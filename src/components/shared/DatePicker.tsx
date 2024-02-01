@@ -10,8 +10,8 @@ import styles from './DatePicker.module.scss'
 const cx = classNames.bind(styles)
 
 export interface DatePickerProps {
-  startDate?: string
-  endDate?: string
+  checkIn?: string
+  checkOut?: string
   onChange: (dateRange: { from?: string; to?: string; nights: number }) => void
   onComplete: () => void
   onReset: () => void
@@ -21,8 +21,8 @@ export interface DatePickerProps {
 const dateFormat = 'yyyy-MM-dd'
 
 const DatePicker = ({
-  startDate,
-  endDate,
+  checkIn,
+  checkOut,
   onChange,
   onComplete,
   onReset,
@@ -49,8 +49,8 @@ const DatePicker = ({
   }
 
   const selectedDate = {
-    from: startDate != null ? parseISO(startDate) : undefined,
-    to: endDate != null ? parseISO(endDate) : undefined,
+    from: checkIn != null ? parseISO(checkIn) : undefined,
+    to: checkOut != null ? parseISO(checkOut) : undefined,
   }
 
   const resetDates = () => {

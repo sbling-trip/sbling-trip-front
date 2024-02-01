@@ -6,14 +6,14 @@ interface UseDatePickerResult {
   displayedDate: string
   setDisplayedDate: React.Dispatch<React.SetStateAction<string>>
   selectedDate: {
-    startDate?: string
-    endDate?: string
+    checkIn?: string
+    checkOut?: string
     nights: number
   }
   setSelectedDate: React.Dispatch<
     React.SetStateAction<{
-      startDate?: string | undefined
-      endDate?: string | undefined
+      checkIn?: string | undefined
+      checkOut?: string | undefined
       nights: number
     }>
   >
@@ -27,12 +27,12 @@ interface UseDatePickerResult {
 const useDatePicker = (): UseDatePickerResult => {
   const [displayedDate, setDisplayedDate] = useState('')
   const [selectedDate, setSelectedDate] = useState<{
-    startDate?: string
-    endDate?: string
+    checkIn?: string
+    checkOut?: string
     nights: number
   }>({
-    startDate: undefined,
-    endDate: undefined,
+    checkIn: undefined,
+    checkOut: undefined,
     nights: 0,
   })
 
@@ -40,18 +40,19 @@ const useDatePicker = (): UseDatePickerResult => {
     useDropdown(false)
 
   const handleDatePickerComplete = () => {
-    if (selectedDate.startDate && selectedDate.endDate) {
-      const formattedStartDate = format(
-        parseISO(selectedDate.startDate),
+    if (selectedDate.checkIn && selectedDate.checkOut) {
+      const formattedcheckIn = format(
+        parseISO(selectedDate.checkIn),
         'M월 dd일',
       )
-      const formattedEndDate = format(
-        parseISO(selectedDate.endDate),
+      const formattedcheckOut = format(
+        parseISO(selectedDate.checkOut),
         'M월 dd일',
       )
       setDisplayedDate(
-        `${formattedStartDate} - ${formattedEndDate} (${selectedDate.nights}박)`,
+        `${formattedcheckIn} - ${formattedcheckOut} (${selectedDate.nights}박)`,
       )
+
       toggleDateDropdown()
     }
   }
@@ -59,8 +60,8 @@ const useDatePicker = (): UseDatePickerResult => {
   const handleReset = () => {
     setDisplayedDate('')
     setSelectedDate({
-      startDate: undefined,
-      endDate: undefined,
+      checkIn: undefined,
+      checkOut: undefined,
       nights: 0,
     })
   }
