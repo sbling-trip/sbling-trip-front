@@ -5,7 +5,11 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "types": ["vite-plugin-svgr/client"],
+    "types": [
+      "vite-plugin-svgr/client",
+      "./node_modules/@types/kakao-js-sdk/index.d.ts",
+      "./node_modules/@types/kakaomaps/index.d.ts"
+    ],
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Title from '@components/shared/Title'
 import useStayList from '@components/stayList/hooks/useStayList'
 import DatePicker from '@components/shared/DatePicker'
+import StayMap from '@components/stay/StayMap'
 import useDatePicker from '@hooks/useDatePicker'
 import { RootState } from '@redux/store'
 import { setCurrentStay } from '@redux/staySlice'
@@ -25,8 +26,15 @@ const StayDetailPage = () => {
   const dispatch = useDispatch()
   const { currentStay } = useSelector((state: RootState) => state.stay)
 
-  const { description, refundPolicy, facilitiesDetail, foodBeverageArea } =
-    currentStay ?? {}
+  const {
+    latitude,
+    longitude,
+    originalAddress,
+    description,
+    refundPolicy,
+    facilitiesDetail,
+    foodBeverageArea,
+  } = currentStay ?? {}
 
   const {
     displayedDate,
@@ -178,6 +186,13 @@ const StayDetailPage = () => {
                   )}
                 </div>
               </aside>
+            </section>
+            <section className={cx('stayMap')}>
+              <StayMap
+                latitude={latitude}
+                longitude={longitude}
+                address={originalAddress}
+              />
             </section>
           </div>
         </div>
