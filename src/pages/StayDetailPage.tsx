@@ -5,6 +5,7 @@ import Title from '@components/shared/Title'
 import useStayList from '@components/stayList/hooks/useStayList'
 import DatePicker from '@components/shared/DatePicker'
 import StayMap from '@components/stay/StayMap'
+import RoomList from '@components/stay/RoomList'
 import useDatePicker from '@hooks/useDatePicker'
 import { RootState } from '@redux/store'
 import { setCurrentStay } from '@redux/staySlice'
@@ -79,6 +80,8 @@ const StayDetailPage = () => {
           <div className={cx('mainContents')}>
             <section className={cx('info')}>
               <div className={cx('infoBody')}>
+                <RoomList staySeq={staySeq!} />
+                <hr />
                 <div className={cx('container')}>
                   <Title
                     title="숙소 소개"

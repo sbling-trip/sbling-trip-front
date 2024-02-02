@@ -1,0 +1,40 @@
+@import 'src/styles/mixins';
+.container {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.roomsTitle {
+  width: 100%;
+  padding-bottom: 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-weight: bold;
+    @include t3;
+  }
+
+  h3 {
+    color: var(--gray700);
+    @include t5;
+  }
+}
+
+.roomListWrap {
+  width: 100%;
+  margin: 0 auto;
+
+  .roomList {
+    margin: 32px 0px;
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+    margin: 0 auto;
+    gap: 20px;
+  }
+}

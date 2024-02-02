@@ -1,0 +1,77 @@
+@import 'src/styles/mixins';
+
+.roomItem {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--blue100);
+  box-shadow: 0px 2px 4px 0px rgba(33, 37, 41, 0.1);
+  background-color: var(--blue50);
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-top: 10px;
+    padding-left: 25px;
+
+    .mainContentTitle {
+      h2 {
+        margin-bottom: 14px;
+        font-weight: 500;
+        @include t4;
+      }
+
+      h3 {
+        margin-bottom: 5px;
+        color: var(--gray800);
+        @include t6;
+      }
+
+      span {
+        display: block;
+        width: 100%;
+        color: var(--gray800);
+        @include t6;
+      }
+    }
+
+    .price {
+      margin-top: 20px;
+      font-weight: 600;
+      @include t4;
+    }
+  }
+
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    width: 40%;
+
+    img {
+      height: 180px;
+      border-radius: 4px;
+    }
+
+    .carousel {
+      --swiper-navigation-size: 20px;
+      --swiper-navigation-top-offset: 50%;
+      --swiper-navigation-sides-offset: 15px;
+    }
+  }
+
+  .rightContent {
+    display: flex;
+    align-items: center;
+
+    .selectBtn {
+      border-radius: 6px;
+      @include StyledButton(medium, null, success);
+      box-shadow: none;
+      padding: 6px 10px;
+    }
+  }
+}
