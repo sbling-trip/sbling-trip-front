@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Title from '@components/shared/Title'
 import useStayList from '@components/stayList/hooks/useStayList'
+import DatePicker from '@components/shared/DatePicker'
+import useDatePicker from '@hooks/useDatePicker'
 import { RootState } from '@redux/store'
+import { setCurrentStay } from '@redux/staySlice'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
@@ -16,10 +19,25 @@ const StayDetailPage = () => {
 
   const { staySeq } = useParams<{ staySeq?: string }>()
   const { fetchStayDetail } = useStayList()
+
+  const didMountRef = useRef(false)
+
+  const dispatch = useDispatch()
   const { currentStay } = useSelector((state: RootState) => state.stay)
 
   const { description, refundPolicy, facilitiesDetail, foodBeverageArea } =
     currentStay ?? {}
+
+  const {
+    displayedDate,
+    selectedDate,
+    setSelectedDate,
+    toggleDateDropdown,
+    handleDatePickerComplete,
+    handleReset,
+    isDateDropdownOpen,
+    dateDropdownRef,
+  } = useDatePicker()
 
   const handleShowAllClick = () => {
     setShowAll((prev) => !prev)
@@ -34,6 +52,13 @@ const StayDetailPage = () => {
       console.error('Invalid staySeq:', staySeq)
     }
   }, [staySeq, fetchStayDetail])
+
+  useEffect(() => {
+    if (!didMountRef.current) {
+      dispatch(setCurrentStay(currentStay))
+      didMountRef.current = true
+    }
+  }, [currentStay, dispatch])
 
   if (!currentStay) {
     return <div>Loading</div>
@@ -113,6 +138,46 @@ const StayDetailPage = () => {
                 </div>
                 <hr />
               </div>
+              <aside className={cx('aside')} ref={dateDropdownRef}>
+                <div className={cx('sidebar')}>
+                  <button
+                    type="button"
+                    className={cx('dateBtn')}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toggleDateDropdown()
+                    }}
+                  >
+                    {(displayedDate && `${displayedDate}`) || '날짜 선택'}
+                  </button>
+                </div>
+                <div className={cx('dropdownContainer')}>
+                  {isDateDropdownOpen && (
+                    <div
+                      className={cx('dropdown')}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className={cx('dropdownInner')}>
+                        <DatePicker
+                          checkIn={selectedDate.checkIn}
+                          checkOut={selectedDate.checkOut}
+                          onChange={(dateRange) => {
+                            setSelectedDate({
+                              checkIn: dateRange.from,
+                              checkOut: dateRange.to,
+                              nights: dateRange.nights,
+                            })
+                          }}
+                          onComplete={() => {
+                            handleDatePickerComplete()
+                          }}
+                          onReset={handleReset}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </aside>
             </section>
           </div>
         </div>
