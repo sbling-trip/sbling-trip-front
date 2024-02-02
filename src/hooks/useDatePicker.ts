@@ -1,6 +1,9 @@
-import { useState } from 'react'
-import { format, parseISO } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { addDays, addMonths, format, parseISO } from 'date-fns'
+import { ko } from 'date-fns/locale'
 import useDropdown from '@hooks/useDropdown'
+import { useDispatch } from 'react-redux'
+import { resetDate, setDate } from '@redux/dateSlice'
 
 interface UseDatePickerResult {
   displayedDate: string
@@ -24,6 +27,8 @@ interface UseDatePickerResult {
   dateDropdownRef: React.RefObject<HTMLDivElement>
 }
 
+const DateFormat = 'yyyy-MM-dd'
+
 const useDatePicker = (): UseDatePickerResult => {
   const [displayedDate, setDisplayedDate] = useState('')
   const [selectedDate, setSelectedDate] = useState<{
@@ -31,28 +36,31 @@ const useDatePicker = (): UseDatePickerResult => {
     checkOut?: string
     nights: number
   }>({
-    checkIn: undefined,
-    checkOut: undefined,
-    nights: 0,
+    checkIn: format(addMonths(new Date(), 1), DateFormat),
+    checkOut: format(addDays(addMonths(new Date(), 1), 1), DateFormat),
+    nights: 1,
   })
 
   const [isDateDropdownOpen, toggleDateDropdown, dateDropdownRef] =
     useDropdown(false)
 
+  const dispatch = useDispatch()
+
   const handleDatePickerComplete = () => {
     if (selectedDate.checkIn && selectedDate.checkOut) {
       const formattedcheckIn = format(
         parseISO(selectedDate.checkIn),
-        'M월 dd일',
+        'M월 d일 ',
+        { locale: ko },
       )
       const formattedcheckOut = format(
         parseISO(selectedDate.checkOut),
-        'M월 dd일',
+        'M월 d일 ',
+        { locale: ko },
       )
       setDisplayedDate(
-        `${formattedcheckIn} - ${formattedcheckOut} (${selectedDate.nights}박)`,
+        `${formattedcheckIn} ~ ${formattedcheckOut} (${selectedDate.nights}박)`,
       )
-
       toggleDateDropdown()
     }
   }
@@ -60,11 +68,16 @@ const useDatePicker = (): UseDatePickerResult => {
   const handleReset = () => {
     setDisplayedDate('')
     setSelectedDate({
-      checkIn: undefined,
-      checkOut: undefined,
-      nights: 0,
+      checkIn: format(addMonths(new Date(), 1), DateFormat),
+      checkOut: format(addDays(addMonths(new Date(), 1), 1), DateFormat),
+      nights: 1,
     })
+    dispatch(resetDate())
   }
+
+  useEffect(() => {
+    dispatch(setDate(selectedDate))
+  }, [dispatch, selectedDate])
 
   return {
     displayedDate,
