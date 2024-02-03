@@ -10,7 +10,7 @@ const useRoomList = (staySeq: string) => {
     const fetchRooms = async () => {
       try {
         const { data } = await axiosInstance.get<ApiResponse<Room>>(
-          '/room/info',
+          'api/room/info',
           {
             params: {
               stay_seq: staySeq,

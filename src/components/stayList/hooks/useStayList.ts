@@ -33,7 +33,7 @@ const useStayList = () => {
   const fetchStays = async (pageNum: number) => {
     try {
       const { data } = await axiosInstance.get<ApiResponse<Stay>>(
-        `/stay/list?cursor=${pageNum}`,
+        `api/stay/list?cursor=${pageNum}`,
       )
 
       if (pageNum === 0) {
