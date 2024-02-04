@@ -1,0 +1,294 @@
+@import 'src/styles/mixins';
+
+.reservationContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.reservationInner {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 40px 20px 60px;
+}
+
+.reservationTitle {
+  width: 100%;
+  padding: 20px 0px 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    font-weight: 600;
+    @include t2;
+  }
+}
+
+.contents {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.contentsBody {
+  width: 800px;
+
+  .sectionContainer {
+    margin: 20px 0;
+
+    .sectionTitle {
+      padding: 16px 0;
+
+      h2 {
+        font-weight: 600;
+        @include t3;
+      }
+    }
+
+    .listRow {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+    }
+
+    .leftContent {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: auto;
+      height: 120px;
+      border-radius: 6px;
+      box-shadow: rgba(33, 37, 41, 0.15) 0px 0px 0px 1px inset;
+    }
+
+    .mainContentTitle {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      h3 {
+        font-weight: 600;
+        @include t4;
+      }
+
+      .schedule {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        span {
+          color: var(--gray600);
+          @include t6;
+        }
+      }
+    }
+
+    .reservationPerson {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      padding: 8px 0 16px;
+
+      .rowBlock {
+        max-width: 340px;
+
+        label {
+          display: flex;
+          margin-left: 5px;
+          margin-bottom: 6px;
+
+          color: var(--gray700);
+          font-weight: 600;
+          @include t6;
+        }
+      }
+    }
+
+    .inputWrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 45px;
+      margin-bottom: 12px;
+
+      border-radius: 8px;
+      border: 1px solid var(--blue100);
+      background-color: var(--blue50);
+
+      &:focus-within {
+        border-color: var(--blue400);
+      }
+    }
+
+    input {
+      width: 100%;
+      padding: 0 14px;
+      @include t5;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .errorMsg {
+      margin-top: 8px;
+      font-weight: 500;
+      color: var(--error);
+    }
+
+    .listCol {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 0 16px;
+    }
+
+    .mainContent {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      span {
+        color: var(--gray700);
+        font-weight: 700;
+        @include t5;
+      }
+
+      strong {
+        color: var(--gray500);
+        font-weight: 700;
+        @include t5;
+      }
+    }
+
+    .rightContent {
+      display: flex;
+      gap: 10px;
+
+      .pointInputBox {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        padding: 11px 25px 11px 11px;
+
+        border-radius: 8px;
+        border: 1px solid var(--blue100);
+        background-color: var(--blue50);
+
+        .pointInput {
+          text-align: right;
+        }
+
+        span {
+          position: absolute;
+          top: 50%;
+          right: 14px;
+          transform: translateY(-50%);
+          color: rgb(132, 140, 148);
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 1;
+        }
+      }
+
+      .pointBtn {
+        padding: 0px 10px;
+        border-radius: 6px;
+        @include StyledButton(small, null, success);
+      }
+    }
+  }
+}
+
+.aside {
+  margin-top: 36px;
+  margin-left: 40px;
+  position: relative;
+  width: 350px;
+  top: 0;
+
+  .sidebar {
+    position: sticky;
+    top: 100px;
+    left: 0px;
+
+    border-radius: 8px;
+    background-color: var(--white);
+    border: solid 1px var(--gray100);
+  }
+
+  .inner {
+    width: 350px;
+    padding: 32px 24px;
+  }
+
+  .payment {
+    margin-bottom: 16px;
+
+    .paymentTitle {
+      padding-bottom: 26px;
+
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .paymentInfo {
+      display: flex;
+      flex-direction: column;
+
+      .flexBlock {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+
+        span,
+        strong {
+          font-weight: 500;
+          color: var(--gray800);
+        }
+
+        .totalText {
+          font-weight: 700;
+          color: var(--blue400);
+          @include t5;
+        }
+
+        .totalPrice {
+          font-weight: 900;
+          color: var(--blue400);
+          @include t3;
+        }
+      }
+
+      .total {
+        padding: 20px 0;
+      }
+    }
+  }
+
+  .btnWrap {
+    width: 100%;
+    margin-top: 20px;
+
+    .paymentBtn {
+      width: 100%;
+      border-radius: 10px;
+      @include StyledButton(large, success, null);
+      @include t4;
+    }
+  }
+}

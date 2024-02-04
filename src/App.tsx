@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import MainPage from '@pages/MainPage'
 import StayDetailPage from '@pages/StayDetailPage'
 import SearchPage from '@pages/SearchPage'
+import ReservationPage from '@pages/ReservationPage'
 import LoginPage from '@pages/LoginPage'
 
 import ScrollToTop from '@components/shared/ScrollToTop'
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/stay/:staySeq" element={<StayDetailPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
