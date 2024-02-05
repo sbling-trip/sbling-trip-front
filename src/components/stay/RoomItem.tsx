@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Title from '@components/shared/Title'
 import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
 import delimiter from '@utils/delimiter'
 import { Room } from '@models/room'
+import { setRoom } from '@redux/roomSlice'
 
 import classNames from 'classnames/bind'
 import styles from './RoomItem.module.scss'
@@ -18,10 +20,16 @@ const RoomItem = ({ room }: RoomItemProps) => {
   const { roomAvailableCount, roomSeq, roomName, roomPrice, roomImageUrlList } =
     room
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const soldOut = roomAvailableCount === 0
   const reservationLabel = soldOut ? '매진' : '예약'
 
-  const navigate = useNavigate()
+  const handleReservationClick = () => {
+    dispatch(setRoom(room))
+    navigate('/reservation')
+  }
 
   return (
     <ListRow
@@ -36,7 +44,7 @@ const RoomItem = ({ room }: RoomItemProps) => {
         <div className={cx('mainContent')}>
           <Title
             title={roomName}
-            subTitle={`기준 4명 (최대 ${roomAvailableCount}명)`}
+            subTitle={`기준 2명 (최대 4명)`}
             className={cx('mainContentTitle')}
           >
             <span>입실: 퇴실:</span>
@@ -50,9 +58,7 @@ const RoomItem = ({ room }: RoomItemProps) => {
             type="button"
             disabled={soldOut}
             className={cx('selectBtn')}
-            onClick={() => {
-              navigate('/reservation')
-            }}
+            onClick={handleReservationClick}
           >
             {reservationLabel}
           </button>

@@ -7,10 +7,12 @@ import styles from './RoomList.module.scss'
 
 const cx = classNames.bind(styles)
 
-const RoomList = ({ staySeq }: { staySeq: string }) => {
-  const { rooms } = useRoomList(staySeq)
+interface RoomListProps {
+  staySeq: string
+}
 
-  console.log('rooms', rooms)
+const RoomList = ({ staySeq }: RoomListProps) => {
+  const { rooms } = useRoomList(staySeq)
 
   return (
     <div className={cx('container')}>

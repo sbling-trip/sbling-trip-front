@@ -2,17 +2,19 @@ import { configureStore } from '@reduxjs/toolkit'
 import staySlice from './staySlice'
 import userSlice from './userSlice'
 import dateSlice from './dateSlice'
+import roomSlice from './roomSlice'
 
 const reduxStore = configureStore({
   reducer: {
     stay: staySlice,
     user: userSlice,
     date: dateSlice,
+    room: roomSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ['stay.stays', 'user.user', 'date.date'],
+        ignoredPaths: ['stay.stays', 'user.user', 'date.date', 'room.room'],
       },
     }),
 })
