@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axiosInstance from '@api/axios'
+import apiAxios from '@api/apiAxios'
 import { Stay } from '@models/stay'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@redux/store'
@@ -32,8 +32,8 @@ const useStayList = () => {
 
   const fetchStays = async (pageNum: number) => {
     try {
-      const { data } = await axiosInstance.get<ApiResponse<Stay>>(
-        `api/stay/list?cursor=${pageNum}`,
+      const { data } = await apiAxios.get<ApiResponse<Stay>>(
+        `stay/list?cursor=${pageNum}`,
       )
 
       if (pageNum === 0) {
@@ -66,8 +66,8 @@ const useStayList = () => {
   const loadMore = async () => {
     try {
       const nextPage = currentPage + 1
-      const { data } = await axiosInstance.get<ApiResponse<Stay>>(
-        `/stay/list?cursor=${nextPage}`,
+      const { data } = await apiAxios.get<ApiResponse<Stay>>(
+        `stay/list?cursor=${nextPage}`,
       )
 
       dispatch(addStays(formatStays(data.result)))

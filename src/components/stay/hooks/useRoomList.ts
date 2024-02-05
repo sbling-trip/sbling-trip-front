@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axiosInstance from '@api/axios'
+import apiAxios from '@api/apiAxios'
 import { Room } from '@models/room'
 import { ApiResponse } from '@models/api'
 
@@ -9,14 +9,11 @@ const useRoomList = (staySeq: string) => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const { data } = await axiosInstance.get<ApiResponse<Room>>(
-          'api/room/info',
-          {
-            params: {
-              stay_seq: staySeq,
-            },
+        const { data } = await apiAxios.get<ApiResponse<Room>>('room/info', {
+          params: {
+            staySeq,
           },
-        )
+        })
 
         setRooms(data.result)
       } catch (error) {

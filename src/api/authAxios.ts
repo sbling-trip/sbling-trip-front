@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+const authAxios = axios.create({
+  baseURL: import.meta.env.VITE_AUTH_SERVER_URL + '/auth',
   headers: {
     'Content-Type': 'application/json',
   },
   withCredentials: true,
 })
 
-axiosInstance.interceptors.request.use(
+authAxios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token')
 
@@ -23,4 +23,4 @@ axiosInstance.interceptors.request.use(
   },
 )
 
-export default axiosInstance
+export default authAxios
