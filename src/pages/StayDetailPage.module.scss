@@ -13,6 +13,41 @@
   padding-bottom: 80px;
 }
 
+.mainSlide {
+  position: relative;
+  width: 100%;
+
+  .slideInfo {
+    width: 100%;
+    height: 110px;
+    padding: 0 40px;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--white);
+    opacity: 0.8;
+    box-shadow: 0 1px 14px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .slideTitle {
+    h2 {
+      margin-bottom: 4px;
+      @include t1;
+    }
+
+    h3 {
+      @include t6;
+    }
+  }
+
+  .slideSocial {
+    height: 100%;
+    display: flex;
+  }
+}
+
 .mainContents {
   display: flex;
   flex-direction: column;

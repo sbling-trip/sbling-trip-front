@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Title from '@components/shared/Title'
-import useStayList from '@components/stayList/hooks/useStayList'
-import DatePicker from '@components/shared/DatePicker'
+
+import SocialButton from '@components/stay/SocialButton'
 import StayMap from '@components/stay/StayMap'
 import RoomList from '@components/stay/RoomList'
+import Title from '@components/shared/Title'
+import DatePicker from '@components/shared/DatePicker'
+import useStayList from '@components/stayList/hooks/useStayList'
 import useDatePicker from '@hooks/useDatePicker'
 import { RootState } from '@redux/store'
 import { setCurrentStay } from '@redux/staySlice'
@@ -28,9 +30,11 @@ const StayDetailPage = () => {
   const { currentStay } = useSelector((state: RootState) => state.stay)
 
   const {
+    stayName,
     latitude,
     longitude,
     originalAddress,
+    formattedAddress,
     description,
     refundPolicy,
     facilitiesDetail,
@@ -77,6 +81,18 @@ const StayDetailPage = () => {
     <main>
       <div className={cx('stayDetailContainer')}>
         <div className={cx('stayDetailInner')}>
+          <section className={cx('mainSlide')}>
+            <div className={cx('slideInfo')}>
+              <Title
+                title={stayName ?? ''}
+                subTitle={formattedAddress ?? ''}
+                className={cx('slideTitle')}
+              />
+              <div className={cx('slideSocial')}>
+                <SocialButton stay={currentStay} />
+              </div>
+            </div>
+          </section>
           <div className={cx('mainContents')}>
             <section className={cx('info')}>
               <div className={cx('infoBody')}>
