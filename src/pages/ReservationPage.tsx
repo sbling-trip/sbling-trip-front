@@ -2,7 +2,10 @@ import { useState } from 'react'
 import Title from '@components/shared/Title'
 import ListRow from '@components/shared/ListRow'
 import ErrorMessage from '@components/shared/ErrorMessage'
+import useStayList from '@components/stayList/hooks/useStayList'
 import delimiter from '@utils/delimiter'
+import { useSelector } from 'react-redux'
+import { RootState } from '@redux/store'
 
 import classNames from 'classnames/bind'
 import styles from './ReservationPage.module.scss'
@@ -19,6 +22,18 @@ const ReservationPage = () => {
 
   const [isNameValid, setIsNameValid] = useState<boolean>(false)
   const [isPhoneValid, setIsPhoneValid] = useState<boolean>(false)
+
+  const { currentStay } = useSelector((state: RootState) => state.stay)
+  const { room } = useSelector((state: RootState) => state.room)
+
+  const { stays } = useStayList()
+
+  const currentStayInfo = stays.find(
+    (stay) => stay.staySeq === currentStay?.staySeq,
+  )
+
+  const checkInTime = currentStayInfo?.checkInTime || ''
+  const checkOutTime = currentStayInfo?.checkOutTime || ''
 
   const validateField = (name: string, value: string) => {
     let errorMessage = ''
@@ -86,10 +101,12 @@ const ReservationPage = () => {
                   }
                   mainContent={
                     <div className={cx('mainContentTitle')}>
-                      <h3>숙소 이름</h3>
+                      <h3>{currentStay?.stayName}</h3>
                       <div className={cx('schedule')}>
-                        <span>객실 이름</span>
-                        <span>체크인: 15:00 ~ 체크아웃: 11:00</span>
+                        <span>{room?.roomName}</span>
+                        <span>
+                          {`입실: ${checkInTime}, 퇴실: ${checkOutTime}`}
+                        </span>
                       </div>
                     </div>
                   }

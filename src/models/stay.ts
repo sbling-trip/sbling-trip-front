@@ -4,6 +4,8 @@ export interface Stay {
   address: string
   originalAddress: string
   formattedAddress: string
+  checkInTime: string
+  checkOutTime: string
   description: string
   latitude: number
   longitude: number
