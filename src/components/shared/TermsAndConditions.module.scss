@@ -1,0 +1,121 @@
+@import 'src/styles/mixins';
+
+.termsAndConditions {
+  margin: 24px 0;
+
+  .totalAgree {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: var(--blue50);
+  }
+
+  .selectAllOption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background-color: var(--white);
+    box-shadow: 0 0 0 1px var(--gray300);
+  }
+
+  input[type='checkbox'] {
+    display: block;
+    position: absolute;
+    inset: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    opacity: 0;
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid var(--gray100);
+    cursor: pointer;
+  }
+
+  .checkboxLabel {
+    flex: 1 1 auto;
+    padding-left: 10px;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-weight: 600;
+    @include t6;
+  }
+
+  ul {
+    margin-top: 14px;
+    margin-bottom: 10px;
+    padding: 20px 12px 20px 16px;
+    border: 1px solid var(--gray200);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    li {
+      width: 100%;
+    }
+
+    .selectItem {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .checkbox {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: relative;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        background-color: var(--white);
+        border: 1px solid var(--gray300);
+      }
+
+      label {
+        flex: 1 1 auto;
+        font-size: 14px;
+        line-height: 18px;
+        padding-left: 10px;
+      }
+    }
+
+    .labelBtn {
+      flex: 1 1 0;
+      display: inline-block;
+      width: 100%;
+      min-height: 16px;
+      background: none;
+      border: none;
+      @include t7;
+      text-align: left;
+      box-shadow: none;
+      font-weight: 500;
+    }
+
+    .arrowBox {
+      float: right;
+      height: 16px;
+      width: 16px;
+      cursor: pointer;
+
+      .iconArrow {
+        fill: var(--gray300);
+      }
+    }
+  }
+}
