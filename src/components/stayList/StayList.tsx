@@ -13,6 +13,10 @@ const StayList = () => {
   const { stays, loadMore } = useStayList()
   const observerRef = useRef<HTMLLIElement | null>(null)
 
+  if (!stays) {
+    return <div>Loading</div>
+  }
+
   return (
     <div className={cx('stayListContainer')}>
       <Title
