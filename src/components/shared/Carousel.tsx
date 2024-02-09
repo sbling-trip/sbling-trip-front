@@ -1,6 +1,5 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay, EffectFade } from 'swiper/modules'
-
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -17,16 +16,16 @@ interface CarouselProps {
   rewind?: boolean
   mousewheel?: boolean
   navigation?: boolean
+  pagination?: {
+    type?: 'bullets' | 'fraction' | 'progressbar' | undefined
+    clickable?: boolean
+  }
   autoplay?: boolean
   autoplayDelay?: number
   effect?: string
   fadeEffect?: {
     crossFade?: boolean
     duration?: number
-  }
-  pagination?: {
-    type?: 'bullets' | 'fraction' | 'progressbar' | undefined
-    clickable?: boolean
   }
   breakpoints?: {
     [key: number]: {
@@ -37,6 +36,8 @@ interface CarouselProps {
     }
   }
   className?: string
+  onSlideChange?: (swiper: SwiperClass) => void
+  onPaginationChange?: (activeSlide: number, totalSlides: number) => void
 }
 
 const Carousel = ({
@@ -52,6 +53,8 @@ const Carousel = ({
   fadeEffect,
   breakpoints,
   className,
+  onSlideChange,
+  onPaginationChange,
 }: CarouselProps) => {
   return (
     <div className={cx('swiperContainer')}>
@@ -73,6 +76,14 @@ const Carousel = ({
               }
             : false
         }
+        onSlideChange={(swiper) => {
+          if (onSlideChange) {
+            onSlideChange(swiper)
+          }
+          if (onPaginationChange) {
+            onPaginationChange(swiper.realIndex + 1, swiper.slides.length)
+          }
+        }}
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
       >
         {images.map((imgUrl, idx) => (
