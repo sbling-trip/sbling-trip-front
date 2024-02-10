@@ -18,9 +18,7 @@ const Navbar = () => {
   const location = useLocation()
   const isLoginOrSignupPage = ['/login', '/signup'].includes(location.pathname)
 
-  const { user, loggedIn, handleLogout } = useAuth()
-
-  console.log('Navbar user', { user })
+  const { loggedIn, handleLogout } = useAuth()
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -32,7 +30,7 @@ const Navbar = () => {
   const LoginButton = () => (
     <Link to="/login">
       <button type="button" className={cx('userLogBtn')}>
-        로그인
+        로그인 / 회원가입
       </button>
     </Link>
   )
@@ -41,14 +39,6 @@ const Navbar = () => {
     <button type="button" onClick={onClick} className={cx('userLogBtn')}>
       로그아웃
     </button>
-  )
-
-  const SignupButton = () => (
-    <Link to="/signup">
-      <button type="button" className={cx('userSignupBtn')}>
-        회원가입
-      </button>
-    </Link>
   )
 
   const renderUserButton = useCallback(() => {
@@ -67,7 +57,6 @@ const Navbar = () => {
       return (
         <div className={cx('user')}>
           <LoginButton />
-          <SignupButton />
         </div>
       )
     }
@@ -86,7 +75,11 @@ const Navbar = () => {
               role="link"
               onClick={scrollToTop}
             >
-              SIBLING TRIP
+              <img
+                src="/src/assets/logo.png"
+                alt="Sibling Trip"
+                className={cx('logo')}
+              />
             </Link>
           </h1>
           <div className={cx('navItem')}>

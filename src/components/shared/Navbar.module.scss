@@ -17,9 +17,9 @@ header {
     height: 80px;
     padding: 10px 0;
 
-    h1 {
-      font-weight: 600;
-      @include t1;
+    .logo {
+      width: 120px;
+      vertical-align: middle;
     }
   }
 
@@ -53,11 +53,6 @@ header {
       &:hover {
         background-color: var(--blue500);
       }
-    }
-
-    .userSignupBtn {
-      border-radius: 8px;
-      @include StyledButton(small, null, success);
     }
   }
 }
