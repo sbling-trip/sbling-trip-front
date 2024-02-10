@@ -4,6 +4,7 @@ import StayDetailPage from '@pages/StayDetailPage'
 import SearchPage from '@pages/SearchPage'
 import ReservationPage from '@pages/ReservationPage'
 import LoginPage from '@pages/LoginPage'
+import AuthCallbackPage from '@pages/AuthCallbackPage'
 
 import ScrollToTop from '@components/shared/ScrollToTop'
 import Navbar from '@components/shared/Navbar'
@@ -19,6 +20,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
       </Routes>
     </BrowserRouter>
   )
