@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Title from '@components/shared/Title'
 import ErrorMessage from '@components/shared/ErrorMessage'
 import TermsAndConditions from '@components/shared/TermsAndConditions'
 import useTermsAgreement from '@hooks/useTermsAgreement'
+import authAxios from '@api/authAxios'
+import { setUser } from '@redux/userSlice'
 
 import classNames from 'classnames/bind'
 import styles from './SignupPage.module.scss'
@@ -18,6 +22,12 @@ const SignupPage = () => {
 
   const [formData, setFormData] = useState(initialFormState)
   const [error, setError] = useState(initialFormState)
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const locationState = location.state as { providerToken: string }
+
+  const dispatch = useDispatch()
 
   const {
     selectAllTerms,
@@ -38,6 +48,39 @@ const SignupPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    try {
+      const requestData = {
+        agree: {
+          marketing: termsAgreed.term1,
+          location: termsAgreed.term2,
+          service: termsAgreed.term3,
+        },
+        birthAt: new Date(formData.birthAt).toISOString(),
+        gender: formData.gender,
+        userName: formData.userName,
+        providerToken: locationState.providerToken,
+      }
+
+      const { data } = await authAxios.post(
+        'account/sign-in/google',
+        requestData,
+      )
+
+      console.log('Signup successful data', data)
+
+      if (data.access_token) {
+        localStorage.setItem('access_token', data.access_token)
+        dispatch(setUser(data.user))
+      } else {
+        console.error('서버 응답에서 액세스 토큰이 없습니다.')
+      }
+
+      alert('회원가입이 완료되었습니다.')
+      navigate('/')
+    } catch (error) {
+      console.error('Signup failed', error)
+    }
   }
 
   const validateField = (name: string, value: string): string => {
