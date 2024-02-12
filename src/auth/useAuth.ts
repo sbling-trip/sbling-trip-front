@@ -131,6 +131,27 @@ const useAuth = () => {
     }
   }
 
+  const fetchTokensInfo = async (accessToken: string) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+    try {
+      const { data } = await authAxios.get(`tokens/info`, config)
+      console.log('fetchTokensInfo data:', data)
+    } catch (error) {
+      console.error('Error fetching tokens info:', error)
+      dispatch(resetUser())
+      openAlert({
+        title: '로그인이 만료되었습니다. 다시 로그인해주세요.',
+        onConfirmClick: () => {
+          navigate('/login')
+        },
+      })
+    }
+  }
+
   useEffect(() => {
     if (user) {
       setLoggedIn(true)
@@ -142,6 +163,7 @@ const useAuth = () => {
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access_token')
     if (storedAccessToken) {
+      fetchTokensInfo(storedAccessToken)
       dispatch(setUser(storedAccessToken))
     }
   }, [])
