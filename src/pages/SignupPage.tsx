@@ -46,6 +46,51 @@ const SignupPage = () => {
     !termsAgreed.term2 ||
     !termsAgreed.term3
 
+  const handleGenerateuserName = () => {
+    const firstAdjectives = [
+      '귀엽고',
+      '멋지고',
+      '강하고',
+      '행복하고',
+      '시원하고',
+      '다정하고',
+      '활발하고',
+    ]
+    const secondAdjectives = [
+      '새로운',
+      '아름다운',
+      '똑똑한',
+      '창의적인',
+      '탁월한',
+      '긍정적인',
+      '꼼꼼한',
+    ]
+
+    const nouns = [
+      '사람',
+      '이쁜이',
+      '멋쟁이',
+      '사랑이',
+      '블링이',
+      '여행자',
+      '방랑가',
+    ]
+
+    const getRandomElement = (array: string[]) =>
+      array[Math.floor(Math.random() * array.length)]
+
+    const randomUserName =
+      `${getRandomElement(firstAdjectives)}` +
+      `${getRandomElement(secondAdjectives)}` +
+      `${getRandomElement(nouns)}` +
+      `${self.crypto.randomUUID().substring(0, 5)}`
+
+    setFormData({
+      ...formData,
+      userName: randomUserName,
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -244,7 +289,6 @@ const SignupPage = () => {
     <div className={cx('signupContainer')}>
       <div className={cx('signupInner')}>
         <Title title="JOIN" subTitle="회원가입" className={cx('formTitle')} />
-
         <form role="form" className={cx('form')} onSubmit={handleSubmit}>
           <div className={cx('formBlock')}>
             <label htmlFor="userName">닉네임</label>
@@ -262,7 +306,11 @@ const SignupPage = () => {
                   error: !!error.userName,
                 })}
               />
-              <button type="button" className={cx('userNameBtn')}>
+              <button
+                type="button"
+                className={cx('userNameBtn')}
+                onClick={handleGenerateuserName}
+              >
                 랜덤 생성
               </button>
             </div>
