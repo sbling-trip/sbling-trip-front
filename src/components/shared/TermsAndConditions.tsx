@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { TermsState } from '@hooks/useTermsAgreement'
 import IconCheck from '@assets/icon/icon-check.svg?react'
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
@@ -7,52 +7,23 @@ import styles from './TermsAndConditions.module.scss'
 const cx = classNames.bind(styles)
 
 interface TermsAndConditionsProps {
-  onTermsUpdate: (terms: TermsState) => void
+  selectAllTerms: boolean
+  termsAgreed: TermsState
+  handleSelectAgreeAll: () => void
+  handleSelectTerm: (term: keyof TermsState) => void
 }
 
-export interface TermsState {
-  term1: boolean
-  term2: boolean
-  term3: boolean
-  term4: boolean
-  [key: string]: boolean
-}
-
-const terms = [
-  { key: 'term1', label: '만 14세 이상 이용 동의 (필수)' },
-  { key: 'term2', label: '개인정보 제 3자 제공 동의 (필수)' },
-  { key: 'term3', label: '개인 정보 수집 및 이용 동의 (필수)' },
-]
-
-const TermsAndConditions = ({ onTermsUpdate }: TermsAndConditionsProps) => {
-  const [selectAllTerms, setSelectAllTerms] = useState<boolean>(false)
-  const [termsAgreed, setTermsAgreed] = useState<TermsState>({
-    term1: false,
-    term2: false,
-    term3: false,
-    term4: false,
-  })
-
-  const handleSelectAgreeAll = () => {
-    setSelectAllTerms((prevSelectAll) => !prevSelectAll)
-    setTermsAgreed({
-      term1: !selectAllTerms,
-      term2: !selectAllTerms,
-      term3: !selectAllTerms,
-      term4: !selectAllTerms,
-    })
-  }
-
-  const handleSelectTerm = (term: keyof TermsState) => {
-    setTermsAgreed((prevTerms) => {
-      const updatedTerms = {
-        ...prevTerms,
-        [term]: !prevTerms[term],
-      }
-      onTermsUpdate(updatedTerms)
-      return updatedTerms
-    })
-  }
+const TermsAndConditions = ({
+  selectAllTerms,
+  termsAgreed,
+  handleSelectAgreeAll,
+  handleSelectTerm,
+}: TermsAndConditionsProps) => {
+  const terms = [
+    { key: 'term1', label: '만 14세 이상 이용 동의 (필수)' },
+    { key: 'term2', label: '개인정보 제 3자 제공 동의 (필수)' },
+    { key: 'term3', label: '개인 정보 수집 및 이용 동의 (필수)' },
+  ]
 
   return (
     <div className={cx('termsAndConditions')}>
