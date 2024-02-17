@@ -4,11 +4,12 @@ import useAuth from '@auth/useAuth'
 
 const AuthCallbackPage = () => {
   const location = useLocation()
-  const { handleAuthorization } = useAuth()
+  const { loggedIn, handleAuthorization } = useAuth()
 
   useEffect(() => {
+    if (loggedIn) return
     handleAuthorization(location.search)
-  }, [handleAuthorization, location.search])
+  }, [location.search, loggedIn])
 
   return null
 }
