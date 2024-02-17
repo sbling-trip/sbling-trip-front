@@ -33,8 +33,6 @@ const useAuth = () => {
       title: '로그아웃 하시겠습니까?',
       onConfirmClick: () => {
         localStorage.removeItem('access_token')
-        dispatch(resetUser())
-        setLoggedIn(false)
         openAlert({
           title: '로그아웃 되었습니다.',
           onConfirmClick: () => {
@@ -50,11 +48,11 @@ const useAuth = () => {
 
   const handleLoginSuccess = (accessToken: string) => {
     dispatch(setUser(accessToken))
+    setLoggedIn(true)
     openAlert({
       title: '로그인이 완료되었습니다.',
       onConfirmClick: () => {
         navigate('/')
-        setLoggedIn(true)
       },
     })
   }
@@ -73,11 +71,9 @@ const useAuth = () => {
     providerToken?: string,
     accessToken?: string,
   ) => {
-    switch (loginStatus) {
-      case LOGIN_STATUS.LoginSuccess:
-        handleLoginSuccess(accessToken!)
-        break
-      case LOGIN_STATUS.SignInRequired:
+    const actions = {
+      [LOGIN_STATUS.LoginSuccess]: handleLoginSuccess,
+      [LOGIN_STATUS.SignInRequired]: () => {
         setProviderToken(providerToken || null)
         openAlert({
           title: 'Sbling Trip 회원 가입을 위한 추가 정보를 입력해주세요.',
@@ -85,13 +81,12 @@ const useAuth = () => {
             navigate('/signup', { state: { providerToken } })
           },
         })
-        break
-      case LOGIN_STATUS.DifferentSocialLoginAttempt:
-        handleDifferentSocialLoginAttempt(accessToken!)
-        break
-      default:
-        break
+      },
+      [LOGIN_STATUS.DifferentSocialLoginAttempt]:
+        handleDifferentSocialLoginAttempt,
     }
+
+    return actions[loginStatus]?.(accessToken!)
   }
 
   const sendAuthorization = async (code: string) => {
@@ -101,21 +96,9 @@ const useAuth = () => {
 
       const { loginStatus, providerToken, accessToken } = data
 
-      switch (loginStatus) {
-        case LOGIN_STATUS.LoginSuccess:
-          if (accessToken) {
-            localStorage.setItem('access_token', accessToken)
-            handleLoginStatus(LOGIN_STATUS.LoginSuccess, undefined, accessToken)
-          }
-          break
-        case LOGIN_STATUS.SignInRequired:
-          handleLoginStatus(LOGIN_STATUS.SignInRequired, providerToken)
-          break
-        case LOGIN_STATUS.DifferentSocialLoginAttempt:
-          handleLoginStatus(LOGIN_STATUS.DifferentSocialLoginAttempt)
-          break
-        default:
-          break
+      if (loginStatus in LOGIN_STATUS) {
+        localStorage.setItem('access_token', accessToken)
+        handleLoginStatus(loginStatus, providerToken, accessToken)
       }
     } catch (error) {
       console.error('sendAuthorization failed:', error)
@@ -124,31 +107,10 @@ const useAuth = () => {
 
   const handleAuthorization = async (search: string) => {
     const urlParams = new URLSearchParams(search)
-    const authorizationCode = urlParams.get('code') || ''
+    const authorizationCode = urlParams.get('code')
 
     if (authorizationCode) {
       await sendAuthorization(authorizationCode)
-    }
-  }
-
-  const fetchTokensInfo = async (accessToken: string) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-    try {
-      const { data } = await authAxios.get(`tokens/info`, config)
-      console.log('fetchTokensInfo data:', data)
-    } catch (error) {
-      console.error('Error fetching tokens info:', error)
-      dispatch(resetUser())
-      openAlert({
-        title: '로그인이 만료되었습니다. 다시 로그인해주세요.',
-        onConfirmClick: () => {
-          navigate('/login')
-        },
-      })
     }
   }
 
@@ -162,10 +124,35 @@ const useAuth = () => {
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access_token')
-    if (storedAccessToken) {
-      fetchTokensInfo(storedAccessToken)
-      dispatch(setUser(storedAccessToken))
+
+    const validateToken = async (accessToken: string) => {
+      try {
+        await authAxios.get('/tokens/info')
+        dispatch(setUser(accessToken))
+        setLoggedIn(true)
+      } catch (error) {
+        console.error('Error validating token:', error)
+        localStorage.removeItem('access_token')
+        dispatch(resetUser())
+        setLoggedIn(false)
+        openAlert({
+          title: '토큰이 유효하지 않습니다. 다시 로그인 해주세요.',
+          onConfirmClick: () => {
+            setTimeout(() => {
+              window.location.href = '/login'
+            }, 100)
+          },
+        })
+      }
     }
+
+    if (!storedAccessToken) {
+      dispatch(resetUser())
+      setLoggedIn(false)
+      return
+    }
+
+    validateToken(storedAccessToken)
   }, [])
 
   return {
