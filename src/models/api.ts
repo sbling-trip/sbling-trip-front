@@ -1,3 +1,7 @@
-export interface ApiResponse<T> {
+export interface ListApiResponse<T> {
   result: T[]
+}
+
+export interface ItemApiResponse<T> {
+  result: T
 }
