@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import SocialButton from '@components/stay/SocialButton'
 import StayMap from '@components/stay/StayMap'
-import RoomList from '@components/stay/RoomList'
+import RoomList from '@components/stay/room/RoomList'
 import Title from '@components/shared/Title'
 import DatePicker from '@components/shared/DatePicker'
+
 import useStayList from '@components/stayList/hooks/useStayList'
 import useDatePicker from '@hooks/useDatePicker'
-import { RootState } from '@redux/store'
 import { setCurrentStay } from '@redux/staySlice'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
@@ -21,25 +21,24 @@ const cx = classNames.bind(styles)
 const StayDetailPage = () => {
   const [showAll, setShowAll] = useState(false)
 
-  const { staySeq } = useParams<{ staySeq?: string }>()
-  const { fetchStayDetail } = useStayList()
-
+  const { staySeq } = useParams<{ staySeq: string }>()
   const didMountRef = useRef(false)
 
+  const { fetchCurrentStay, currentStay, toggleWish } = useStayList()
+
   const dispatch = useDispatch()
-  const { currentStay } = useSelector((state: RootState) => state.stay)
 
   const {
     stayName,
     latitude,
     longitude,
-    originalAddress,
-    formattedAddress,
+    address,
     description,
+    wishState,
     refundPolicy,
     facilitiesDetail,
     foodBeverageArea,
-  } = currentStay ?? {}
+  } = currentStay!
 
   const {
     displayedDate,
@@ -60,11 +59,11 @@ const StayDetailPage = () => {
     const staySeqNumber = parseInt(staySeq ?? '', 10)
 
     if (!isNaN(staySeqNumber)) {
-      fetchStayDetail(staySeqNumber)
+      fetchCurrentStay(staySeqNumber)
     } else {
       console.error('Invalid staySeq:', staySeq)
     }
-  }, [staySeq, fetchStayDetail])
+  }, [staySeq])
 
   useEffect(() => {
     if (!didMountRef.current) {
@@ -84,12 +83,18 @@ const StayDetailPage = () => {
           <section className={cx('mainSlide')}>
             <div className={cx('slideInfo')}>
               <Title
-                title={stayName ?? ''}
-                subTitle={formattedAddress ?? ''}
+                title={stayName}
+                subTitle={address}
                 className={cx('slideTitle')}
               />
               <div className={cx('slideSocial')}>
-                <SocialButton stay={currentStay} />
+                <div className={cx('socialButtons')}>
+                  <SocialButton
+                    staySeq={staySeq!}
+                    wishState={!!wishState}
+                    toggleWish={toggleWish}
+                  />
+                </div>
               </div>
             </div>
           </section>
@@ -210,7 +215,7 @@ const StayDetailPage = () => {
               <StayMap
                 latitude={latitude}
                 longitude={longitude}
-                address={originalAddress}
+                address={address}
               />
             </section>
           </div>

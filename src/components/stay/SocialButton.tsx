@@ -1,20 +1,29 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { setCurrentStay } from '@redux/staySlice'
-import { Stay } from '@models/stay'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import IconButton from '@components/shared/IconButton'
+import { useAlertContext } from '../../hooks/useAlertContext'
+import { RootState } from '@redux/store'
 
 import IconLink from '@assets/icon/icon-link.svg?react'
 import IconKakao from '@assets/icon/icon-kakao.svg?react'
-import IconLike from '@assets/icon/icon-like.svg?react'
-import IconLikeFill from '@assets/icon/icon-like-fill.svg?react'
+import IconWish from '@assets/icon/icon-wish.svg?react'
+import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
 
-import classNames from 'classnames/bind'
-import styles from './SocialButton.module.scss'
+interface SocialButtonProps {
+  staySeq: string
+  wishState: boolean
+  toggleWish: (staySeq: number, wishState: boolean) => void
+}
 
-const cx = classNames.bind(styles)
+const SocialButton = ({
+  staySeq,
+  wishState,
+  toggleWish,
+}: SocialButtonProps) => {
+  const { user } = useSelector((state: RootState) => state.user)
 
-const SocialButton = ({ stay }: { stay: Stay }) => {
-  const dispatch = useDispatch()
+  const { openAlert } = useAlertContext()
+  const navigate = useNavigate()
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -25,46 +34,37 @@ const SocialButton = ({ stay }: { stay: Stay }) => {
     }
   }
 
-  useEffect(() => {
-    if (stay) {
-      dispatch(setCurrentStay(stay))
+  const handleToggleWish = () => {
+    if (!user) {
+      openAlert({
+        title: '로그인이 필요합니다.',
+        subTitle: '로그인 페이지로 이동하시겠습니까?',
+        onConfirmClick: () => navigate('/login'),
+        onCancelClick: () => {},
+      })
     }
-  }, [stay, dispatch])
+    toggleWish(parseInt(staySeq, 10), !!wishState)
+  }
 
   return (
-    <div className={cx('socialButtons')}>
-      <Button
-        label="찜하기"
-        iconComponent={IconLikeFill || IconLike}
+    <>
+      <IconButton
+        label={wishState ? '찜 취소' : '찜하기'}
+        iconComponent={wishState ? IconWishFill : IconWish}
+        onClick={handleToggleWish}
+      />
+      <IconButton
+        label="공유하기"
+        iconComponent={IconKakao}
         onClick={() => {}}
       />
-      <Button label="공유하기" iconComponent={IconKakao} onClick={() => {}} />
-      <Button
+      <IconButton
         label="링크 복사"
         iconComponent={IconLink}
         onClick={() => handleCopyClipBoard(window.location.href)}
       />
-    </div>
+    </>
   )
 }
-const Button = ({
-  label,
-  iconComponent: IconComponent,
-  onClick,
-  fill,
-}: {
-  label: string
-  iconComponent: React.ElementType
-  onClick?: () => void
-  fill?: string
-  iconWidth?: number
-  iconHeight?: number
-}) => {
-  return (
-    <button type="button" onClick={onClick} className={cx('btn')}>
-      <IconComponent width={35} height={35} fill={fill} />
-      <small>{label}</small>
-    </button>
-  )
-}
+
 export default SocialButton
