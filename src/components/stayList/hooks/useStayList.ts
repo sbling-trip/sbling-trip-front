@@ -8,11 +8,9 @@ import { Stay } from '@models/stay'
 
 const useStayList = () => {
   const [currentPage, setCurrentPage] = useState(0)
-  const [showMoreButton, setShowMoreButton] = useState(true)
 
   const dispatch = useDispatch()
-  const { stays } = useSelector((state: RootState) => state.stay)
-  const { currentStay } = useSelector((state: RootState) => state.stay)
+  const { stays, currentStay } = useSelector((state: RootState) => state.stay)
 
   const formatLocation = (address: string) => {
     const [province, city] = address.split(' ', 2)
@@ -31,19 +29,17 @@ const useStayList = () => {
       formattedAddress: formatLocation(stay.address),
     }))
 
-  const fetchStayList = async (pageNum: number) => {
+  const fetchStayList = async () => {
     try {
       const { data } = await apiAxios.get<ListApiResponse<Stay>>(
-        `/stay/list?cursor=${pageNum}`,
+        `/stay/list?cursor=${currentPage}`,
       )
 
-      if (pageNum === 0) {
+      if (currentPage === 0) {
         dispatch(setStays(formatStays(data.result)))
       } else {
         dispatch(addStays(formatStays(data.result)))
       }
-
-      setShowMoreButton(data.result.length > 0)
     } catch (error) {
       console.error('Error fetching stay list:', error)
     }
@@ -69,14 +65,26 @@ const useStayList = () => {
 
       dispatch(addStays(formatStays(data.result)))
       setCurrentPage(nextPage)
-      setShowMoreButton(data.result.length > 0)
     } catch (error) {
       console.error('Error fetching more stays:', error)
     }
   }
 
+  const toggleWish = async (staySeq: number, wishState: boolean) => {
+    try {
+      if (wishState) {
+        await apiAxios.delete(`/wish/remove?staySeq=${staySeq}`)
+      } else {
+        await apiAxios.post(`/wish/add?staySeq=${staySeq}`)
+      }
+      await Promise.all([fetchCurrentStay(staySeq), fetchStayList()])
+    } catch (error) {
+      console.error('Failed to update wish state:', error)
+    }
+  }
+
   useEffect(() => {
-    fetchStayList(currentPage)
+    fetchStayList()
   }, [])
 
   return {
@@ -84,7 +92,7 @@ const useStayList = () => {
     currentStay,
     fetchCurrentStay,
     loadMore,
-    showMoreButton,
+    toggleWish,
   }
 }
 
