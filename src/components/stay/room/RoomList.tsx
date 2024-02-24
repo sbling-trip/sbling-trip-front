@@ -1,6 +1,7 @@
+// RoomList.tsx
 import Title from '@components/shared/Title'
 import RoomItem from './RoomItem'
-import useRoomList from './hooks/useRoomList'
+import useRoomList from '../hooks/useRoomList'
 
 import classNames from 'classnames/bind'
 import styles from './RoomList.module.scss'
