@@ -10,7 +10,7 @@ import styles from './StayList.module.scss'
 const cx = classNames.bind(styles)
 
 const StayList = () => {
-  const { stays, loadMore } = useStayList()
+  const { stays, loadMore, toggleWish } = useStayList()
   const observerRef = useRef<HTMLLIElement | null>(null)
 
   if (!stays) {
@@ -26,7 +26,7 @@ const StayList = () => {
       />
       <ul className={cx('stayItemWrap')}>
         {stays.map((stay, index) => [
-          <StayItem stay={stay} key={stay.staySeq} />,
+          <StayItem stay={stay} key={stay.staySeq} toggleWish={toggleWish} />,
           index === stays.length - 1 && (
             <ObserverPlaceholder
               observerRef={observerRef}

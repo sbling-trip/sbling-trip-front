@@ -12,4 +12,7 @@ export interface Stay {
   refundPolicy: string
   facilitiesDetail: string
   foodBeverageArea: string
+  wishState: boolean
+  reviewCount: number
+  reviewScoreAverage: number
 }
