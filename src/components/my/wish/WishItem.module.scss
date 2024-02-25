@@ -1,0 +1,59 @@
+@import 'src/styles/mixins';
+
+.wishItem {
+  padding: 16px 0;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray100);
+}
+
+.wishItemInner {
+  display: flex;
+  gap: 40px;
+  height: 120px;
+
+  .leftContent {
+    position: relative;
+    width: 180px;
+
+    .leftContentImg {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+
+    .wishBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1;
+      box-shadow: none;
+
+      svg {
+        fill: var(--white);
+        width: 30px;
+        height: 30px;
+      }
+
+      small {
+        display: none;
+      }
+    }
+  }
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin: 10px 0;
+      font-weight: 600;
+      @include t5;
+    }
+
+    span {
+      font-weight: 400;
+      color: var(--gray700);
+      @include t6;
+    }
+  }
+}

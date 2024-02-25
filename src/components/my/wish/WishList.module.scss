@@ -1,0 +1,21 @@
+@import 'src/styles/mixins';
+
+.wishListContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+
+  .wishTitle {
+    margin-bottom: 16px;
+
+    h2 {
+      font-weight: 600;
+      @include t2;
+    }
+  }
+
+  .wishList {
+    display: flex;
+    flex-direction: column;
+  }
+}
