@@ -15,4 +15,9 @@ export interface Stay {
   wishState: boolean
   reviewCount: number
   reviewScoreAverage: number
+  roomImageUrlList: string[]
+  manager: string
+  contactNumber: string
+  homepageUrl: string
+  parkingAvailable: boolean
 }

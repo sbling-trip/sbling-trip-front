@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { SwiperClass } from 'swiper/react'
 
 import SocialButton from '@components/stay/SocialButton'
 import StayMap from '@components/stay/StayMap'
 import RoomList from '@components/stay/room/RoomList'
 import Title from '@components/shared/Title'
+import Carousel from '@components/shared/Carousel'
 import DatePicker from '@components/shared/DatePicker'
 
 import useStayList from '@components/stayList/hooks/useStayList'
@@ -19,7 +21,8 @@ import styles from './StayDetailPage.module.scss'
 const cx = classNames.bind(styles)
 
 const StayDetailPage = () => {
-  const [showAll, setShowAll] = useState(false)
+  const [showAll, setShowAll] = useState<boolean>(false)
+  const [activeSlide, setActiveSlide] = useState<number>(0)
 
   const { staySeq } = useParams<{ staySeq: string }>()
   const didMountRef = useRef(false)
@@ -38,6 +41,7 @@ const StayDetailPage = () => {
     refundPolicy,
     facilitiesDetail,
     foodBeverageArea,
+    roomImageUrlList,
   } = currentStay!
 
   const {
@@ -53,6 +57,10 @@ const StayDetailPage = () => {
 
   const handleShowAllClick = () => {
     setShowAll((prev) => !prev)
+  }
+
+  const handleSlideChange = (swiper: SwiperClass) => {
+    setActiveSlide(swiper.realIndex)
   }
 
   useEffect(() => {
@@ -81,6 +89,11 @@ const StayDetailPage = () => {
       <div className={cx('stayDetailContainer')}>
         <div className={cx('stayDetailInner')}>
           <section className={cx('mainSlide')}>
+            <Carousel
+              className={cx('carousel')}
+              images={roomImageUrlList}
+              onSlideChange={handleSlideChange}
+            />
             <div className={cx('slideInfo')}>
               <Title
                 title={stayName}
@@ -96,6 +109,9 @@ const StayDetailPage = () => {
                   />
                 </div>
               </div>
+            </div>
+            <div className={cx('pagination')}>
+              {activeSlide + 1} / {roomImageUrlList.length}
             </div>
           </section>
           <div className={cx('mainContents')}>
