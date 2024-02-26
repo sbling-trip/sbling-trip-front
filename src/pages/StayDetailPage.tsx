@@ -47,6 +47,8 @@ const StayDetailPage = () => {
     roomImageUrlList,
   } = currentStay!
 
+  const kakaoMainImgUrl = roomImageUrlList.length > 0 ? roomImageUrlList[0] : ''
+
   const {
     displayedDate,
     selectedDate,
@@ -107,6 +109,9 @@ const StayDetailPage = () => {
                 <div className={cx('socialButtons')}>
                   <SocialButton
                     staySeq={staySeq!}
+                    stayName={stayName}
+                    mainImgUrl={kakaoMainImgUrl}
+                    description={description}
                     wishState={!!wishState}
                     toggleWish={toggleWish}
                   />

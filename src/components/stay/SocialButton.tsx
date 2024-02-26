@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import IconButton from '@components/shared/IconButton'
+import useShareKakao from '@components/stay/hooks/useShareKakao'
 import { useAlertContext } from '../../hooks/useAlertContext'
 import { RootState } from '@redux/store'
 
@@ -11,19 +12,25 @@ import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
 
 interface SocialButtonProps {
   staySeq: string
+  stayName: string
+  mainImgUrl: string
+  description: string
   wishState: boolean
   toggleWish: (staySeq: number, wishState: boolean) => void
 }
 
 const SocialButton = ({
   staySeq,
+  stayName,
+  mainImgUrl,
+  description,
   wishState,
   toggleWish,
 }: SocialButtonProps) => {
   const { user } = useSelector((state: RootState) => state.user)
-
   const { openAlert } = useAlertContext()
   const navigate = useNavigate()
+  const share = useShareKakao()
 
   const handleCopyClipBoard = async (text: string) => {
     try {
@@ -56,7 +63,14 @@ const SocialButton = ({
       <IconButton
         label="공유하기"
         iconComponent={IconKakao}
-        onClick={() => {}}
+        onClick={() => {
+          share({
+            title: stayName,
+            description,
+            imageUrl: mainImgUrl,
+            btnLabel: '확인하기',
+          })
+        }}
       />
       <IconButton
         label="링크 복사"
