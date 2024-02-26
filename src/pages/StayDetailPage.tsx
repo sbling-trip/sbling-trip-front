@@ -10,6 +10,7 @@ import Title from '@components/shared/Title'
 import Carousel from '@components/shared/Carousel'
 import DatePicker from '@components/shared/DatePicker'
 
+import useLoadKakao from '@hooks/useLoadKakao'
 import useStayList from '@components/stayList/hooks/useStayList'
 import useDatePicker from '@hooks/useDatePicker'
 import { setCurrentStay } from '@redux/staySlice'
@@ -21,6 +22,8 @@ import styles from './StayDetailPage.module.scss'
 const cx = classNames.bind(styles)
 
 const StayDetailPage = () => {
+  useLoadKakao()
+
   const [showAll, setShowAll] = useState<boolean>(false)
   const [activeSlide, setActiveSlide] = useState<number>(0)
 
