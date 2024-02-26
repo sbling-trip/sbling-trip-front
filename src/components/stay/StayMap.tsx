@@ -68,6 +68,7 @@ const StayMap = ({ latitude, longitude, address }: StayMapProps) => {
 
           const zoomControl = new window.kakao.maps.ZoomControl()
           map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT)
+          map.setZoomable(false)
         } catch (error) {
           console.error('Error creating kakao Map:', error)
         }
@@ -81,6 +82,7 @@ const StayMap = ({ latitude, longitude, address }: StayMapProps) => {
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText(address!)
+    alert('주소가 복사되었습니다.')
   }
 
   const handleViewMap = () => {
