@@ -3,6 +3,7 @@ import staySlice from './staySlice'
 import userSlice from './userSlice'
 import dateSlice from './dateSlice'
 import roomSlice from './roomSlice'
+import reviewSlice from './reviewSlice'
 
 const reduxStore = configureStore({
   reducer: {
@@ -10,11 +11,18 @@ const reduxStore = configureStore({
     user: userSlice,
     date: dateSlice,
     room: roomSlice,
+    review: reviewSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredPaths: ['stay.stays', 'user.user', 'date.date', 'room.room'],
+        ignoredPaths: [
+          'stay.stays',
+          'user.user',
+          'date.date',
+          'room.room',
+          'review.review',
+        ],
       },
     }),
 })
