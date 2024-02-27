@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ListRow from '@components/shared/ListRow'
 import IconButton from '@components/shared/IconButton'
+
 import { useAlertContext } from '../../hooks/useAlertContext'
 import delimiter from '@utils/delimiter'
 import { RootState } from '@redux/store'
@@ -25,7 +26,8 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
 
   const navigate = useNavigate()
 
-  const { staySeq, stayName, formattedAddress, wishState } = stay
+  const { staySeq, stayName, formattedAddress, wishState, roomImageUrlList } =
+    stay
 
   const handleToggleWish = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -49,11 +51,14 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
           className={cx('stayItemInner')}
           mainContent={
             <div className={cx('mainContent')}>
-              <img
-                src="https://images.unsplash.com/photo-1617596225496-1d9da33a144b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA% 3D%3D"
-                alt={`${stayName} 이미지`}
-                className={cx('mainContentImg')}
-              />
+              {roomImageUrlList.map((imgUrl, index) => (
+                <img
+                  key={index}
+                  src={imgUrl}
+                  alt={`${stayName} 이미지`}
+                  className={cx('mainContentImg')}
+                />
+              ))}
               <div className={cx('wishBtn')}>
                 <IconButton
                   label={wishState ? '찜 취소' : '찜하기'}
