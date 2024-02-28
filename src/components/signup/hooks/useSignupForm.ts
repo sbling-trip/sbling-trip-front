@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import updateBirthdate from '@utils/updateBirthdate'
 
 const useSignupForm = () => {
   const initialFormState = {
@@ -23,6 +24,7 @@ const useSignupForm = () => {
 
     return ''
   }
+
   const handleGenerateUserName = () => {
     const firstAdjectives = [
       '귀엽고',
@@ -92,38 +94,20 @@ const useSignupForm = () => {
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newYear = e.target.value
-    updateBirthdate('year', newYear)
+    const updatedFormData = updateBirthdate(formData, 'year', newYear)
+    setFormData(updatedFormData)
   }
 
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMonth = e.target.value
-    updateBirthdate('month', newMonth)
+    const updatedFormData = updateBirthdate(formData, 'month', newMonth)
+    setFormData(updatedFormData)
   }
 
   const handleDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newDay = e.target.value
-    updateBirthdate('day', newDay)
-  }
-
-  const updateBirthdate = (part: string, value: string) => {
-    const currentYear = formData.birthAt.slice(0, 4)
-    const currentMonth = formData.birthAt.slice(5, 7)
-    const currentDay = formData.birthAt.slice(8)
-
-    let updatedBirthdate = ''
-
-    if (part === 'year') {
-      updatedBirthdate = `${value}-${currentMonth}-${currentDay}`
-    } else if (part === 'month') {
-      updatedBirthdate = `${currentYear}-${value}-${currentDay}`
-    } else if (part === 'day') {
-      updatedBirthdate = `${currentYear}-${currentMonth}-${value}`
-    }
-
-    setFormData({
-      ...formData,
-      birthAt: updatedBirthdate,
-    })
+    const updatedFormData = updateBirthdate(formData, 'day', newDay)
+    setFormData(updatedFormData)
   }
 
   return {
