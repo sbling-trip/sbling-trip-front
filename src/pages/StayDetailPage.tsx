@@ -9,6 +9,7 @@ import RoomList from '@components/stay/room/RoomList'
 import Title from '@components/shared/Title'
 import Carousel from '@components/shared/Carousel'
 import DatePicker from '@components/shared/DatePicker'
+import Review from '@components/stay/review/Review'
 
 import useLoadKakao from '@hooks/useLoadKakao'
 import useStayList from '@components/stayList/hooks/useStayList'
@@ -23,7 +24,6 @@ const cx = classNames.bind(styles)
 
 const StayDetailPage = () => {
   useLoadKakao()
-
   const [showAll, setShowAll] = useState<boolean>(false)
   const [activeSlide, setActiveSlide] = useState<number>(0)
 
@@ -44,6 +44,8 @@ const StayDetailPage = () => {
     refundPolicy,
     facilitiesDetail,
     foodBeverageArea,
+    reviewCount,
+    reviewScoreAverage,
     roomImageUrlList,
   } = currentStay!
 
@@ -240,6 +242,13 @@ const StayDetailPage = () => {
                 latitude={latitude}
                 longitude={longitude}
                 address={address}
+              />
+            </section>
+            <section className={cx('stayReview')}>
+              <Review
+                staySeq={staySeq!}
+                reviewScoreAverage={reviewScoreAverage}
+                reviewCount={reviewCount}
               />
             </section>
           </div>

@@ -1,0 +1,39 @@
+@import 'src/styles/mixins';
+
+.reviewContainer {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.reviewTitle {
+  width: 100%;
+  padding: 20px 0px 16px;
+  display: flex;
+  align-items: center;
+
+  h2 {
+    margin-right: 5px;
+    font-weight: bold;
+    @include t3;
+  }
+
+  h3 {
+    font-weight: 700;
+    color: var(--gray600);
+    @include t3;
+  }
+
+  .subTitle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    strong,
+    span {
+      font-weight: 700;
+      color: var(--gray800);
+      @include t3;
+    }
+  }
+}
