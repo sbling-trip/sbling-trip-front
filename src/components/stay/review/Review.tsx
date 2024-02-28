@@ -1,4 +1,6 @@
+import ReviewList from '@components/stay/review/ReviewList'
 import Title from '@components/shared/Title'
+import useReview from '../hooks/useReview'
 
 import IconStar from '@assets/icon/icon-star.svg?react'
 import classNames from 'classnames/bind'
@@ -12,7 +14,9 @@ interface ReviewProps {
   reviewCount: number
 }
 
-const Review = ({ reviewScoreAverage, reviewCount }: ReviewProps) => {
+const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
+  const { reviews } = useReview(parseInt(staySeq ?? ''))
+
   return (
     <div className={cx('reviewContainer')}>
       <Title title="리뷰" subTitle="" className={cx('reviewTitle')}>
@@ -29,6 +33,7 @@ const Review = ({ reviewScoreAverage, reviewCount }: ReviewProps) => {
           </span>
         </div>
       </Title>
+      <ReviewList reviews={reviews} staySeq={staySeq} />
     </div>
   )
 }

@@ -1,0 +1,161 @@
+@import 'src/styles/mixins';
+
+.reviewItem {
+  display: flex;
+  padding: 24px 0px;
+  border-bottom: 1px solid var(--gray100);
+
+  .commentInfo {
+    min-width: 180px;
+    min-height: 80px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+
+    .top {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scoreWrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding-bottom: 4px;
+
+      .user {
+        color: var(--gray800);
+        font-weight: 600;
+        @include t6;
+      }
+    }
+
+    .dateWrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-left: 4px;
+      color: var(--gray500);
+      letter-spacing: -0.4px;
+      @include t7;
+
+      .date::after {
+        content: '';
+        position: relative;
+        top: 1px;
+
+        display: inline-block;
+        width: 1px;
+        height: 12px;
+        margin: 0px 8px;
+        background-color: var(--gray200);
+      }
+
+      .roominfo {
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    .bottom {
+      display: flex;
+      position: absolute;
+      bottom: -10px;
+      padding-left: 4px;
+      color: var(--gray500);
+      @include t7;
+    }
+  }
+
+  .commentWrap {
+    width: 100%;
+    padding-right: 10px;
+
+    .comment {
+      display: block;
+      width: 100%;
+      max-height: 100px;
+      height: auto;
+      overflow: hidden;
+      white-space: pre-wrap;
+      font-weight: 400;
+      @include t6;
+      color: var(--gray800);
+
+      p {
+        &.showAll {
+          max-height: none;
+
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .btnWrap {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 0;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        display: block;
+        width: 100%;
+        height: 90px;
+        background: linear-gradient(
+          360deg,
+          rgb(255, 255, 255) 35.42%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        z-index: -1;
+      }
+
+      &.showAll {
+        display: none;
+      }
+
+      .showAllBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+
+        margin-top: 8px;
+        white-space: nowrap;
+        box-shadow: none;
+
+        color: var(--blue500);
+        font-weight: 600;
+        @include t6;
+      }
+
+      .iconArrow {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .carousel {
+    margin-left: 40px;
+    width: 300px;
+    height: 160px;
+    border-radius: 12px;
+
+    --swiper-navigation-size: 20px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-position: center;
+    }
+  }
+}
