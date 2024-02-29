@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
+import useReview from '../hooks/useReview'
 import { Review } from '@models/review'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
@@ -15,20 +16,55 @@ interface ReviewItemProps {
   staySeq: string
 }
 
-const ReviewItem = ({ review }: ReviewItemProps) => {
+const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
   const {
     userSeq,
     roomName,
     reviewTitle,
     reviewContent,
+    reviewScore,
     reviewImageUrlList,
     createdAt,
+    modifiedAt,
   } = review
   const [showAll, setShowAll] = useState<boolean>(false)
+  const [isReviewUpdated, setIsReviewUpdated] = useState<boolean>(false)
+  const { fetchDeleteReview } = useReview(parseInt(staySeq, 10))
 
   const handleShowAllClick = () => {
     setShowAll((prev) => !prev)
   }
+
+  const handleDelete = async () => {
+    try {
+      await fetchDeleteReview(review.reviewSeq)
+    } catch (error) {
+      console.error('Error deleting review:', error)
+    }
+  }
+
+  const integerPart = Math.floor(reviewScore)
+  const emptyStars = Math.max(0, 5 - integerPart)
+  const filledStars = Array.from({ length: integerPart }, (_, index) => (
+    <IconStar
+      key={index}
+      width={18}
+      height={18}
+      fill="var(--yellow300)"
+      className={cx('iconStar')}
+    />
+  ))
+  const emptyStar = Array.from({ length: emptyStars }, (_, index) => (
+    <IconStar
+      key={integerPart + index}
+      width={18}
+      height={18}
+      fill="var(--gray300)"
+      className={cx('iconStar')}
+    />
+  ))
+
+  const stars = [...filledStars, ...emptyStar]
 
   return (
     <ListRow
@@ -38,17 +74,30 @@ const ReviewItem = ({ review }: ReviewItemProps) => {
         <div className={cx('commentInfo')}>
           <div className={cx('top')}>
             <div className={cx('scoreWrap')}>
-              <div className={cx('starWrap')}>
-                <IconStar width={18} height={18} fill="var(--yellow300)" />
-              </div>
+              <div className={cx('starWrap')}>{stars}</div>
               <span className={cx('user')}>{userSeq}</span>
             </div>
             <div className={cx('dateWrap')}>
-              <span className={cx('date')}>{createdAt.substring(0, 10)}</span>
+              <span className={cx('date')}>
+                {isReviewUpdated
+                  ? modifiedAt.substring(0, 10)
+                  : createdAt.substring(0, 10)}
+              </span>
               <span className={cx('roominfo')}>{roomName}</span>
             </div>
           </div>
-          <div className={cx('bottom')}></div>
+          <div className={cx('bottom')}>
+            <button type="button" className={cx('btn', 'edit')}>
+              수정
+            </button>
+            <button
+              type="button"
+              className={cx('btn', 'delete')}
+              onClick={handleDelete}
+            >
+              삭제
+            </button>
+          </div>
         </div>
       }
       mainContent={

@@ -4,7 +4,7 @@ import { RootState } from '@redux/store'
 import { setReviews } from '@redux/reviewSlice'
 import apiAxios from '@api/apiAxios'
 import { Review } from '@models/review'
-import { ObjectApiResponse } from '@models/api'
+import { ObjectApiResponse, ListApiResponse } from '@models/api'
 import { CustomMeta } from '@models/customMeta'
 
 const PAGE_SIZE = 10
@@ -34,6 +34,18 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     }
   }
 
+  const fetchDeleteReview = async (reviewSeq: number) => {
+    try {
+      await apiAxios.delete<ListApiResponse<Review>>(
+        `/review/remove?reviewSeq=${reviewSeq}`,
+      )
+
+      await fetchReviews(currentPage)
+    } catch (error) {
+      console.error('Error deleting review:', error)
+    }
+  }
+
   useEffect(() => {
     if (staySeq) {
       fetchReviews(currentPage)
@@ -42,6 +54,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
 
   return {
     fetchReviews,
+    fetchDeleteReview,
     reviews,
     currentPage: currentPage + 1,
     totalPages,

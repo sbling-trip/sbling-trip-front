@@ -67,6 +67,30 @@
       padding-left: 4px;
       color: var(--gray500);
       @include t7;
+
+      .btn {
+        border-radius: 4px;
+        @include t7;
+        font-weight: 500;
+        box-shadow: none;
+        color: var(--gray500);
+
+        &:hover {
+          color: var(--gray700);
+        }
+      }
+
+      .edit::after {
+        content: '';
+        position: relative;
+        top: 1px;
+
+        display: inline-block;
+        width: 1px;
+        height: 12px;
+        margin: 0px 8px;
+        background-color: var(--gray500);
+      }
     }
   }
 
