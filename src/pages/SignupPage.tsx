@@ -1,10 +1,12 @@
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Title from '@components/shared/Title'
 import ErrorMessage from '@components/shared/ErrorMessage'
 import TermsAndConditions from '@components/shared/TermsAndConditions'
+
+import useSignupForm from '@components/signup/hooks/useSignupForm'
 import useTermsAgreement from '@hooks/useTermsAgreement'
+import { useAlertContext } from '@hooks/useAlertContext'
 import authAxios from '@api/authAxios'
 import { setUser } from '@redux/userSlice'
 
@@ -14,21 +16,21 @@ import styles from './SignupPage.module.scss'
 const cx = classNames.bind(styles)
 
 const SignupPage = () => {
-  const initialFormState = {
-    userName: '',
-    birthAt: '',
-    gender: '',
-  }
-
-  const [formData, setFormData] = useState(initialFormState)
-  const [error, setError] = useState(initialFormState)
-
   const navigate = useNavigate()
   const location = useLocation()
   const locationState = location.state as { providerToken: string }
+  const {
+    formData,
+    error,
+    handleChange,
+    handleGenerateUserName,
+    handleYearChange,
+    handleMonthChange,
+    handleDayChange,
+  } = useSignupForm()
 
   const dispatch = useDispatch()
-
+  const { openAlert } = useAlertContext()
   const {
     selectAllTerms,
     termsAgreed,
@@ -45,51 +47,6 @@ const SignupPage = () => {
     !termsAgreed.term1 ||
     !termsAgreed.term2 ||
     !termsAgreed.term3
-
-  const handleGenerateuserName = () => {
-    const firstAdjectives = [
-      '귀엽고',
-      '멋지고',
-      '강하고',
-      '행복하고',
-      '시원하고',
-      '다정하고',
-      '활발하고',
-    ]
-    const secondAdjectives = [
-      '새로운',
-      '아름다운',
-      '똑똑한',
-      '창의적인',
-      '탁월한',
-      '긍정적인',
-      '꼼꼼한',
-    ]
-
-    const nouns = [
-      '사람',
-      '이쁜이',
-      '멋쟁이',
-      '사랑이',
-      '블링이',
-      '여행자',
-      '방랑가',
-    ]
-
-    const getRandomElement = (array: string[]) =>
-      array[Math.floor(Math.random() * array.length)]
-
-    const randomUserName =
-      `${getRandomElement(firstAdjectives)}` +
-      `${getRandomElement(secondAdjectives)}` +
-      `${getRandomElement(nouns)}` +
-      `${self.crypto.randomUUID().substring(0, 5)}`
-
-    setFormData({
-      ...formData,
-      userName: randomUserName,
-    })
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -108,97 +65,28 @@ const SignupPage = () => {
       }
 
       const { data } = await authAxios.post(
-        'account/sign-in/google',
+        '/account/sign-in/google',
         requestData,
       )
 
       console.log('Signup successful data', data)
 
-      if (data.access_token) {
-        localStorage.setItem('access_token', data.access_token)
-        dispatch(setUser(data.user))
+      if (data.providerToken) {
+        localStorage.setItem('access_token', data.providerToken)
+        dispatch(setUser(data))
       } else {
         console.error('서버 응답에서 액세스 토큰이 없습니다.')
       }
 
-      alert('회원가입이 완료되었습니다.')
-      navigate('/')
+      openAlert({
+        title: '회원가입이 완료되었습니다.',
+        onConfirmClick: () => {
+          navigate('/')
+        },
+      })
     } catch (error) {
       console.error('Signup failed', error)
     }
-  }
-
-  const validateField = (name: string, value: string): string => {
-    if (value.trim() === '') {
-      return ''
-    }
-
-    if (name === 'userName') {
-      return value.length >= 3
-        ? ''
-        : '닉네임은 한글, 영문 3~12자 이내로 작성해주세요.'
-    }
-
-    return ''
-  }
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value, type } = e.target
-
-    if (type === 'radio') {
-      setFormData({
-        ...formData,
-        [name]: value,
-      })
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      })
-
-      setError({
-        ...error,
-        [name]: validateField(name, value),
-      })
-    }
-  }
-
-  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newYear = e.target.value
-    updateBirthdate('year', newYear)
-  }
-
-  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newMonth = e.target.value
-    updateBirthdate('month', newMonth)
-  }
-
-  const handleDayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newDay = e.target.value
-    updateBirthdate('day', newDay)
-  }
-
-  const updateBirthdate = (part: string, value: string) => {
-    const currentYear = formData.birthAt.slice(0, 4)
-    const currentMonth = formData.birthAt.slice(5, 7)
-    const currentDay = formData.birthAt.slice(8)
-
-    let updatedBirthdate = ''
-
-    if (part === 'year') {
-      updatedBirthdate = `${value}-${currentMonth}-${currentDay}`
-    } else if (part === 'month') {
-      updatedBirthdate = `${currentYear}-${value}-${currentDay}`
-    } else if (part === 'day') {
-      updatedBirthdate = `${currentYear}-${currentMonth}-${value}`
-    }
-
-    setFormData({
-      ...formData,
-      birthAt: updatedBirthdate,
-    })
   }
 
   const renderYearOptions = () => {
@@ -309,7 +197,7 @@ const SignupPage = () => {
               <button
                 type="button"
                 className={cx('userNameBtn')}
-                onClick={handleGenerateuserName}
+                onClick={handleGenerateUserName}
               >
                 랜덤 생성
               </button>
