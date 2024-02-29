@@ -40,16 +40,13 @@ const SignupPage = () => {
     handleSelectAgreeAll,
     handleSelectTerm,
   } = useTermsAgreement({
-    initialTerms: { term1: false, term2: false, term3: false, term4: false },
+    initialTerms: { term1: false, term2: false, term3: false },
   })
 
   const isSubmitButtonDisabled =
     Object.values(formData).some(
       (value) => typeof value === 'string' && value.trim().length === 0,
-    ) ||
-    !termsAgreed.term1 ||
-    !termsAgreed.term2 ||
-    !termsAgreed.term3
+    ) || !termsAgreed.term1
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

@@ -4,7 +4,6 @@ export interface TermsState {
   term1: boolean
   term2: boolean
   term3: boolean
-  term4: boolean
   [key: string]: boolean
 }
 
@@ -22,7 +21,6 @@ const useTermsAgreement = ({ initialTerms }: UseTermsAgreementProps) => {
       term1: !selectAllTerms,
       term2: !selectAllTerms,
       term3: !selectAllTerms,
-      term4: !selectAllTerms,
     })
   }
 

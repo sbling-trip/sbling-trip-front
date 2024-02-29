@@ -20,9 +20,9 @@ const TermsAndConditions = ({
   handleSelectTerm,
 }: TermsAndConditionsProps) => {
   const terms = [
-    { key: 'term1', label: '만 14세 이상 이용 동의 (필수)' },
-    { key: 'term2', label: '개인정보 제 3자 제공 동의 (필수)' },
-    { key: 'term3', label: '개인 정보 수집 및 이용 동의 (필수)' },
+    { key: 'term1', label: '서비스 이용 동의 (필수)' },
+    { key: 'term2', label: '마케팅 수신 동의 (선택)' },
+    { key: 'term3', label: '위치 정보 이용 동의 (선택)' },
   ]
 
   return (
