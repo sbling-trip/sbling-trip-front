@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Title from '@components/shared/Title'
 import ErrorMessage from '@components/shared/ErrorMessage'
 import TermsAndConditions from '@components/shared/TermsAndConditions'
+import BirthDateYearOptions from '@components/signup/BirthDateYearOptions'
+import BirthDateMonthOptions from '@components/signup/BirthDateMonthOptions'
+import BirthDateDayOptions from '@components/signup/BirthDateDayOptions'
 
 import useSignupForm from '@components/signup/hooks/useSignupForm'
 import useTermsAgreement from '@hooks/useTermsAgreement'
@@ -89,90 +92,6 @@ const SignupPage = () => {
     }
   }
 
-  const renderYearOptions = () => {
-    const currentYear = new Date().getFullYear()
-    const years = Array.from(
-      { length: currentYear - 1899 },
-      (_, index) => currentYear - index,
-    )
-
-    return (
-      <>
-        <option value="" disabled>
-          년도
-        </option>
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </>
-    )
-  }
-
-  const renderMonthOptions = () => {
-    const currentYear = new Date().getFullYear()
-    const currentMonth = new Date().getMonth() + 1
-
-    const months = Array.from({ length: 12 }, (_, index) => index + 1)
-
-    return (
-      <>
-        <option value="" disabled={!formData.birthAt.slice(5, 7)}>
-          월
-        </option>
-        {months.map((month) => {
-          const isDisabled =
-            formData.birthAt.slice(0, 4) === currentYear.toString() &&
-            month > currentMonth
-
-          return (
-            <option
-              key={month}
-              value={month.toString().padStart(2, '0')}
-              disabled={isDisabled}
-            >
-              {month}
-            </option>
-          )
-        })}
-      </>
-    )
-  }
-
-  const renderDayOptions = () => {
-    const selectedYear = parseInt(formData.birthAt.slice(0, 4), 10)
-    const selectedMonth = parseInt(formData.birthAt.slice(5, 7), 10)
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate()
-    const days = Array.from({ length: daysInMonth }, (_, index) => index + 1)
-
-    const today = new Date()
-    const yesterday = new Date(today)
-    yesterday.setDate(today.getDate() - 1)
-
-    return (
-      <>
-        <option value="" disabled>
-          일
-        </option>
-        {days.map((day) => {
-          const date = new Date(selectedYear, selectedMonth - 1, day)
-          const isDisabled = date > yesterday
-
-          return (
-            <option
-              key={day}
-              value={day.toString().padStart(2, '0')}
-              disabled={isDisabled}
-            >
-              {day}
-            </option>
-          )
-        })}
-      </>
-    )
-  }
-
   return (
     <div className={cx('signupContainer')}>
       <div className={cx('signupInner')}>
@@ -211,19 +130,19 @@ const SignupPage = () => {
                 onChange={handleYearChange}
                 value={formData.birthAt.slice(0, 4)}
               >
-                {renderYearOptions()}
+                <BirthDateYearOptions />
               </select>
               <select
                 onChange={handleMonthChange}
                 value={formData.birthAt.slice(5, 7)}
               >
-                {renderMonthOptions()}
+                <BirthDateMonthOptions formData={formData} />
               </select>
               <select
                 onChange={handleDayChange}
                 value={formData.birthAt.slice(8)}
               >
-                {renderDayOptions()}
+                <BirthDateDayOptions formData={formData} />
               </select>
             </div>
             <ErrorMessage error={error.birthAt} className={cx('errorMsg')} />
