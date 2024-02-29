@@ -1,4 +1,5 @@
 import ReviewList from '@components/stay/review/ReviewList'
+import Pagination from './Pagination'
 import Title from '@components/shared/Title'
 import useReview from '../hooks/useReview'
 
@@ -15,7 +16,16 @@ interface ReviewProps {
 }
 
 const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
-  const { reviews } = useReview(parseInt(staySeq ?? ''))
+  const {
+    reviews,
+    prevPageDisabled,
+    nextPageDisabled,
+    prevPageReviews,
+    nextPageReviews,
+    totalPages,
+    currentPage,
+    handlePageClick,
+  } = useReview(parseInt(staySeq ?? ''))
 
   return (
     <div className={cx('reviewContainer')}>
@@ -34,6 +44,15 @@ const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
         </div>
       </Title>
       <ReviewList reviews={reviews} staySeq={staySeq} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        prevPageDisabled={prevPageDisabled}
+        nextPageDisabled={nextPageDisabled}
+        prevPageReviews={prevPageReviews}
+        nextPageReviews={nextPageReviews}
+        handlePageClick={handlePageClick}
+      />
     </div>
   )
 }

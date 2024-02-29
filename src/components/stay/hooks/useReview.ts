@@ -12,6 +12,8 @@ const PAGE_SIZE = 10
 const useReview = (staySeq: number, initialPage: number = 0) => {
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [totalPages, setTotalPages] = useState<number>(1)
+  const prevPageDisabled = currentPage === initialPage || currentPage <= 4
+  const nextPageDisabled = Math.ceil(currentPage / 5) * 5 >= totalPages
 
   const dispatch = useDispatch()
   const { reviews } = useSelector((state: RootState) => state.review)
@@ -60,6 +62,22 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     await fetchReviews(currentPage)
   }
 
+  const prevPageReviews = async () => {
+    const startPage = Math.max(Math.floor((currentPage - 1) / 5) * 5 + 1, 1)
+    const prevPage = currentPage - 5 >= 1 ? startPage - 6 : 0
+    await fetchReviews(prevPage)
+  }
+
+  const nextPageReviews = async () => {
+    const startPage = Math.max(Math.floor((currentPage - 1) / 5) * 5 + 1, 1)
+    const nextPage = Math.min(startPage + 4, totalPages)
+    await fetchReviews(nextPage)
+  }
+
+  const handlePageClick = (pageNumber: number) => {
+    fetchReviews(pageNumber - 1)
+  }
+
   useEffect(() => {
     if (staySeq) {
       fetchReviews(currentPage)
@@ -70,6 +88,11 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     fetchReviews,
     fetchDeleteReview,
     fetchEditReview,
+    prevPageReviews,
+    nextPageReviews,
+    handlePageClick,
+    prevPageDisabled,
+    nextPageDisabled,
     reviews,
     currentPage: currentPage + 1,
     totalPages,
