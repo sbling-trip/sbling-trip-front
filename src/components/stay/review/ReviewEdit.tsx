@@ -11,9 +11,17 @@ const cx = classNames.bind(styles)
 
 interface ReviewEditProps {
   review: Review
+  onEdit: (editedReview: Review) => void
+  onClose: () => void
+  onUpdateModifiedAt: () => void
 }
 
-const ReviewEdit = ({ review }: ReviewEditProps) => {
+const ReviewEdit = ({
+  review,
+  onEdit,
+  onClose,
+  onUpdateModifiedAt,
+}: ReviewEditProps) => {
   const [editedReview, setEditedReview] = useState({ ...review })
   const [selectedStars, setSelectedStars] = useState(review.reviewScore - 1)
 
@@ -28,6 +36,11 @@ const ReviewEdit = ({ review }: ReviewEditProps) => {
   const handleStarClick = (index: number) => {
     setSelectedStars(index)
     setEditedReview({ ...editedReview, reviewScore: index + 1 })
+  }
+
+  const handleSubmitReview = () => {
+    onEdit(editedReview)
+    onUpdateModifiedAt()
   }
 
   return (
@@ -70,13 +83,19 @@ const ReviewEdit = ({ review }: ReviewEditProps) => {
               />
             </div>
             <div className={cx('btnWrap')}>
-              <button className={cx('cancelBtn')}>취소</button>
-              <button type="submit" className={cx('submitBtn')}>
+              <button className={cx('cancelBtn')} onClick={onClose}>
+                취소
+              </button>
+              <button
+                type="submit"
+                className={cx('submitBtn')}
+                onClick={handleSubmitReview}
+              >
                 저장하기
               </button>
             </div>
           </div>
-          <button type="button" className={cx('closeBtn')}>
+          <button type="button" className={cx('closeBtn')} onClick={onClose}>
             <IconClose width={20} height={20} />
           </button>
         </div>

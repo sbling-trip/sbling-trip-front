@@ -46,6 +46,20 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     }
   }
 
+  const fetchEditReview = async (
+    reviewSeq: number,
+    reviewTitle: string,
+    reviewContent: string,
+    reviewScore: number,
+  ) => {
+    await apiAxios.put(
+      `/review/update?reviewSeq=${reviewSeq}&reviewTitle=${reviewTitle}&reviewContent=${reviewContent}&reviewScore=${reviewScore}`,
+      {},
+    )
+
+    await fetchReviews(currentPage)
+  }
+
   useEffect(() => {
     if (staySeq) {
       fetchReviews(currentPage)
@@ -55,6 +69,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
   return {
     fetchReviews,
     fetchDeleteReview,
+    fetchEditReview,
     reviews,
     currentPage: currentPage + 1,
     totalPages,

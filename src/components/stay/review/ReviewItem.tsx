@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReviewEdit from './ReviewEdit'
 import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
 import useReview from '../hooks/useReview'
@@ -29,7 +30,10 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
   } = review
   const [showAll, setShowAll] = useState<boolean>(false)
   const [isReviewUpdated, setIsReviewUpdated] = useState<boolean>(false)
-  const { fetchDeleteReview } = useReview(parseInt(staySeq, 10))
+  const [showEditModal, setShowEditModal] = useState<boolean>(false)
+  const { fetchDeleteReview, fetchEditReview } = useReview(
+    parseInt(staySeq, 10),
+  )
 
   const handleShowAllClick = () => {
     setShowAll((prev) => !prev)
@@ -41,6 +45,26 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
     } catch (error) {
       console.error('Error deleting review:', error)
     }
+  }
+
+  const handleEditReview = (editedReview: Review) => {
+    fetchEditReview(
+      editedReview.reviewSeq,
+      editedReview.reviewTitle,
+      editedReview.reviewContent,
+      editedReview.reviewScore,
+    ).then(() => {
+      setShowEditModal(false)
+      handleUpdateModifiedAt()
+    })
+  }
+
+  const handleCloseEdit = () => {
+    setShowEditModal(false)
+  }
+
+  const handleUpdateModifiedAt = () => {
+    setIsReviewUpdated(true)
   }
 
   const integerPart = Math.floor(reviewScore)
@@ -87,9 +111,21 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
             </div>
           </div>
           <div className={cx('bottom')}>
-            <button type="button" className={cx('btn', 'edit')}>
+            <button
+              type="button"
+              className={cx('btn', 'edit')}
+              onClick={() => setShowEditModal(true)}
+            >
               수정
             </button>
+            {showEditModal && (
+              <ReviewEdit
+                review={review}
+                onEdit={handleEditReview}
+                onClose={handleCloseEdit}
+                onUpdateModifiedAt={handleUpdateModifiedAt}
+              />
+            )}
             <button
               type="button"
               className={cx('btn', 'delete')}
