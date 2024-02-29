@@ -1,3 +1,4 @@
+import ReviewAdd from '@components/stay/review/ReviewAdd'
 import ReviewList from '@components/stay/review/ReviewList'
 import Pagination from './Pagination'
 import Title from '@components/shared/Title'
@@ -43,6 +44,7 @@ const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
           </span>
         </div>
       </Title>
+      <ReviewAdd />
       <ReviewList reviews={reviews} staySeq={staySeq} />
       <Pagination
         currentPage={currentPage}
