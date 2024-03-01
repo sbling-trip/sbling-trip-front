@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import ListRow from '@components/shared/ListRow'
 import IconButton from '@components/shared/IconButton'
+import { useAlertContext } from '@hooks/useAlertContext'
 import { Wish } from '@models/wish'
 
 import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
@@ -17,10 +18,17 @@ interface WishItemProps {
 
 const WishItem = ({ wish, toggleWish }: WishItemProps) => {
   const { staySeq, stayName, wishState, address } = wish
+  const { openAlert } = useAlertContext()
 
   const handleToggleWish = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    toggleWish(staySeq, !!wishState)
+    openAlert({
+      title: '찜을 해제하시겠습니까?',
+      onConfirmClick: () => {
+        toggleWish(staySeq, !!wishState)
+      },
+      onCancelClick: () => {},
+    })
   }
 
   return (
