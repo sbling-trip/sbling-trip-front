@@ -1,0 +1,24 @@
+@import 'src/styles/mixins';
+
+.myContainer {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1200px;
+
+  .inner {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin-top: 40px;
+
+    .leftSide {
+      position: relative;
+      margin-left: 40px;
+    }
+
+    .mainContents {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+}
