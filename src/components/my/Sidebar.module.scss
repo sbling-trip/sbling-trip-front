@@ -1,0 +1,40 @@
+@import 'src/styles/mixins';
+
+.sidebar {
+  position: sticky;
+  top: 140px;
+  width: 280px;
+  border-radius: 10px;
+  border: 1px solid var(--gray100);
+  background-color: var(--white);
+}
+
+.menuItem {
+  height: 60px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--gray100);
+  transition: transform 0.5s;
+  font-weight: 500;
+  @include t5;
+
+  &:hover {
+    color: var(--gray100);
+  }
+}
+
+.menuItem:last-of-type {
+  border-bottom: none;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: inherit;
+}
+
+.selected {
+  font-weight: 700;
+  color: var(--blue500);
+  fill: var(--blue500);
+}

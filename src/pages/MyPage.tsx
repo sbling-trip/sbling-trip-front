@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import Sidebar from '@components/my/Sidebar'
 
 import classNames from 'classnames/bind'
 import styles from './MyPage.module.scss'
@@ -14,7 +15,7 @@ const MyPage = () => {
         {isMyPage && (
           <>
             <div className={cx('leftSide')}>
-              <aside>사이드바</aside>
+              <Sidebar />
             </div>
             <div className={cx('mainContents')}>
               <Outlet />
