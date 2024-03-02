@@ -1,5 +1,9 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import useTermsAgreement from '@hooks/useTermsAgreement'
+import { useAlertContext } from '@hooks/useAlertContext'
 import updateBirthdate from '@utils/updateBirthdate'
+import authAxios from '@api/authAxios'
 
 const useSignupForm = () => {
   const initialFormState = {
@@ -10,6 +14,56 @@ const useSignupForm = () => {
 
   const [formData, setFormData] = useState(initialFormState)
   const [error, setError] = useState(initialFormState)
+
+  const location = useLocation()
+  const locationState = location.state as { providerToken: string }
+
+  const { openAlert } = useAlertContext()
+  const { termsAgreed } = useTermsAgreement({
+    initialTerms: { term1: false, term2: false, term3: false },
+  })
+
+  const handleConfirmClick = () => {
+    setTimeout(() => {
+      window.location.href = '/'
+    }, 100)
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      const requestData = {
+        agree: {
+          marketing: termsAgreed.term1,
+          location: termsAgreed.term2,
+          service: termsAgreed.term3,
+        },
+        birthAt: new Date(formData.birthAt).toISOString(),
+        gender: formData.gender,
+        userName: formData.userName,
+        providerToken: locationState.providerToken,
+      }
+
+      const { data } = await authAxios.post(
+        '/account/sign-in/google',
+        requestData,
+      )
+
+      if (data.accessToken) {
+        localStorage.setItem('access_token', data.accessToken)
+      } else {
+        console.error('서버 응답에서 액세스 토큰이 없습니다.')
+      }
+
+      openAlert({
+        title: '회원가입이 완료되었습니다.',
+        onConfirmClick: handleConfirmClick,
+      })
+    } catch (error) {
+      console.error('Signup failed', error)
+    }
+  }
 
   const validateField = (name: string, value: string): string => {
     if (value.trim() === '') {
@@ -113,6 +167,7 @@ const useSignupForm = () => {
   return {
     formData,
     error,
+    handleSubmit,
     handleChange,
     handleGenerateUserName,
     handleYearChange,
