@@ -4,7 +4,6 @@ import useAuth from '@auth/useAuth'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import IconUser from '@assets/icon/icon-user.svg?react'
-
 import classNames from 'classnames/bind'
 import styles from './Navbar.module.scss'
 
@@ -18,7 +17,7 @@ const Navbar = () => {
   const location = useLocation()
   const isLoginOrSignupPage = ['/login', '/signup'].includes(location.pathname)
 
-  const { loggedIn, handleLogout } = useAuth()
+  const { user, handleLogout } = useAuth()
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -42,7 +41,7 @@ const Navbar = () => {
   )
 
   const renderUserButton = useCallback(() => {
-    if (loggedIn) {
+    if (user) {
       return (
         <div className={cx('user')}>
           <Link to="/my">
@@ -62,7 +61,7 @@ const Navbar = () => {
     }
 
     return null
-  }, [handleLogout, isLoginOrSignupPage, loggedIn])
+  }, [handleLogout, isLoginOrSignupPage, user])
 
   return (
     <>
