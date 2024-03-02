@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import ReviewEdit from './ReviewEdit'
 import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
 import useReview from '../hooks/useReview'
+import { RootState } from '@redux/store'
 import { Review } from '@models/review'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
@@ -29,11 +31,14 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
     modifiedAt,
   } = review
   const [showAll, setShowAll] = useState<boolean>(false)
-  const [isReviewUpdated, setIsReviewUpdated] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
+  const [isReviewUpdated, setIsReviewUpdated] = useState<boolean>(false)
   const { fetchDeleteReview, fetchEditReview } = useReview(
     parseInt(staySeq, 10),
   )
+
+  const { user } = useSelector((state: RootState) => state.user)
+  const isReviewCreatedByUser = user && user.userSeq === review.userSeq
 
   const handleShowAllClick = () => {
     setShowAll((prev) => !prev)
@@ -110,30 +115,32 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
               <span className={cx('roominfo')}>{roomName}</span>
             </div>
           </div>
-          <div className={cx('bottom')}>
-            <button
-              type="button"
-              className={cx('btn', 'edit')}
-              onClick={() => setShowEditModal(true)}
-            >
-              수정
-            </button>
-            {showEditModal && (
-              <ReviewEdit
-                review={review}
-                onEdit={handleEditReview}
-                onClose={handleCloseEdit}
-                onUpdateModifiedAt={handleUpdateModifiedAt}
-              />
-            )}
-            <button
-              type="button"
-              className={cx('btn', 'delete')}
-              onClick={handleDelete}
-            >
-              삭제
-            </button>
-          </div>
+          {isReviewCreatedByUser && (
+            <div className={cx('bottom')}>
+              <button
+                type="button"
+                className={cx('btn', 'edit')}
+                onClick={() => setShowEditModal(true)}
+              >
+                수정
+              </button>
+              {showEditModal && (
+                <ReviewEdit
+                  review={review}
+                  onEdit={handleEditReview}
+                  onClose={handleCloseEdit}
+                  onUpdateModifiedAt={handleUpdateModifiedAt}
+                />
+              )}
+              <button
+                type="button"
+                className={cx('btn', 'delete')}
+                onClick={handleDelete}
+              >
+                삭제
+              </button>
+            </div>
+          )}
         </div>
       }
       mainContent={
