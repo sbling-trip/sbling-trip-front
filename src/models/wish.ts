@@ -3,4 +3,5 @@ export interface Wish {
   stayName: string
   address: string
   wishState: boolean
+  roomImageUrlList: string[]
 }

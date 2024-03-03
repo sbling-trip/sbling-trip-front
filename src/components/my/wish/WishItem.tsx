@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import ListRow from '@components/shared/ListRow'
+import Carousel from '@components/shared/Carousel'
 import IconButton from '@components/shared/IconButton'
 import { useAlertContext } from '@hooks/useAlertContext'
 import { Wish } from '@models/wish'
@@ -17,7 +18,7 @@ interface WishItemProps {
 }
 
 const WishItem = ({ wish, toggleWish }: WishItemProps) => {
-  const { staySeq, stayName, wishState, address } = wish
+  const { staySeq, stayName, wishState, address, roomImageUrlList } = wish
   const { openAlert } = useAlertContext()
 
   const handleToggleWish = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,11 +40,7 @@ const WishItem = ({ wish, toggleWish }: WishItemProps) => {
           className={cx('wishItemInner')}
           leftContent={
             <div className={cx('leftContent')}>
-              <img
-                src="https://images.unsplash.com/photo-1617596225496-1d9da33a144b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA% 3D %3D"
-                alt={`${stayName} 이미지`}
-                className={cx('leftContentImg')}
-              />
+              <Carousel images={roomImageUrlList} className={cx('carousel')} />
               <div className={cx('wishBtn')}>
                 <IconButton
                   label={wishState ? '찜 취소' : '찜하기'}

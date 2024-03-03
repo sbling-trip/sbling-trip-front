@@ -9,16 +9,17 @@
 .wishItemInner {
   display: flex;
   gap: 40px;
-  height: 120px;
 
   .leftContent {
     position: relative;
-    width: 180px;
 
-    .leftContentImg {
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
+    .carousel {
+      width: 240px;
+      height: 140px;
+
+      --swiper-navigation-size: 16px;
+      --swiper-navigation-top-offset: 50%;
+      --swiper-navigation-sides-offset: 15px;
     }
 
     .wishBtn {
