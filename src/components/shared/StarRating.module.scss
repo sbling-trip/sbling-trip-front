@@ -1,0 +1,14 @@
+@import 'src/styles/mixins';
+
+.starRating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  strong,
+  span {
+    font-weight: 700;
+    color: var(--gray800);
+    @include t3;
+  }
+}

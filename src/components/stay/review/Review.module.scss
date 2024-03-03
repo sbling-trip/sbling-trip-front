@@ -23,17 +23,4 @@
     color: var(--gray600);
     @include t3;
   }
-
-  .subTitle {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    strong,
-    span {
-      font-weight: 700;
-      color: var(--gray800);
-      @include t3;
-    }
-  }
 }
