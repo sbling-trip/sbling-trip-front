@@ -20,4 +20,5 @@ export interface Stay {
   contactNumber: string
   homepageUrl: string
   parkingAvailable: boolean
+  minimumRoomPrice: number
 }

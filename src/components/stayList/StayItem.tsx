@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ListRow from '@components/shared/ListRow'
 import IconButton from '@components/shared/IconButton'
+import StarRating from '@components/shared/StarRating'
 
 import { useAlertContext } from '../../hooks/useAlertContext'
 import delimiter from '@utils/delimiter'
@@ -23,11 +24,20 @@ interface StayItemProps {
 const StayItem = ({ stay, toggleWish }: StayItemProps) => {
   const { user } = useSelector((state: RootState) => state.user)
   const { openAlert } = useAlertContext()
-
   const navigate = useNavigate()
 
-  const { staySeq, stayName, formattedAddress, wishState, roomImageUrlList } =
-    stay
+  const {
+    staySeq,
+    stayName,
+    formattedAddress,
+    wishState,
+    roomImageUrlList,
+    minimumRoomPrice,
+    reviewScoreAverage,
+    reviewCount,
+  } = stay
+
+  const mainImageUrl = roomImageUrlList[0]
 
   const handleToggleWish = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -51,14 +61,11 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
           className={cx('stayItemInner')}
           mainContent={
             <div className={cx('mainContent')}>
-              {roomImageUrlList.map((imgUrl, index) => (
-                <img
-                  key={index}
-                  src={imgUrl}
-                  alt={`${stayName} 이미지`}
-                  className={cx('mainContentImg')}
-                />
-              ))}
+              <img
+                src={mainImageUrl}
+                alt={`${stayName} 이미지`}
+                className={cx('mainContentImg')}
+              />
               <div className={cx('wishBtn')}>
                 <IconButton
                   label={wishState ? '찜 취소' : '찜하기'}
@@ -70,25 +77,22 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
           }
           rightContent={
             <div className={cx('rightContent')}>
-              <h3>{stayName}</h3>
-              <span>{formattedAddress}</span>
-              <div className={cx('flexRowContainer')}>
-                <strong className={cx('stayPrice')}>{`${delimiter(
-                  200000,
-                )}원`}</strong>
-                <button
-                  className={cx('reservationBtn')}
-                  onClick={() => {
-                    openAlert({
-                      title: '로그인이 필요합니다.',
-                      onConfirmClick: () => {
-                        navigate('/login')
-                      },
-                    })
-                  }}
-                >
-                  예약하기
-                </button>
+              <div className={cx('top')}>
+                <h3>{stayName}</h3>
+                <span className={cx('address')}>{formattedAddress}</span>
+                <div className={cx('starRatingWrap')}>
+                  <StarRating
+                    score={reviewScoreAverage}
+                    count={reviewCount}
+                    className={cx('starRating')}
+                  />
+                </div>
+              </div>
+              <div className={cx('stayPrice')}>
+                <strong className={cx('price')}>
+                  {`${delimiter(minimumRoomPrice)}원`}
+                </strong>
+                <span>/ 1박</span>
               </div>
             </div>
           }
