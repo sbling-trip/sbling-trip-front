@@ -20,28 +20,35 @@
     .mainContentTitle {
       h2 {
         margin-bottom: 14px;
-        font-weight: 500;
+        font-weight: 700;
         @include t4;
-      }
-
-      h3 {
-        margin-bottom: 5px;
-        color: var(--gray800);
-        @include t6;
-      }
-
-      span {
-        display: block;
-        width: 100%;
-        color: var(--gray800);
-        @include t6;
+        color: var(--gray700);
       }
     }
 
-    .price {
-      margin-top: 20px;
-      font-weight: 600;
-      @include t4;
+    .roomInfo {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .roomInfoLIst {
+      margin-left: 15px;
+
+      li {
+        position: relative;
+        margin-bottom: 1px;
+        color: var(--gray600);
+        @include t7;
+
+        &::before {
+          @include pointCircle;
+          top: 6px;
+          left: -12px;
+          width: 6px;
+          height: 6px;
+          background-color: var(--blue100);
+        }
+      }
     }
   }
 
@@ -64,14 +71,52 @@
   }
 
   .rightContent {
-    display: flex;
-    align-items: center;
+    position: relative;
+    padding: 0 10px 20px 30px;
+    border-left: 1px solid var(--blue80);
+
+    .roomDetailBtn {
+      position: absolute;
+      right: 0px;
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      white-space: nowrap;
+      font-weight: 800;
+      @include t7;
+      letter-spacing: -1px;
+      box-shadow: none;
+      color: var(--blue600);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .flexBlock {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 6px;
+      height: 100%;
+      margin-top: 10px;
+    }
 
     .selectBtn {
       border-radius: 6px;
       @include StyledButton(medium, null, success);
       box-shadow: none;
       padding: 6px 10px;
+      @include t7;
+    }
+
+    .price {
+      font-weight: 700;
+      @include t4;
+      color: var(--gray700);
     }
   }
 }

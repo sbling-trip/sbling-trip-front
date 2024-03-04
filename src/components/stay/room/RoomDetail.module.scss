@@ -1,0 +1,141 @@
+@import 'src/styles/mixins';
+
+.roomDetail {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 6px;
+  z-index: 11px;
+
+  width: 100%;
+  max-width: 550px;
+}
+
+.inner {
+  position: relative;
+  max-height: 85%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 20px 30px;
+
+  border-radius: 12px;
+  border: 1px solid var(--gray80);
+  background-color: var(--white);
+
+  .top {
+    position: relative;
+    width: 100%;
+    height: 30px;
+
+    .closeBtn {
+      position: absolute;
+      right: 1px;
+      box-shadow: none;
+    }
+  }
+
+  .main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow-y: auto;
+
+    .detailBody {
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      padding-bottom: 12px;
+    }
+
+    .mainTitle {
+      margin-bottom: 12px;
+
+      h2 {
+        @include t2;
+        font-weight: 700;
+        color: var(--gray800);
+      }
+    }
+
+    .subTitle {
+      margin-bottom: 12px;
+
+      h3 {
+        @include t5;
+        font-weight: 700;
+        color: var(--gray800);
+      }
+    }
+
+    .container {
+      display: grid;
+      gap: 16px;
+
+      padding: 16px 0;
+      border-radius: 8px;
+      word-break: keep-all;
+
+      ul {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0px, 1fr));
+
+        li {
+          position: relative;
+          margin-left: 3px;
+          margin-top: 2px;
+          margin-bottom: 8px;
+          padding-left: 13px;
+
+          color: var(--gray600);
+          @include t6;
+
+          &::before {
+            @include pointCircle;
+            top: 6px;
+            left: -2px;
+            width: 7px;
+            height: 7px;
+            background-color: var(--gray200);
+          }
+        }
+
+        .item {
+          position: relative;
+          padding-left: 3px;
+          padding-right: 5px;
+
+          &:not(:last-child)::after {
+            content: ',';
+            position: absolute;
+            bottom: -3px;
+            right: 0;
+          }
+        }
+      }
+
+      p {
+        position: relative;
+        margin-left: 3px;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        padding-left: 13px;
+
+        color: var(--gray600);
+        @include t6;
+
+        &::before {
+          @include pointCircle;
+          top: 6px;
+          left: -2px;
+          width: 7px;
+          height: 7px;
+          background-color: var(--gray200);
+        }
+      }
+    }
+  }
+}

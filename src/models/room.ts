@@ -7,9 +7,13 @@ export interface Room {
   roomType: number
   roomPrice: number
   roomAvailableCount: number
-  roomImageUrlList: [string]
-  ottService: [string]
-  toiletOption: [string]
-  roomOption: [string]
-  specialRoomOption: [string]
+  roomImageUrlList: string[]
+  ottService: string[]
+  toiletOption: string[]
+  roomOption: string[]
+  specialRoomOption: string[]
+  minPeople: number
+  maxPeople: number
+  additionalCharge: number
+  childAdditionalCharge: number
 }
