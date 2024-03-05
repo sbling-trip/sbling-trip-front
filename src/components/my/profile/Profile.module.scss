@@ -17,28 +17,6 @@
     margin-bottom: 50px;
     text-align: center;
 
-    .profileImg {
-      position: relative;
-
-      img {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-
-      input[type='file'] {
-        position: absolute;
-        top: -15px;
-        right: 43%;
-        width: 100px;
-        height: 90px;
-        opacity: 0;
-        cursor: pointer;
-      }
-    }
-
     .editBtnWrap {
       position: absolute;
       top: 10px;
@@ -60,7 +38,7 @@
     color: var(--gray700);
     @include t6;
 
-    .rowBlock {
+    .infoItem {
       min-height: 40px;
       margin-bottom: 10px;
 
@@ -94,25 +72,20 @@
         border: solid 1px var(--gray200);
         background-color: var(--blue50);
       }
-
-      span {
-        margin-right: 5px;
-      }
     }
 
-    .terms {
+    .termsAgreement {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
 
-    .flexBlock {
-      display: flex;
+      .flexBlock {
+        display: flex;
+      }
 
       span {
-        display: inline-block;
-        width: 120px;
+        width: 140px;
       }
     }
 

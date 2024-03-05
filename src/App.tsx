@@ -9,7 +9,7 @@ import SignupPage from '@pages/SignupPage'
 import AuthCallbackPage from '@pages/AuthCallbackPage'
 
 import WishList from '@components/my/wish/WishList'
-import Profile from '@components/my/Profile'
+import Profile from '@components/my/profile/Profile'
 
 import ScrollToTop from '@components/shared/ScrollToTop'
 import Navbar from '@components/shared/Navbar'

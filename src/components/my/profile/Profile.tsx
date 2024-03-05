@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
+import ProfileImage from './ProfileImage'
 import useUserInfo from '@auth/useUserInfo'
 import { useAlertContext } from '@hooks/useAlertContext'
 
-import IconUser from '@assets/icon/icon-userProfile.svg?react'
 import classNames from 'classnames/bind'
 import styles from './Profile.module.scss'
 
@@ -16,7 +16,6 @@ const Profile = () => {
     userEmail,
     gender,
     birthAt,
-    image,
     locationAgree,
     marketingAgree,
   } = user || {}
@@ -72,21 +71,7 @@ const Profile = () => {
       <form onSubmit={handleSubmit}>
         <div className={cx('profileCard')}>
           <div className={cx('topContent')}>
-            <div className={cx('profileImg')}>
-              {image ? (
-                <img src={image} alt="" />
-              ) : (
-                <IconUser
-                  width={70}
-                  height={70}
-                  fill="var(--gray600)"
-                  className={cx('iconUser')}
-                />
-              )}
-              {isEditing && (
-                <input type="file" accept="image/*" name="" id="" />
-              )}
-            </div>
+            <ProfileImage user={user} isEditing={isEditing} />
             <div className={cx('editBtnWrap')}>
               {!isEditing && (
                 <button
@@ -100,7 +85,7 @@ const Profile = () => {
             </div>
           </div>
           <div className={cx('mainContent')}>
-            <div className={cx('rowBlock')}>
+            <div className={cx('infoItem')}>
               <div className={cx('title')}>
                 <h4 className={cx('edit')}>닉네임</h4>
               </div>
@@ -118,7 +103,7 @@ const Profile = () => {
                 )}
               </div>
             </div>
-            <div className={cx('rowBlock')}>
+            <div className={cx('infoItem')}>
               <div className={cx('title')}>
                 <h4>이메일</h4>
               </div>
@@ -126,7 +111,7 @@ const Profile = () => {
                 <span>{userEmail}</span>
               </div>
             </div>
-            <div className={cx('rowBlock')}>
+            <div className={cx('infoItem')}>
               <div className={cx('title')}>
                 <h4>생년월일</h4>
               </div>
@@ -136,7 +121,7 @@ const Profile = () => {
                 <span>{`${birthAt?.slice(8, 10)}일`}</span>
               </div>
             </div>
-            <div className={cx('rowBlock')}>
+            <div className={cx('infoItem')}>
               <div className={cx('title')}>
                 <h4>성별</h4>
               </div>
@@ -144,11 +129,11 @@ const Profile = () => {
                 <span>{gender === 'F' ? '여성' : '남성'}</span>
               </div>
             </div>
-            <div className={cx('rowBlock')}>
+            <div className={cx('infoItem')}>
               <div className={cx('title')}>
                 <h4 className={cx('edit')}>약관 동의</h4>
               </div>
-              <div className={cx('terms')}>
+              <div className={cx('termsAgreement')}>
                 <div className={cx('flexBlock')}>
                   <span>마케팅</span>
                   <div className={cx('selectRadio')}>
@@ -230,7 +215,6 @@ const Profile = () => {
           )}
         </div>
       </form>
-
       <hr />
     </div>
   )
