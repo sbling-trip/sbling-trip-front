@@ -12,7 +12,6 @@ import { User } from '@models/user'
 const useUserInfo = () => {
   const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.user)
-
   const { openAlert } = useAlertContext()
 
   const handleConfirmClick = () => {
@@ -45,6 +44,19 @@ const useUserInfo = () => {
     }
   }
 
+  const fetchUpdateUserInfo = async (updatedUserData: Partial<User>) => {
+    try {
+      const { data } = await apiAxios.put<ItemApiResponse<User>>(
+        '/user/update',
+        updatedUserData,
+      )
+      dispatch(setUser(data.result))
+      await fetchUserInfo()
+    } catch (error) {
+      console.error('Failed to update user data:', error)
+    }
+  }
+
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('access_token')
 
@@ -62,7 +74,7 @@ const useUserInfo = () => {
     }
   }, [])
 
-  return { user, fetchUserInfo }
+  return { user, fetchUserInfo, fetchUpdateUserInfo }
 }
 
 export default useUserInfo
