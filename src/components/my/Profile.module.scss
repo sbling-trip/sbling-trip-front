@@ -1,0 +1,183 @@
+@import 'src/styles/mixins';
+
+.profileContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 30px;
+  position: relative;
+
+  .topContent {
+    margin-bottom: 50px;
+    text-align: center;
+
+    .profileImg {
+      position: relative;
+
+      img {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      input[type='file'] {
+        position: absolute;
+        top: -15px;
+        right: 43%;
+        width: 100px;
+        height: 90px;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    .editBtnWrap {
+      position: absolute;
+      top: 10px;
+      right: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .editBtn {
+      border-radius: 6px;
+      @include StyledButton(small, null, success);
+      padding: 8px;
+    }
+  }
+
+  .mainContent {
+    margin-bottom: 20px;
+    color: var(--gray700);
+    @include t6;
+
+    .rowBlock {
+      min-height: 40px;
+      margin-bottom: 10px;
+
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+
+      .title {
+        position: relative;
+        font-weight: 600;
+        width: 130px;
+        padding-left: 12px;
+      }
+
+      .edit::after {
+        @include pointCircle;
+      }
+    }
+
+    .textWrap {
+      width: 100%;
+
+      input {
+        width: 100%;
+        height: 40px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        padding: 0 10px;
+        font-weight: 500;
+        border-radius: 4px;
+        border: solid 1px var(--gray200);
+        background-color: var(--blue50);
+      }
+
+      span {
+        margin-right: 5px;
+      }
+    }
+
+    .terms {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .flexBlock {
+      display: flex;
+
+      span {
+        display: inline-block;
+        width: 120px;
+      }
+    }
+
+    .selectRadio {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+
+      input[type='radio'] {
+        position: absolute;
+        opacity: 0;
+
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1px solid var(--gray100);
+        background-color: var(--white);
+
+        &:checked + label::before {
+          content: '';
+          border-width: 5px;
+          border-color: var(--blue400);
+          background-color: var(--white);
+        }
+      }
+
+      label {
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          border: 2px solid var(--gray300);
+          background-color: var(--white);
+        }
+      }
+    }
+  }
+
+  .bottom {
+    width: 100%;
+    padding-bottom: 15px;
+
+    .btn {
+      border-radius: 6px;
+      @include StyledButton(small, null, success);
+      width: 100%;
+      padding: 8px 12px;
+      @include t6;
+
+      &__width50 {
+        width: 50%;
+        display: inline-block;
+        padding: 0 8px;
+      }
+    }
+  }
+}

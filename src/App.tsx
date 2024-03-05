@@ -9,6 +9,8 @@ import SignupPage from '@pages/SignupPage'
 import AuthCallbackPage from '@pages/AuthCallbackPage'
 
 import WishList from '@components/my/wish/WishList'
+import Profile from '@components/my/Profile'
+
 import ScrollToTop from '@components/shared/ScrollToTop'
 import Navbar from '@components/shared/Navbar'
 
@@ -25,6 +27,7 @@ function App() {
 
         <Route path="/my" element={<MyPage />}>
           <Route path="wish" element={<WishList />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />
