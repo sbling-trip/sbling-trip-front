@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ProfileImage from './ProfileImage'
+import ProfileInfoItem from './ProfileInfoItem'
 import useUserInfo from '@auth/useUserInfo'
 import { useAlertContext } from '@hooks/useAlertContext'
 
@@ -97,13 +98,10 @@ const Profile = () => {
             </div>
           </div>
           <div className={cx('mainContent')}>
-            <div className={cx('infoItem')}>
-              <div className={cx('title')}>
-                <h4 className={cx('edit')}>닉네임</h4>
-              </div>
-              <div className={cx('infoContents')}>
-                {!isEditing && <span>{updatedUserName}</span>}
-                {isEditing && (
+            <ProfileInfoItem
+              title="닉네임"
+              content={
+                isEditing ? (
                   <input
                     type="text"
                     name="userName"
@@ -112,41 +110,32 @@ const Profile = () => {
                     disabled={!isEditing}
                     onChange={handleUserNameChange}
                   />
-                )}
-              </div>
-            </div>
-            <div className={cx('infoItem')}>
-              <div className={cx('title')}>
-                <h4>이메일</h4>
-              </div>
-              <div className={cx('infoContents')}>
-                <span>{initialUserEmail}</span>
-              </div>
-            </div>
-            <div className={cx('infoItem')}>
-              <div className={cx('title')}>
-                <h4>생년월일</h4>
-              </div>
-              <div className={cx('infoContents')}>
-                <span>{`${initialBirthAt?.slice(0, 4)}년`}</span>
-                <span>{`${initialBirthAt?.slice(5, 7)}월`}</span>
-                <span>{`${initialBirthAt?.slice(8, 10)}일`}</span>
-              </div>
-            </div>
-            <div className={cx('infoItem')}>
-              <div className={cx('title')}>
-                <h4>성별</h4>
-              </div>
-              <div className={cx('infoContents')}>
-                <span>{initialGender === 'F' ? '여성' : '남성'}</span>
-              </div>
-            </div>
-            <div className={cx('infoItem')}>
-              <div className={cx('title')}>
-                <h4 className={cx('edit')}>약관 동의</h4>
-              </div>
-              <div className={cx('infoContents')}>
-                <div className={cx('termsAgreement')}>
+                ) : (
+                  updatedUserName
+                )
+              }
+            />
+            <ProfileInfoItem title="이메일" content={initialUserEmail || ''} />
+            <ProfileInfoItem
+              title="생년월일"
+              content={`${initialBirthAt?.slice(
+                0,
+                4,
+              )}년 ${initialBirthAt?.slice(5, 7)}월 ${initialBirthAt?.slice(
+                8,
+                10,
+              )}일`}
+            />
+            <ProfileInfoItem
+              title="성별"
+              content={initialGender === 'F' ? '여성' : '남성'}
+            />
+            <ProfileInfoItem
+              title="약관 동의"
+              as="div"
+              className={cx('termsAgreement')}
+              content={
+                <div>
                   <div className={cx('item')}>
                     <span>마케팅</span>
                     <div className={cx('selectRadio')}>
@@ -208,8 +197,8 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              }
+            />
             {isEditing && (
               <div className={cx('bottom')}>
                 <div className={cx('btn__width50')}>
@@ -235,5 +224,4 @@ const Profile = () => {
     </div>
   )
 }
-
 export default Profile
