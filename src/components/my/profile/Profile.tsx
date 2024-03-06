@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import ProfileImage from './ProfileImage'
 import ProfileInfoItem from './ProfileInfoItem'
+import TermsAgreementItem from './TermsAgreementItem'
 import useUserInfo from '@auth/useUserInfo'
 import { useAlertContext } from '@hooks/useAlertContext'
 
@@ -135,93 +136,72 @@ const Profile = () => {
               as="div"
               className={cx('termsAgreement')}
               content={
-                <div>
+                <>
                   <div className={cx('item')}>
                     <span>마케팅</span>
-                    <div className={cx('selectRadio')}>
-                      <input
-                        type="radio"
-                        name="marketingAgree"
-                        id="marketingAgree"
-                        disabled={!isEditing}
-                        checked={updatedMarketingAgree}
-                        onChange={() =>
-                          setUpdatedMarketingAgree(!updatedMarketingAgree)
-                        }
-                      />
-                      <label htmlFor="marketingAgree">동의</label>
-                    </div>
-                    <div className={cx('selectRadio')}>
-                      <input
-                        type="radio"
-                        name="marketingAgree"
-                        id="marketingDisagree"
-                        disabled={!isEditing}
-                        checked={!updatedMarketingAgree}
-                        onChange={() =>
-                          setUpdatedMarketingAgree(!updatedMarketingAgree)
-                        }
-                      />
-                      <label htmlFor="marketingDisagree">동의 안함</label>
-                    </div>
+                    <TermsAgreementItem
+                      label="동의"
+                      name="marketingAgree"
+                      checked={updatedMarketingAgree}
+                      onChange={() =>
+                        setUpdatedMarketingAgree(!updatedMarketingAgree)
+                      }
+                    />
+                    <TermsAgreementItem
+                      label="동의 안함"
+                      name="marketingAgree"
+                      checked={!updatedMarketingAgree}
+                      onChange={() =>
+                        setUpdatedMarketingAgree(!updatedMarketingAgree)
+                      }
+                    />
                   </div>
                   <div className={cx('item')}>
                     <span>위치 정보 이용</span>
-                    <div className={cx('item')}>
-                      <div className={cx('selectRadio')}>
-                        <input
-                          type="radio"
-                          name="locationAgree"
-                          id="locationAgree"
-                          disabled={!isEditing}
-                          checked={updatedLocationAgree}
-                          onChange={() =>
-                            setUpdatedLocationAgree(!updatedLocationAgree)
-                          }
-                        />
-                        <label htmlFor="locationAgree">동의</label>
-                      </div>
-                      <div className={cx('selectRadio')}>
-                        <input
-                          type="radio"
-                          name="locationAgree"
-                          id="locationDisagree"
-                          disabled={!isEditing}
-                          checked={!updatedLocationAgree}
-                          onChange={() =>
-                            setUpdatedLocationAgree(!updatedLocationAgree)
-                          }
-                        />
-                        <label htmlFor="locationDisagree">동의 안함</label>
-                      </div>
-                    </div>
+                    <TermsAgreementItem
+                      label="동의"
+                      name="locationAgree"
+                      checked={updatedLocationAgree}
+                      onChange={() =>
+                        setUpdatedLocationAgree(!updatedLocationAgree)
+                      }
+                    />
+                    <TermsAgreementItem
+                      label="동의 안함"
+                      name="locationAgree"
+                      checked={!updatedLocationAgree}
+                      onChange={() =>
+                        setUpdatedLocationAgree(!updatedLocationAgree)
+                      }
+                    />
                   </div>
-                </div>
+                </>
               }
             />
-            {isEditing && (
-              <div className={cx('bottom')}>
-                <div className={cx('btn__width50')}>
-                  <button
-                    type="button"
-                    className={cx('btn')}
-                    onClick={handleCancelEdit}
-                  >
-                    취소
-                  </button>
-                </div>
-                <div className={cx('btn__width50')}>
-                  <button type="submit" className={cx('btn')}>
-                    저장
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
+          {isEditing && (
+            <div className={cx('bottom')}>
+              <div className={cx('btn__width50')}>
+                <button
+                  type="button"
+                  className={cx('btn')}
+                  onClick={handleCancelEdit}
+                >
+                  취소
+                </button>
+              </div>
+              <div className={cx('btn__width50')}>
+                <button type="submit" className={cx('btn')}>
+                  저장
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </form>
       <hr />
     </div>
   )
 }
+
 export default Profile
