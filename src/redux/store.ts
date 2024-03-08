@@ -4,6 +4,7 @@ import userSlice from './userSlice'
 import dateSlice from './dateSlice'
 import roomSlice from './roomSlice'
 import reviewSlice from './reviewSlice'
+import pointSlice from './pointSlice'
 
 const reduxStore = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const reduxStore = configureStore({
     date: dateSlice,
     room: roomSlice,
     review: reviewSlice,
+    point: pointSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -22,6 +24,7 @@ const reduxStore = configureStore({
           'date.date',
           'room.room',
           'review.review',
+          'point.point',
         ],
       },
     }),
