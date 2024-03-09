@@ -1,0 +1,53 @@
+@import 'src/styles/mixins';
+
+.stayTypeMenu {
+  display: flex;
+  width: 100%;
+  padding-bottom: 12px;
+
+  .tablist {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior: none;
+    gap: 6px 8px;
+    flex-wrap: nowrap;
+  }
+
+  li {
+    height: 35px;
+    max-width: 210px;
+    padding: 10px 16px;
+
+    flex: 0 0 auto;
+    align-items: center;
+    display: block;
+
+    border-radius: 999px;
+    border-width: 1.5px;
+    background-color: var(--gray50);
+    background-color: var(--white);
+    border: 1px solid var(--gray80);
+    @include t7;
+    line-height: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:focus,
+    &:active {
+      background-color: var(--blue400);
+      color: var(--white);
+    }
+  }
+
+  li:first-child:focus,
+  li:first-child:active {
+    background-color: var(--blue400);
+    color: var(--white);
+  }
+
+  .active {
+    background-color: var(--blue400);
+    color: var(--white);
+  }
+}
