@@ -1,0 +1,75 @@
+@import 'src/styles/mixins';
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+
+  .stayTitle {
+    width: 100%;
+    padding: 20px 0px 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-weight: bold;
+      @include t3;
+    }
+  }
+
+  .detailInfoContainer {
+    width: 100%;
+    margin: 0 auto;
+
+    .infoSection {
+      display: grid;
+      gap: 16px;
+
+      padding-top: 16px;
+      padding-bottom: 8px;
+      word-break: keep-all;
+      border-radius: 8px;
+
+      .infoTitle {
+        font-weight: 600;
+        color: var(--gray800);
+      }
+    }
+
+    .infoList {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0px, 1fr));
+      margin-top: 10px;
+      color: var(--gray600);
+
+      li {
+        position: relative;
+        margin: 3px 0 8px 3px;
+        padding-left: 14px;
+        word-break: break-all;
+        @include t6;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 9px;
+          left: 0px;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: var(--gray600);
+        }
+      }
+
+      .homepageLink {
+        color: var(--gray600);
+
+        &:hover {
+          color: var(--blue500);
+        }
+      }
+    }
+  }
+}
