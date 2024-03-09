@@ -8,6 +8,8 @@ import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/SignupPage'
 import AuthCallbackPage from '@pages/AuthCallbackPage'
 
+import ReservationList from '@components/my/reservation/ReservationList'
+import Point from '@components/my/Point'
 import WishList from '@components/my/wish/WishList'
 import Profile from '@components/my/profile/Profile'
 
@@ -26,6 +28,8 @@ function App() {
         <Route path="/reservation" element={<ReservationPage />} />
 
         <Route path="/my" element={<MyPage />}>
+          <Route index element={<ReservationList />} />
+          <Route path="point" element={<Point />} />
           <Route path="wish" element={<WishList />} />
           <Route path="profile" element={<Profile />} />
         </Route>

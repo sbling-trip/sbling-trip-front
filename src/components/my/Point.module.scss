@@ -1,0 +1,60 @@
+@import 'src/styles/mixins';
+
+.pointContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+
+  .pointTitle {
+    margin-bottom: 16px;
+
+    h2 {
+      font-weight: 600;
+      @include t2;
+    }
+  }
+}
+
+.myPointBox {
+  padding: 20px 20px 15px;
+  border-radius: 10px;
+  background-color: var(--blue50);
+
+  .myPoints {
+    padding-bottom: 10px;
+
+    h3 {
+      color: var(--blue500);
+      font-weight: 600;
+      @include t5;
+    }
+
+    .point {
+      color: var(--blue500);
+      font-weight: 800;
+      @include t2;
+    }
+  }
+
+  .expireInfo {
+    padding-top: 10px;
+    color: var(--gray600);
+    @include t6;
+
+    .expirePoint {
+      margin-left: 8px;
+      font-weight: 600;
+    }
+  }
+
+  .notice {
+    margin-top: 15px;
+    margin-left: 15px;
+
+    li {
+      list-style: disc;
+      @include t8;
+      color: var(--gray500);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@import 'src/styles/mixins';
+
+.reservationList {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+
+  .reservationTitle {
+    margin-bottom: 16px;
+
+    h2 {
+      font-weight: 600;
+      @include t2;
+    }
+  }
+}
