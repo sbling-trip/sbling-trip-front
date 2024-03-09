@@ -1,0 +1,87 @@
+@import 'src/styles/mixins';
+
+.sectionContainer {
+  margin: 20px 0;
+
+  .sectionTitle {
+    padding: 16px 0;
+
+    h2 {
+      font-weight: 600;
+      @include t3;
+    }
+  }
+
+  .myPoints {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 0 16px;
+  }
+
+  .mainContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span {
+      color: var(--gray700);
+      font-weight: 700;
+      @include t5;
+    }
+
+    strong {
+      color: var(--blue500);
+      font-weight: 700;
+      @include t5;
+    }
+  }
+
+  .rightContent {
+    display: flex;
+    gap: 10px;
+
+    .pointInputBox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 250px;
+      height: 40px;
+      padding: 11p 25px 11px 11px;
+
+      border-radius: 8px;
+      border: 1px solid var(--blue100);
+      background-color: var(--blue50);
+
+      .pointInput {
+        width: 100%;
+        padding: 0 30px;
+        @include t5;
+        color: var(--gray700);
+        text-align: right;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      span {
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        transform: translateY(-50%);
+        color: var(--gray600);
+        font-weight: 500;
+        @include t6;
+      }
+    }
+
+    .pointBtn {
+      padding: 0px 10px;
+      border-radius: 6px;
+      @include StyledButton(small, null, success);
+    }
+  }
+}
