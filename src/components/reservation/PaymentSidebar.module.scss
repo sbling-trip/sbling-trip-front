@@ -1,0 +1,82 @@
+@import 'src/styles/mixins';
+
+.aside {
+  margin-top: 36px;
+  margin-left: 40px;
+  position: relative;
+  width: 350px;
+  top: 0;
+
+  .sidebar {
+    position: sticky;
+    top: 100px;
+    left: 0px;
+
+    border-radius: 8px;
+    background-color: var(--white);
+    border: solid 1px var(--gray100);
+  }
+
+  .inner {
+    width: 350px;
+    padding: 32px 24px;
+  }
+
+  .payment {
+    margin-bottom: 16px;
+
+    .paymentTitle {
+      padding-bottom: 26px;
+
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .paymentInfo {
+      display: flex;
+      flex-direction: column;
+
+      .flexBlock {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+
+        span,
+        strong {
+          font-weight: 500;
+          color: var(--gray800);
+        }
+
+        .totalText {
+          font-weight: 700;
+          color: var(--blue400);
+          @include t5;
+        }
+
+        .totalPrice {
+          font-weight: 900;
+          color: var(--blue400);
+          @include t3;
+        }
+      }
+
+      .total {
+        padding: 20px 0;
+      }
+    }
+  }
+
+  .btnWrap {
+    width: 100%;
+    margin-top: 20px;
+
+    .paymentBtn {
+      width: 100%;
+      border-radius: 10px;
+      @include StyledButton(large, success, null);
+      @include t4;
+    }
+  }
+}
