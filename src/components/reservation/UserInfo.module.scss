@@ -1,0 +1,68 @@
+@import 'src/styles/mixins';
+
+.sectionContainer {
+  margin: 20px 0;
+
+  .sectionTitle {
+    padding: 16px 0;
+
+    h2 {
+      font-weight: 600;
+      @include t3;
+    }
+  }
+
+  .reservationPerson {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 8px 0 16px;
+
+    .rowBlock {
+      max-width: 340px;
+
+      label {
+        display: flex;
+        margin-left: 5px;
+        margin-bottom: 6px;
+
+        color: var(--gray700);
+        font-weight: 600;
+        @include t6;
+      }
+    }
+  }
+
+  .inputWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+    border: 1px solid var(--blue100);
+    background-color: var(--blue50);
+
+    &:focus-within {
+      border-color: var(--blue400);
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 0 14px;
+    @include t5;
+    color: var(--gray700);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .errorMsg {
+    margin-top: 8px;
+    font-weight: 500;
+    color: var(--error);
+  }
+}
