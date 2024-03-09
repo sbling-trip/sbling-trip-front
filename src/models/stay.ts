@@ -22,3 +22,10 @@ export interface Stay {
   parkingAvailable: boolean
   minimumRoomPrice: number
 }
+
+export enum StayType {
+  Motel = 1,
+  Hotel = 2,
+  Pension = 3,
+  GuestHouse = 4,
+}

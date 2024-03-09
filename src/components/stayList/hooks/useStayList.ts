@@ -8,14 +8,14 @@ import { Stay } from '@models/stay'
 
 const useStayList = () => {
   const [currentPage, setCurrentPage] = useState(0)
-
+  const [staysByType, setStaysByType] = useState<{ [key: number]: Stay[] }>({})
   const dispatch = useDispatch()
   const { stays, currentStay } = useSelector((state: RootState) => state.stay)
 
   const formatLocation = (address: string) => {
     const [province, city] = address.split(' ', 2)
     const filteredProvince = province.slice(0, 2)
-    return `${filteredProvince} / ${city}`
+    return `${filteredProvince} ∙ ${city}`
   }
 
   const removeParentheses = (str: string) =>
@@ -45,6 +45,20 @@ const useStayList = () => {
     }
   }
 
+  const fetchStayListByType = async (type: number) => {
+    try {
+      const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+        `/stay/list/recommend/review-rank?stayType=${type}`,
+      )
+      setStaysByType((prevStays) => ({
+        ...prevStays,
+        [type]: formatStays(data.result),
+      }))
+    } catch (error) {
+      console.error('Error fetching stay list by type:', error)
+    }
+  }
+
   const fetchCurrentStay = async (staySeq: number) => {
     try {
       const { data } = await apiAxios.get<ItemApiResponse<Stay>>(
@@ -56,7 +70,7 @@ const useStayList = () => {
     }
   }
 
-  const loadMore = async () => {
+  const fetchLoadMore = async () => {
     try {
       const nextPage = currentPage + 1
       const { data } = await apiAxios.get<ListApiResponse<Stay>>(
@@ -83,6 +97,12 @@ const useStayList = () => {
     }
   }
 
+  const handleStayTypeChange = async (type: number) => {
+    if (!staysByType[type]) {
+      await fetchStayListByType(type)
+    }
+  }
+
   useEffect(() => {
     fetchStayList()
   }, [])
@@ -90,9 +110,11 @@ const useStayList = () => {
   return {
     stays,
     currentStay,
+    staysByType,
     fetchCurrentStay,
-    loadMore,
+    fetchLoadMore,
     toggleWish,
+    handleStayTypeChange,
   }
 }
 
