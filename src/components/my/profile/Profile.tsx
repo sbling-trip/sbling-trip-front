@@ -3,6 +3,7 @@ import ProfileImage from './ProfileImage'
 import ProfileInfoItem from './ProfileInfoItem'
 import TermsAgreementItem from './TermsAgreementItem'
 import useUserInfo from '@auth/useUserInfo'
+import useAuth from '@auth/useAuth'
 import { useAlertContext } from '@hooks/useAlertContext'
 
 import classNames from 'classnames/bind'
@@ -12,6 +13,7 @@ const cx = classNames.bind(styles)
 
 const Profile = () => {
   const { openAlert } = useAlertContext()
+  const { handleSignOut } = useAuth()
   const { user, fetchUpdateUserInfo } = useUserInfo()
   const {
     userName: initialUserName,
@@ -199,6 +201,17 @@ const Profile = () => {
           )}
         </div>
       </form>
+      <hr />
+      <div className={cx('deleteAccount')}>
+        <span>더 이상 Sbling Trip 이용을 원하지 않으시나요? 🥹</span>
+        <button
+          type="button"
+          className={cx('signOutBtn')}
+          onClick={handleSignOut}
+        >
+          회원 탈퇴
+        </button>
+      </div>
       <hr />
     </div>
   )

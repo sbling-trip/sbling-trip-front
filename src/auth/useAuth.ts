@@ -23,12 +23,6 @@ const useAuth = () => {
   const dispatch = useDispatch()
   const { user } = useUserInfo()
 
-  const handleConfirmClick = () => {
-    setTimeout(() => {
-      window.location.href = '/'
-    }, 100)
-  }
-
   const handleGoogleLogin = () => {
     window.location.href = `${
       import.meta.env.VITE_AUTH_SERVER_URL
@@ -113,6 +107,38 @@ const useAuth = () => {
     })
   }
 
+  const fetchSignOut = async () => {
+    try {
+      await authAxios.delete(`/account/sign-out`)
+      localStorage.removeItem('access_token')
+      dispatch(resetUser())
+    } catch (error) {
+      console.error('Error fetching sign out:', error)
+    }
+  }
+
+  const handleSignOut = () => {
+    openAlert({
+      title:
+        '회원을 탈퇴하시면 회원 정보 및 개인 이용 정보가 모두 삭제되며, 복구가 불가합니다.',
+      subTitle: '정말 탈퇴하시겠습니까?',
+      onConfirmClick: async () => {
+        await fetchSignOut()
+        openAlert({
+          title: '회원 탈퇴가 완료 되었습니다.',
+          onConfirmClick: handleConfirmClick,
+        })
+      },
+      onCancelClick: () => {},
+    })
+  }
+
+  const handleConfirmClick = () => {
+    setTimeout(() => {
+      window.location.href = '/'
+    }, 100)
+  }
+
   useEffect(() => {
     if (!user) {
       dispatch(resetUser())
@@ -121,6 +147,8 @@ const useAuth = () => {
 
   return {
     user,
+    fetchSignOut,
+    handleSignOut,
     handleGoogleLogin,
     handleLogout,
     handleLoginStatus,

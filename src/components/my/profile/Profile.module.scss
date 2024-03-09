@@ -154,3 +154,21 @@
     }
   }
 }
+
+.deleteAccount {
+  margin: 25px 0 25px 20px;
+  color: var(--gray400);
+  @include t6;
+
+  .signOutBtn {
+    margin-left: 10px;
+    font-weight: 400;
+    text-decoration: underline;
+    box-shadow: none;
+    color: var(--gray400);
+
+    &:hover {
+      color: var(--gray500);
+    }
+  }
+}
