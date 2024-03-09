@@ -1,11 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
+import SelectedStay from '@components/reservation/SelectedStay'
+import PaymentSidebar from '@components/reservation/PaymentSidebar'
+import PointUsage from '@components/reservation/PointUsage'
+import UserInfo from '@components/reservation/UserInfo'
 import Title from '@components/shared/Title'
-import ListRow from '@components/shared/ListRow'
-import ErrorMessage from '@components/shared/ErrorMessage'
+
 import useStayList from '@components/stayList/hooks/useStayList'
-import delimiter from '@utils/delimiter'
-import { useSelector } from 'react-redux'
+import { useAlertContext } from '@hooks/useAlertContext'
+import useUserPoint from '@auth/useUserPoint'
+
 import { RootState } from '@redux/store'
+import { setCurrentStay } from '@redux/staySlice'
+import { setPoints } from '@redux/pointSlice'
+import { Point } from '@models/point'
 
 import classNames from 'classnames/bind'
 import styles from './ReservationPage.module.scss'
@@ -13,27 +23,47 @@ import styles from './ReservationPage.module.scss'
 const cx = classNames.bind(styles)
 
 const ReservationPage = () => {
-  const [name, setName] = useState<string>('')
-  const [phone, setPhone] = useState<string>('')
-  const [errors, setErrors] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    errors: { name: '', phone: '' },
+    isNameValid: false,
+    isPhoneValid: false,
+    totalPayment: 0,
   })
+  const [inputPoints, setInputPoints] = useState<number>(0)
+  const [usedPoints, setUsedPoints] = useState<number>(0)
 
-  const [isNameValid, setIsNameValid] = useState<boolean>(false)
-  const [isPhoneValid, setIsPhoneValid] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const { openAlert } = useAlertContext()
 
+  const dispatch = useDispatch()
   const { currentStay } = useSelector((state: RootState) => state.stay)
-  const { room } = useSelector((state: RootState) => state.room)
-
   const { stays } = useStayList()
+  const { points, fetchUserPoint } = useUserPoint()
+  const { point } = points ? points : { point: 0 }
 
   const currentStayInfo = stays.find(
     (stay) => stay.staySeq === currentStay?.staySeq,
   )
+  const stayPrice = currentStayInfo?.minimumRoomPrice ?? 0
 
-  const checkInTime = currentStayInfo?.checkInTime || ''
-  const checkOutTime = currentStayInfo?.checkOutTime || ''
+  const handlePaymentButtonClick = () => {
+    const updatedPoint: Point = {
+      userSeq: points!.userSeq,
+      pointSeq: points!.pointSeq,
+      point: point - usedPoints,
+    }
+
+    dispatch(setPoints(updatedPoint))
+
+    openAlert({
+      title: '숙소 예약이 완료되었습니다.',
+      onConfirmClick: () => {
+        navigate('/my')
+      },
+    })
+  }
 
   const validateField = (name: string, value: string) => {
     let errorMessage = ''
@@ -42,33 +72,80 @@ const ReservationPage = () => {
       return ''
     }
 
-    if (name === 'name' && value.length < 2) {
-      errorMessage = '이름을 2글자 이상 입력해주세요.'
-    } else if (name === 'phone' && !/^\d{3}-\d{4}-\d{4}$/.test(value)) {
-      errorMessage = '유효한 휴대폰 번호를 입력해주세요.'
+    switch (name) {
+      case 'name':
+        errorMessage = value.length < 2 ? '이름을 2글자 이상 입력해주세요.' : ''
+        break
+      case 'phone':
+        errorMessage = !/^\d{3}-\d{4}-\d{4}$/.test(value)
+          ? '유효한 휴대폰 번호를 입력해주세요.'
+          : ''
+        break
+      default:
+        break
     }
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMessage,
-    }))
 
     return errorMessage
   }
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newName = e.target.value
-    setName(newName)
-    const errorMessage = validateField('name', newName)
-    setIsNameValid(errorMessage === '')
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
+    const value = e.target.value
+    setFormData({
+      ...formData,
+      [fieldName]: value,
+      errors: {
+        ...formData.errors,
+        [fieldName]: validateField(fieldName, value),
+      },
+    })
   }
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPhone = e.target.value
-    setPhone(newPhone)
-    const errorMessage = validateField('phone', newPhone)
-    setIsPhoneValid(errorMessage === '')
+  const handlePointsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    setInputPoints(Number(input))
+    setUsedPoints(Number(input))
   }
+
+  const handleClickUseAllPoints = () => {
+    if (inputPoints > 0) {
+      setFormData({
+        ...formData,
+      })
+      setUsedPoints(stayPrice)
+    } else {
+      setFormData({
+        ...formData,
+      })
+      setUsedPoints(Math.min(point, stayPrice))
+    }
+  }
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      totalPayment: stayPrice - usedPoints,
+    })
+  }, [usedPoints, stayPrice])
+
+  useEffect(() => {
+    if (currentStayInfo) {
+      setFormData({
+        ...formData,
+        totalPayment: currentStayInfo.minimumRoomPrice,
+      })
+    }
+  }, [currentStayInfo])
+
+  useEffect(() => {
+    dispatch(setCurrentStay(currentStay))
+
+    if (currentStay) {
+      fetchUserPoint()
+    }
+  }, [dispatch, currentStay])
 
   return (
     <main>
@@ -82,159 +159,33 @@ const ReservationPage = () => {
           <hr />
           <div className={cx('contents')}>
             <div className={cx('contentsBody')}>
-              <section className={cx('sectionContainer')}>
-                <Title
-                  title="숙소 정보"
-                  subTitle=""
-                  className={cx('sectionTitle')}
-                />
-                <ListRow
-                  as="div"
-                  className={cx('listRow')}
-                  leftContent={
-                    <div className={cx('leftContent')}>
-                      <img
-                        src="https://images.unsplash.com/photo-1617596225496-1d9da33a144b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA% 3D%3D"
-                        alt="숙소 이미지"
-                      />
-                    </div>
-                  }
-                  mainContent={
-                    <div className={cx('mainContentTitle')}>
-                      <h3>{currentStay?.stayName}</h3>
-                      <div className={cx('schedule')}>
-                        <span>{room?.roomName}</span>
-                        <span>
-                          {`입실: ${checkInTime}, 퇴실: ${checkOutTime}`}
-                        </span>
-                      </div>
-                    </div>
-                  }
-                />
-              </section>
+              <SelectedStay currentStayInfo={currentStayInfo} />
               <hr />
-              <section className={cx('sectionContainer')}>
-                <Title
-                  title="예약자 정보"
-                  subTitle=""
-                  className={cx('sectionTitle')}
-                />
-                <div className={cx('reservationPerson')}>
-                  <div className={cx('rowBlock')}>
-                    <label htmlFor="name">예약자 이름</label>
-                    <div className={cx('inputWrap')}>
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        placeholder="예약자"
-                        autoComplete="off"
-                        value={name}
-                        onChange={handleNameChange}
-                        required
-                      />
-                    </div>
-                    <ErrorMessage
-                      error={errors.name}
-                      className={cx('errorMsg')}
-                    />
-                  </div>
-                  <div className={cx('rowBlock')}>
-                    <label htmlFor="phone">휴대폰 번호</label>
-                    <div className={cx('inputWrap')}>
-                      <input
-                        type="text"
-                        name="phone"
-                        id="phone"
-                        inputMode="tel"
-                        placeholder="010-1234-5678"
-                        autoComplete="off"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        required
-                      />
-                    </div>
-                    <ErrorMessage
-                      error={errors.phone}
-                      className={cx('errorMsg')}
-                    />
-                  </div>
-                </div>
-              </section>
+              <UserInfo
+                formData={formData}
+                handleInputChange={handleInputChange}
+              />
               <hr />
-              <section className={cx('sectionContainer')}>
-                <Title
-                  title="포인트 사용"
-                  subTitle=""
-                  className={cx('sectionTitle')}
-                />
-                <ListRow
-                  as="div"
-                  className={cx('listCol')}
-                  mainContent={
-                    <div className={cx('mainContent')}>
-                      <span>보유 포인트</span>
-                      <strong>{delimiter(100000)}</strong>
-                    </div>
-                  }
-                  rightContent={
-                    <div className={cx('rightContent')}>
-                      <div className={cx('pointInputBox')}>
-                        <input
-                          type="decimal"
-                          min="0"
-                          className={cx('pointInput')}
-                        />
-                        <span>원</span>
-                      </div>
-                      <button type="button" className={cx('pointBtn')}>
-                        모두 사용
-                      </button>
-                    </div>
-                  }
-                />
-              </section>
+              <PointUsage
+                formData={{
+                  point: point,
+                }}
+                usedPoints={usedPoints}
+                handlePointsInputChange={handlePointsInputChange}
+                handleClickUseAllPoints={handleClickUseAllPoints}
+              />
               <hr />
             </div>
-            <aside className={cx('aside')}>
-              <div className={cx('sidebar')}>
-                <div className={cx('inner')}>
-                  <div className={cx('payment')}>
-                    <Title
-                      title="결제 정보"
-                      subTitle=""
-                      className={cx('paymentTitle')}
-                    />
-                    <div className={cx('paymentInfo')}>
-                      <div className={cx('flexBlock')}>
-                        <span>예약 금액</span>
-                        <strong>결제 금액</strong>
-                      </div>
-                      <div className={cx('flexBlock')}>
-                        <span>포인트 사용</span>
-                        <strong>사용한 포인트 금액</strong>
-                      </div>
-                      <hr />
-                      <div className={cx('flexBlock', 'total')}>
-                        <span className={cx('totalText')}>총 결제 금액</span>
-                        <strong className={cx('totalPrice')}>
-                          {delimiter(100000)}
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={cx('btnWrap')}>
-                    <button
-                      type="button"
-                      className={cx('paymentBtn')}
-                      disabled={!isNameValid && isPhoneValid}
-                    >
-                      {`${delimiter(100000)}원 결제하기`}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </aside>
+            <PaymentSidebar
+              formData={{
+                stayPrice,
+                usedPoints: usedPoints,
+                isNameValid: formData.isNameValid,
+                isPhoneValid: formData.isPhoneValid,
+                totalPayment: formData.totalPayment,
+              }}
+              handlePaymentButtonClick={handlePaymentButtonClick}
+            />
           </div>
         </div>
       </div>

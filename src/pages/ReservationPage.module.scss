@@ -196,10 +196,8 @@
           top: 50%;
           right: 14px;
           transform: translateY(-50%);
-          color: rgb(132, 140, 148);
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 1;
+          color: var(--gray500);
+          @include t6;
         }
       }
 
