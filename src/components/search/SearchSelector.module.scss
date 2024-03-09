@@ -7,6 +7,7 @@
   justify-content: center;
   flex: 1;
 
+  width: 370px;
   height: 100%;
   padding: 4px 32px;
   cursor: pointer;
@@ -22,17 +23,11 @@
   }
 
   .selectedResult {
-    width: calc(100% - 10px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: pre-wrap;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-
+    width: calc(100% - 20%);
     color: var(--blue500);
     font-weight: bold;
     @include t4;
+    @include truncate;
 
     &.base {
       color: var(--gray400);
