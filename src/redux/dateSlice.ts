@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface DateState {
-  setDate: {
+  date: {
     checkIn?: string | undefined
     checkOut?: string | undefined
     nights: number
@@ -9,7 +9,7 @@ interface DateState {
 }
 
 const initialState: DateState = {
-  setDate: {
+  date: {
     checkIn: undefined,
     checkOut: undefined,
     nights: 0,
@@ -20,8 +20,8 @@ const dateSlice = createSlice({
   name: 'date',
   initialState,
   reducers: {
-    setDate: (state, action: PayloadAction<DateState['setDate']>) => {
-      state.setDate = action.payload
+    setDate: (state, action: PayloadAction<DateState['date']>) => {
+      state.date = action.payload
     },
     resetDate: () => {
       return initialState
