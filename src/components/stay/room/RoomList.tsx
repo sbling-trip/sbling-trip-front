@@ -1,4 +1,3 @@
-// RoomList.tsx
 import Title from '@components/shared/Title'
 import RoomItem from './RoomItem'
 import useRoomList from '../hooks/useRoomList'
