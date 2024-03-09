@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import IconButton from '@components/shared/IconButton'
 import useShareKakao from '@components/stay/hooks/useShareKakao'
-import { useAlertContext } from '../../hooks/useAlertContext'
+import { useAlertContext } from '../../../hooks/useAlertContext'
 import { RootState } from '@redux/store'
 
 import IconLink from '@assets/icon/icon-link.svg?react'
