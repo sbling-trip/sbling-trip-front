@@ -170,7 +170,14 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
       }
       rightContent={
         reviewImageUrlList.length && (
-          <Carousel images={reviewImageUrlList} className={cx('carousel')} />
+          <Carousel
+            images={reviewImageUrlList}
+            pagination={{
+              type: 'bullets',
+              clickable: true,
+            }}
+            className={cx('carousel')}
+          />
         )
       }
     ></ListRow>

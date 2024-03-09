@@ -36,6 +36,25 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     }
   }
 
+  const fetchAddReview = async (
+    staySeq: number,
+    roomSeq: number,
+    reviewTitle: string,
+    reviewContent: string,
+    reviewScore: number,
+  ) => {
+    try {
+      await apiAxios.post<ListApiResponse<Review>>(
+        `/review/add?staySeq=${staySeq}&roomSeq=${roomSeq}&reviewTitle=${reviewTitle}&reviewContent=${reviewContent}&reviewScore=${reviewScore}`,
+        {},
+      )
+
+      await fetchReviews(currentPage)
+    } catch (error) {
+      console.error('Error adding review:', error)
+    }
+  }
+
   const fetchDeleteReview = async (reviewSeq: number) => {
     try {
       await apiAxios.delete<ListApiResponse<Review>>(
@@ -86,6 +105,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
 
   return {
     fetchReviews,
+    fetchAddReview,
     fetchDeleteReview,
     fetchEditReview,
     prevPageReviews,

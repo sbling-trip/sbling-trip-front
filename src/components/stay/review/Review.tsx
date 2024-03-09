@@ -11,12 +11,18 @@ import styles from './Review.module.scss'
 const cx = classNames.bind(styles)
 
 interface ReviewProps {
+  roomSeq: number
   staySeq: string
   reviewScoreAverage: number
   reviewCount: number
 }
 
-const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
+const Review = ({
+  roomSeq,
+  staySeq,
+  reviewScoreAverage,
+  reviewCount,
+}: ReviewProps) => {
   const {
     reviews,
     prevPageDisabled,
@@ -33,7 +39,7 @@ const Review = ({ staySeq, reviewScoreAverage, reviewCount }: ReviewProps) => {
       <Title title="리뷰" subTitle="" className={cx('reviewTitle')}>
         <StarRating score={reviewScoreAverage} count={reviewCount} />
       </Title>
-      <ReviewAdd />
+      <ReviewAdd roomSeq={roomSeq} staySeq={staySeq} />
       <ReviewList reviews={reviews} staySeq={staySeq} />
       <Pagination
         currentPage={currentPage}
