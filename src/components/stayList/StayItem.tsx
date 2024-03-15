@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import StayItemContents from './StayItemContents'
 import ListRow from '@components/shared/ListRow'
 import IconButton from '@components/shared/IconButton'
+import Carousel from '@components/shared/Carousel'
 
 import { useAlertContext } from '../../hooks/useAlertContext'
 import { RootState } from '@redux/store'
@@ -60,6 +61,16 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
                   label={wishState ? '찜 취소' : '찜하기'}
                   iconComponent={wishState ? IconWishFill : IconWish}
                   onClick={handleToggleWish}
+                />
+              </div>
+              <div className={cx('carouselWrap')}>
+                <Carousel
+                  images={roomImageUrlList}
+                  className={cx('carousel')}
+                  pagination={{
+                    type: 'bullets',
+                    clickable: true,
+                  }}
                 />
               </div>
             </div>

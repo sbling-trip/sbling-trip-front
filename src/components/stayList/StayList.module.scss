@@ -21,3 +21,13 @@
     justify-content: space-between;
   }
 }
+
+@include mobile {
+  .stayListContainer {
+    width: calc(100% - 10%);
+
+    .stayListTitle {
+      margin-bottom: 15px;
+    }
+  }
+}
