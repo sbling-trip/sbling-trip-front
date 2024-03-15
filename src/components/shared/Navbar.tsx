@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useAuth from '@auth/useAuth'
 
+import IconMenu from '@assets/icon/icon-menu.svg?react'
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import IconUser from '@assets/icon/icon-user.svg?react'
 import classNames from 'classnames/bind'
@@ -76,7 +77,7 @@ const Navbar = () => {
             >
               <img
                 src="/src/assets/logo.png"
-                alt="Sibling Trip"
+                alt="Sbling Trip"
                 className={cx('logo')}
               />
             </Link>
@@ -88,6 +89,9 @@ const Navbar = () => {
               </Link>
             </div>
             {renderUserButton()}
+            <button type="button" className={cx('menuIconBtn')}>
+              <IconMenu width={38} height={38} fill="var(--blue400)" />
+            </button>
           </div>
         </nav>
       </header>
