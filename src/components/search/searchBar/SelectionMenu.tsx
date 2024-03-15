@@ -3,11 +3,11 @@ import { forwardRef } from 'react'
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import IconClose from '@assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
-import styles from './SearchSelector.module.scss'
+import styles from './SelectionMenu.module.scss'
 
 const cx = classNames.bind(styles)
 
-interface SearchSelectorProps {
+interface SelectionMenuProps {
   label: string
   isOpen: boolean
   showCloseIcon?: boolean
@@ -18,7 +18,7 @@ interface SearchSelectorProps {
   children?: React.ReactNode
 }
 
-const SearchSelector = forwardRef<HTMLDivElement, SearchSelectorProps>(
+const SelectionMenu = forwardRef<HTMLDivElement, SelectionMenuProps>(
   function Dropdown(
     {
       label,
@@ -64,6 +64,6 @@ const SearchSelector = forwardRef<HTMLDivElement, SearchSelectorProps>(
   },
 )
 
-SearchSelector.displayName = 'SearchSelector'
+SelectionMenu.displayName = 'SelectionMenu'
 
-export default SearchSelector
+export default SelectionMenu

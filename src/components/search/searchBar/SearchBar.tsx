@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SearchSelector from './SearchSelector'
+import SelectionMenu from './SelectionMenu'
 import LocationSearch from './locationSelector/LocationSearch'
 import DatePicker from './dateSelector/DatePicker'
 import CountSelector from './guestSelector/CountSelector'
@@ -173,7 +173,7 @@ const SearchBar = () => {
         <header className={cx('header')}>
           <form onSubmit={handleFormSubmit} className={cx('form')}>
             <div className={cx('contents')}>
-              <SearchSelector
+              <SelectionMenu
                 label="여행지"
                 isOpen={isLocationDropdownOpen}
                 selectedResult={selectedLocation}
@@ -182,9 +182,9 @@ const SearchBar = () => {
                 ref={locationDropdownRef}
               >
                 {renderLocationDropdown()}
-              </SearchSelector>
+              </SelectionMenu>
               <div className={cx('division')}></div>
-              <SearchSelector
+              <SelectionMenu
                 label="일정"
                 isOpen={isDateDropdownOpen}
                 selectedResult={displayedDate}
@@ -194,9 +194,9 @@ const SearchBar = () => {
                 ref={dateDropdownRef}
               >
                 {renderDateDropdown()}
-              </SearchSelector>
+              </SelectionMenu>
               <div className={cx('division')}></div>
-              <SearchSelector
+              <SelectionMenu
                 label="인원"
                 isOpen={isGuestDropdownOpen}
                 showCloseIcon={false}
@@ -205,7 +205,7 @@ const SearchBar = () => {
                 ref={guestDropdownRef}
               >
                 {renderGuestDropdown()}
-              </SearchSelector>
+              </SelectionMenu>
               <div className={cx('btnContainer')}>
                 <button type="submit" className={cx('submitBtn')}>
                   <IconSearch

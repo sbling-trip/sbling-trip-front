@@ -44,3 +44,32 @@
     transform: rotate(90deg);
   }
 }
+
+@include mobile {
+  .container {
+    width: 100%;
+    padding: 15px 34px;
+    background-color: var(--white);
+    border-radius: 50px;
+    margin-bottom: 15px;
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: var(--white);
+    }
+
+    .selectorLabel {
+      @include t7;
+    }
+
+    .selectedResult {
+      color: var(--blue500);
+      font-weight: bold;
+      @include t5;
+
+      &.base {
+        color: var(--gray400);
+      }
+    }
+  }
+}
