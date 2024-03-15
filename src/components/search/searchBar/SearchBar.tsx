@@ -8,6 +8,8 @@ import CountSelector from './guestSelector/CountSelector'
 
 import useDropdown from '@hooks/useDropdown'
 import useDatePicker from '@hooks/useDatePicker'
+import { formatGuestCounts } from '@utils/formatGuestCounts'
+
 import apiAxios from '@api/apiAxios'
 import { ListApiResponse } from '@models/api'
 import { Stay } from '@models/stay'
@@ -108,20 +110,6 @@ const SearchBar = () => {
     }
   }
 
-  const formatGuestCountsString = () => {
-    const parts = []
-
-    if (adultCount > 0) {
-      parts.push(`성인 ${adultCount}명`)
-    }
-
-    if (childCount > 0) {
-      parts.push(`어린이 ${childCount}명`)
-    }
-
-    return parts.join(', ')
-  }
-
   const renderLocationDropdown = () =>
     isLocationDropdownOpen && (
       <LocationSearch
@@ -215,7 +203,7 @@ const SearchBar = () => {
                 label="인원"
                 isOpen={isGuestDropdownOpen}
                 showCloseIcon={false}
-                selectedResult={formatGuestCountsString()}
+                selectedResult={formatGuestCounts(adultCount, childCount)}
                 onToggle={() => handleDropdownToggle('guest')}
                 ref={guestDropdownRef}
               >
