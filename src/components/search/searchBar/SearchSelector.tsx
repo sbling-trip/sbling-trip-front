@@ -1,4 +1,5 @@
 import { forwardRef } from 'react'
+
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import IconClose from '@assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
@@ -47,14 +48,13 @@ const SearchSelector = forwardRef<HTMLDivElement, SearchSelectorProps>(
           <span className={cx('selectedResult', { base: !selectedResult })}>
             {selectedResult || `${label} 선택`}
           </span>
-          {showCloseIcon && selectedResult && (
+          {showCloseIcon && selectedResult ? (
             <IconClose
               width={16}
               height={16}
               onClick={(e) => handleClearIconClick(e)}
             />
-          )}
-          {!selectedResult && (
+          ) : (
             <IconArrow width={20} height={20} className={cx('iconArrow')} />
           )}
         </div>

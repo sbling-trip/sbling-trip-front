@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import SearchSelector from '@components/search/SearchSelector'
-import LocationSearch from '@components/search/LocationSearch'
-import CountSelector from '@components/search/CountSelector'
-import DatePicker from '@components/shared/DatePicker'
+import SearchSelector from './SearchSelector'
+import LocationSearch from './locationSelector/LocationSearch'
+import DatePicker from './dateSelector/DatePicker'
+import CountSelector from './guestSelector/CountSelector'
 
 import useDropdown from '@hooks/useDropdown'
 import useDatePicker from '@hooks/useDatePicker'
@@ -82,9 +82,6 @@ const SearchBar = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchLocation(e.target.value)
   }
-  const handleAutocompleteClick = (selectedItem: string) => {
-    setSearchLocation(selectedItem)
-  }
 
   const handleDropdownToggle = (dropdown: 'location' | 'guest' | 'date') => {
     if (dropdown === 'location') {
@@ -115,7 +112,6 @@ const SearchBar = () => {
       <LocationSearch
         searchTerm={searchLocation}
         submittedTerm={selectedLocation}
-        onAutocompleteClick={handleAutocompleteClick}
         onInputChange={handleInputChange}
         onInputClear={handleInputClear}
         onIconClick={handleLocationClear}

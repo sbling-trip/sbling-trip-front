@@ -18,7 +18,7 @@ export interface DatePickerProps {
   numberOfMonths?: number
 }
 
-const DateFormat = 'yyyy-MM-dd'
+const DATE_FORMAT = 'yyyy-MM-dd'
 
 const DatePicker = ({
   checkIn,
@@ -42,8 +42,8 @@ const DatePicker = ({
     }
 
     onChange({
-      from: from ? format(from, DateFormat) : undefined,
-      to: to ? format(to, DateFormat) : undefined,
+      from: from ? format(from, DATE_FORMAT) : undefined,
+      to: to ? format(to, DATE_FORMAT) : undefined,
       nights: from && to ? differenceInDays(to, from) : 0,
     })
   }

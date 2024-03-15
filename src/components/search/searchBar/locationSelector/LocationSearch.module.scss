@@ -1,16 +1,15 @@
 @import 'src/styles/mixins';
-@import 'src/pages/SearchPage.module.scss';
 
 .dropdown {
-  @extend .dropdown;
+  @include dropdown;
   width: 400px;
   left: 0;
-}
 
-.dropdownInner {
-  @extend .dropdownInner;
-  height: 560px;
-  padding: 0;
+  .dropdownInner {
+    @include dropdownInner;
+    height: 560px;
+    padding: 0;
+  }
 }
 
 .searchContents {
