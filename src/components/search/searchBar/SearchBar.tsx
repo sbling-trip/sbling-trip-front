@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import SelectionMenu from './SelectionMenu'
 import LocationSearch from './locationSelector/LocationSearch'
 import DatePicker from './dateSelector/DatePicker'
@@ -6,6 +8,10 @@ import CountSelector from './guestSelector/CountSelector'
 
 import useDropdown from '@hooks/useDropdown'
 import useDatePicker from '@hooks/useDatePicker'
+import apiAxios from '@api/apiAxios'
+import { ListApiResponse } from '@models/api'
+import { Stay } from '@models/stay'
+import { setStays } from '@redux/staySlice'
 
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import classNames from 'classnames/bind'
@@ -16,6 +22,9 @@ const cx = classNames.bind(styles)
 const SearchBar = () => {
   const isMobile = window.innerWidth < 768
   const numberOfMonths = isMobile ? 1 : 2
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [selectedLocation, setSelectedLocation] = useState<string>('')
   const [searchLocation, setSearchLocation] = useState<string>('')
@@ -39,25 +48,31 @@ const SearchBar = () => {
   const [isGuestDropdownOpen, toggleGuestDropdown, guestDropdownRef] =
     useDropdown(false)
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const countsQueryString = formatGuestCountsString()
-    const queryString = new URLSearchParams({
-      query: selectedLocation,
-      checkIn: selectedDate.checkIn || '',
-      checkOut: selectedDate.checkOut || '',
-      adultCount: String(adultCount),
-      childCount: String(childCount),
+    const requestData = {
+      checkInDate: selectedDate.checkIn || '',
+      checkOutDate: selectedDate.checkOut || '',
+      adultGuestCount: adultCount,
+      childGuestCount: childCount,
+    }
+
+    const searchParams = new URLSearchParams()
+    Object.entries(requestData).forEach(([key, value]) => {
+      if (value !== '') {
+        searchParams.append(key, String(value))
+      }
     })
 
-    if (countsQueryString) {
-      queryString.append('counts', countsQueryString)
-    }
+    const searchString = searchParams.toString()
 
-    if (searchLocation) {
-      setSelectedLocation(searchLocation)
-    }
+    const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+      `/stay/reservation-available?${searchString}`,
+    )
+
+    dispatch(setStays(data.result))
+    navigate(`/search?${searchString}`)
   }
 
   const handleLocationEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
