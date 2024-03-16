@@ -9,6 +9,7 @@ import CountSelector from './guestSelector/CountSelector'
 import useDropdown from '@hooks/useDropdown'
 import useDatePicker from '@hooks/useDatePicker'
 import { formatGuestCounts } from '@utils/formatGuestCounts'
+import { serializeSearchParams } from '@utils/serializeSearchParams'
 
 import apiAxios from '@api/apiAxios'
 import { ListApiResponse } from '@models/api'
@@ -60,14 +61,7 @@ const SearchBar = () => {
       childGuestCount: childCount,
     }
 
-    const searchParams = new URLSearchParams()
-    Object.entries(requestData).forEach(([key, value]) => {
-      if (value !== '') {
-        searchParams.append(key, String(value))
-      }
-    })
-
-    const searchString = searchParams.toString()
+    const searchString = serializeSearchParams(requestData)
 
     const { data } = await apiAxios.get<ListApiResponse<Stay>>(
       `/stay/reservation-available?${searchString}`,
