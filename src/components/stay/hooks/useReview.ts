@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@redux/store'
 import { setReviews } from '@redux/reviewSlice'
-import apiAxios from '@api/apiAxios'
+import apiClientAxios from '@api/apiClientAxios'
 import { Review } from '@models/review'
 import { ObjectApiResponse, ListApiResponse } from '@models/api'
 import { CustomMeta } from '@models/customMeta'
@@ -20,7 +20,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
 
   const fetchReviews = async (pageNum: number) => {
     try {
-      const { data } = await apiAxios.get<
+      const { data } = await apiClientAxios.get<
         ObjectApiResponse<Review, CustomMeta>
       >(`/review/list?staySeq=${staySeq}&cursor=${pageNum}`)
 
@@ -44,7 +44,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     reviewScore: number,
   ) => {
     try {
-      await apiAxios.post<ListApiResponse<Review>>(
+      await apiClientAxios.post<ListApiResponse<Review>>(
         `/review/add?staySeq=${staySeq}&roomSeq=${roomSeq}&reviewTitle=${reviewTitle}&reviewContent=${reviewContent}&reviewScore=${reviewScore}`,
         {},
       )
@@ -57,7 +57,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
 
   const fetchDeleteReview = async (reviewSeq: number) => {
     try {
-      await apiAxios.delete<ListApiResponse<Review>>(
+      await apiClientAxios.delete<ListApiResponse<Review>>(
         `/review/remove?reviewSeq=${reviewSeq}`,
       )
 
@@ -73,7 +73,7 @@ const useReview = (staySeq: number, initialPage: number = 0) => {
     reviewContent: string,
     reviewScore: number,
   ) => {
-    await apiAxios.put(
+    await apiClientAxios.put(
       `/review/update?reviewSeq=${reviewSeq}&reviewTitle=${reviewTitle}&reviewContent=${reviewContent}&reviewScore=${reviewScore}`,
       {},
     )

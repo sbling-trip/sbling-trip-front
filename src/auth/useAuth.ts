@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useAlertContext } from '@hooks/useAlertContext'
 import useUserInfo from './useUserInfo'
 
-import authAxios from '@api/authAxios'
+import authClientAxios from '@api/authClientAxios'
 import { resetUser, setUser } from '@redux/userSlice'
 import { User } from '@models/user'
 
@@ -16,7 +16,7 @@ export enum LOGIN_STATUS {
 }
 
 const useAuth = () => {
-  const [providerToken, setProviderToken] = useState<string | null>(null)
+  const [, setProviderToken] = useState<string | null>(null)
   const navigate = useNavigate()
   const { openAlert } = useAlertContext()
 
@@ -40,7 +40,9 @@ const useAuth = () => {
 
   const sendAuthorization = async (code: string) => {
     try {
-      const { data } = await authAxios.post(`/account/login/google`, { code })
+      const { data } = await authClientAxios.post(`/account/login/google`, {
+        code,
+      })
       const { loginStatus, providerToken, accessToken } = data
 
       if (loginStatus in LOGIN_STATUS) {
@@ -109,7 +111,7 @@ const useAuth = () => {
 
   const fetchSignOut = async () => {
     try {
-      await authAxios.delete(`/account/sign-out`)
+      await authClientAxios.delete(`/account/sign-out`)
       localStorage.removeItem('access_token')
       dispatch(resetUser())
     } catch (error) {

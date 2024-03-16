@@ -11,7 +11,7 @@ import useDatePicker from '@hooks/useDatePicker'
 import { formatGuestCounts } from '@utils/formatGuestCounts'
 import { serializeSearchParams } from '@utils/serializeSearchParams'
 
-import apiAxios from '@api/apiAxios'
+import apiClientAxios from '@api/apiClientAxios'
 import { ListApiResponse } from '@models/api'
 import { Stay } from '@models/stay'
 import { setStays } from '@redux/staySlice'
@@ -63,7 +63,7 @@ const SearchBar = () => {
 
     const searchString = serializeSearchParams(requestData)
 
-    const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+    const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
       `/stay/reservation-available?${searchString}`,
     )
 

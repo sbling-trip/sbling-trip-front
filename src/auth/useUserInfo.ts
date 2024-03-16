@@ -4,8 +4,8 @@ import { useAlertContext } from '@hooks/useAlertContext'
 
 import { RootState } from '@redux/store'
 import { setUser } from '@redux/userSlice'
-import apiAxios from '@api/apiAxios'
-import authAxios from '@api/authAxios'
+import apiClientAxios from '@api/apiClientAxios'
+import authClientAxios from '@api/authClientAxios'
 import { ItemApiResponse } from '@models/api'
 import { User } from '@models/user'
 
@@ -22,7 +22,7 @@ const useUserInfo = () => {
 
   const fetchValidateToken = async () => {
     try {
-      await authAxios.get('/tokens/info')
+      await authClientAxios.get('/tokens/info')
       return true
     } catch (error) {
       console.error('Error validating token:', error)
@@ -37,7 +37,8 @@ const useUserInfo = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const { data } = await apiAxios.get<ItemApiResponse<User>>('/user/me')
+      const { data } =
+        await apiClientAxios.get<ItemApiResponse<User>>('/user/me')
       dispatch(setUser(data.result))
     } catch (error) {
       console.error('Failed to fetch user data:', error)
@@ -46,7 +47,7 @@ const useUserInfo = () => {
 
   const fetchUpdateUserInfo = async (updatedUserData: Partial<User>) => {
     try {
-      const { data } = await apiAxios.put<ItemApiResponse<User>>(
+      const { data } = await apiClientAxios.put<ItemApiResponse<User>>(
         '/user/update',
         updatedUserData,
       )

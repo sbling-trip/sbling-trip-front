@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@redux/store'
 import { addStays, setCurrentStay, setStays } from '@redux/staySlice'
-import apiAxios from '@api/apiAxios'
+import apiClientAxios from '@api/apiClientAxios'
 import { ListApiResponse, ItemApiResponse } from '@models/api'
 import { Stay } from '@models/stay'
 
@@ -31,7 +31,7 @@ const useStayList = () => {
 
   const fetchStayList = async () => {
     try {
-      const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+      const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
         `/stay/list?cursor=${currentPage}`,
       )
 
@@ -47,7 +47,7 @@ const useStayList = () => {
 
   const fetchStayListByType = async (type: number) => {
     try {
-      const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+      const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
         `/stay/list/recommend/review-rank?stayType=${type}`,
       )
       setStaysByType((prevStays) => ({
@@ -61,7 +61,7 @@ const useStayList = () => {
 
   const fetchCurrentStay = async (staySeq: number) => {
     try {
-      const { data } = await apiAxios.get<ItemApiResponse<Stay>>(
+      const { data } = await apiClientAxios.get<ItemApiResponse<Stay>>(
         `/stay/info?staySeq=${staySeq}`,
       )
       dispatch(setCurrentStay(data.result))
@@ -73,7 +73,7 @@ const useStayList = () => {
   const fetchLoadMore = async () => {
     try {
       const nextPage = currentPage + 1
-      const { data } = await apiAxios.get<ListApiResponse<Stay>>(
+      const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
         `/stay/list?cursor=${nextPage}`,
       )
 
@@ -87,9 +87,9 @@ const useStayList = () => {
   const toggleWish = async (staySeq: number, wishState: boolean) => {
     try {
       if (wishState) {
-        await apiAxios.delete(`/wish/remove?staySeq=${staySeq}`)
+        await apiClientAxios.delete(`/wish/remove?staySeq=${staySeq}`)
       } else {
-        await apiAxios.post(`/wish/add?staySeq=${staySeq}`)
+        await apiClientAxios.post(`/wish/add?staySeq=${staySeq}`)
       }
       await Promise.all([fetchCurrentStay(staySeq), fetchStayList()])
     } catch (error) {

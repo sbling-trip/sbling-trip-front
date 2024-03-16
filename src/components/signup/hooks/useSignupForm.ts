@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import useTermsAgreement from '@hooks/useTermsAgreement'
 import { useAlertContext } from '@hooks/useAlertContext'
 import updateBirthdate from '@utils/updateBirthdate'
-import authAxios from '@api/authAxios'
+import authClientAxios from '@api/authClientAxios'
 
 const useSignupForm = () => {
   const initialFormState = {
@@ -45,7 +45,7 @@ const useSignupForm = () => {
         providerToken: locationState.providerToken,
       }
 
-      const { data } = await authAxios.post(
+      const { data } = await authClientAxios.post(
         '/account/sign-in/google',
         requestData,
       )
