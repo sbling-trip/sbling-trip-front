@@ -1,4 +1,3 @@
-import React from 'react'
 import Title from '@components/shared/Title'
 import ListRow from '@components/shared/ListRow'
 import delimiter from '@utils/delimiter'
@@ -17,56 +16,52 @@ interface PointUsageProps {
   handleClickUseAllPoints: () => void
 }
 
-const PointUsage = React.memo(
-  ({
-    formData,
-    usedPoints,
-    handlePointsInputChange,
-    handleClickUseAllPoints,
-  }: PointUsageProps) => {
-    const { point } = formData
+const PointUsage = ({
+  formData,
+  usedPoints,
+  handlePointsInputChange,
+  handleClickUseAllPoints,
+}: PointUsageProps) => {
+  const { point } = formData
 
-    return (
-      <section className={cx('sectionContainer')}>
-        <Title title="포인트 사용" subTitle="" className={cx('sectionTitle')} />
-        <ListRow
-          as="div"
-          className={cx('myPoints')}
-          mainContent={
-            <div className={cx('mainContent')}>
-              <span>보유 포인트</span>
-              <strong>{`${delimiter(point - usedPoints)}원`}</strong>
+  return (
+    <section className={cx('sectionContainer')}>
+      <Title title="포인트 사용" subTitle="" className={cx('sectionTitle')} />
+      <ListRow
+        as="div"
+        className={cx('myPoints')}
+        mainContent={
+          <div className={cx('mainContent')}>
+            <span>보유 포인트</span>
+            <strong>{`${delimiter(point - usedPoints)}원`}</strong>
+          </div>
+        }
+        rightContent={
+          <div className={cx('rightContent')}>
+            <div className={cx('pointInputBox')}>
+              <input
+                type="number"
+                step={1000}
+                min="1000"
+                max={point}
+                value={usedPoints}
+                onChange={handlePointsInputChange}
+                className={cx('pointInput')}
+              />
+              <span>원</span>
             </div>
-          }
-          rightContent={
-            <div className={cx('rightContent')}>
-              <div className={cx('pointInputBox')}>
-                <input
-                  type="number"
-                  step={1000}
-                  min="1000"
-                  max={point}
-                  value={usedPoints}
-                  onChange={handlePointsInputChange}
-                  className={cx('pointInput')}
-                />
-                <span>원</span>
-              </div>
-              <button
-                type="button"
-                className={cx('pointBtn')}
-                onClick={handleClickUseAllPoints}
-              >
-                모두 사용
-              </button>
-            </div>
-          }
-        />
-      </section>
-    )
-  },
-)
-
-PointUsage.displayName = 'PointUsage'
+            <button
+              type="button"
+              className={cx('pointBtn')}
+              onClick={handleClickUseAllPoints}
+            >
+              모두 사용
+            </button>
+          </div>
+        }
+      />
+    </section>
+  )
+}
 
 export default PointUsage
