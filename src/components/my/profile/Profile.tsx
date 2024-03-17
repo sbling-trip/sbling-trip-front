@@ -144,18 +144,16 @@ const Profile = () => {
                     <TermsAgreementItem
                       label="동의"
                       name="marketingAgree"
+                      disabled={!isEditing}
                       checked={updatedMarketingAgree}
-                      onChange={() =>
-                        setUpdatedMarketingAgree(!updatedMarketingAgree)
-                      }
+                      onChange={() => setUpdatedMarketingAgree((prev) => !prev)}
                     />
                     <TermsAgreementItem
                       label="동의 안함"
                       name="marketingAgree"
+                      disabled={!isEditing}
                       checked={!updatedMarketingAgree}
-                      onChange={() =>
-                        setUpdatedMarketingAgree(!updatedMarketingAgree)
-                      }
+                      onChange={() => setUpdatedMarketingAgree((prev) => !prev)}
                     />
                   </div>
                   <div className={cx('item')}>
@@ -163,18 +161,16 @@ const Profile = () => {
                     <TermsAgreementItem
                       label="동의"
                       name="locationAgree"
+                      disabled={!isEditing}
                       checked={updatedLocationAgree}
-                      onChange={() =>
-                        setUpdatedLocationAgree(!updatedLocationAgree)
-                      }
+                      onChange={() => setUpdatedLocationAgree((prev) => !prev)}
                     />
                     <TermsAgreementItem
                       label="동의 안함"
                       name="locationAgree"
+                      disabled={!isEditing}
                       checked={!updatedLocationAgree}
-                      onChange={() =>
-                        setUpdatedLocationAgree(!updatedLocationAgree)
-                      }
+                      onChange={() => setUpdatedLocationAgree((prev) => !prev)}
                     />
                   </div>
                 </>

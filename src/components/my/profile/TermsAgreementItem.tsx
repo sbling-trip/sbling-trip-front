@@ -6,6 +6,7 @@ const cx = classNames.bind(styles)
 interface TermsAgreementItemProps {
   name: string
   label: string
+  disabled: boolean
   checked: boolean
   onChange: () => void
 }
@@ -13,6 +14,7 @@ interface TermsAgreementItemProps {
 const TermsAgreementItem = ({
   name,
   label,
+  disabled,
   checked,
   onChange,
 }: TermsAgreementItemProps) => {
@@ -22,6 +24,7 @@ const TermsAgreementItem = ({
         type="radio"
         name={name}
         id={`${name}-${label}`}
+        disabled={disabled}
         checked={checked}
         onChange={onChange}
       />
