@@ -25,19 +25,12 @@
 
     border-radius: 999px;
     border-width: 1.5px;
-    background-color: var(--gray50);
-    background-color: var(--white);
     border: 1px solid var(--gray80);
+
     @include t7;
     line-height: 13px;
     font-weight: 600;
     cursor: pointer;
-
-    &:focus,
-    &:active {
-      background-color: var(--blue400);
-      color: var(--white);
-    }
   }
 
   li:first-child:focus,
