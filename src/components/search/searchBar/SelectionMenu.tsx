@@ -34,11 +34,12 @@ const SelectionMenu = forwardRef<HTMLDivElement, SelectionMenuProps>(
   ) {
     const handleClearIconClick = (e: React.MouseEvent<SVGSVGElement>) => {
       e.stopPropagation()
-      showCloseIcon &&
-        selectedResult &&
-        setSelectedResult &&
+      if (showCloseIcon && selectedResult && setSelectedResult) {
         setSelectedResult('')
-      onResultClear && onResultClear()
+      }
+      if (onResultClear) {
+        onResultClear()
+      }
     }
 
     return (
