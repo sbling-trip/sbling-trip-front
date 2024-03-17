@@ -27,17 +27,17 @@ interface UseDatePickerResult {
   dateDropdownRef: React.RefObject<HTMLDivElement>
 }
 
-const DateFormat = 'yyyy-MM-dd'
+const DATE_FORMAT = 'yyyy-MM-dd'
 
 const useDatePicker = (): UseDatePickerResult => {
-  const [displayedDate, setDisplayedDate] = useState('')
+  const [displayedDate, setDisplayedDate] = useState<string>('')
   const [selectedDate, setSelectedDate] = useState<{
     checkIn?: string
     checkOut?: string
     nights: number
   }>({
-    checkIn: format(addMonths(new Date(), 1), DateFormat),
-    checkOut: format(addDays(addMonths(new Date(), 1), 1), DateFormat),
+    checkIn: format(addMonths(new Date(), 1), DATE_FORMAT),
+    checkOut: format(addDays(addMonths(new Date(), 1), 1), DATE_FORMAT),
     nights: 1,
   })
 
@@ -68,8 +68,8 @@ const useDatePicker = (): UseDatePickerResult => {
   const handleReset = () => {
     setDisplayedDate('')
     setSelectedDate({
-      checkIn: format(addMonths(new Date(), 1), DateFormat),
-      checkOut: format(addDays(addMonths(new Date(), 1), 1), DateFormat),
+      checkIn: format(addMonths(new Date(), 1), DATE_FORMAT),
+      checkOut: format(addDays(addMonths(new Date(), 1), 1), DATE_FORMAT),
       nights: 1,
     })
     dispatch(resetDate())
