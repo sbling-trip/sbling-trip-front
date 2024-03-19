@@ -10,6 +10,8 @@ interface shareKakaoProps {
 const useShareKakao = () => {
   const handleShare = useCallback(
     ({ title, description, imageUrl, btnLabel }: shareKakaoProps) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       window.Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
