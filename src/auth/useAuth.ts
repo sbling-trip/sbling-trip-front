@@ -34,23 +34,19 @@ const useAuth = () => {
     const authorizationCode = urlParams.get('code')
 
     if (authorizationCode) {
-      await sendAuthorization(authorizationCode)
-    }
-  }
+      try {
+        const { data } = await authClientAxios.post(`/account/login/google`, {
+          code: authorizationCode,
+        })
+        const { loginStatus, providerToken, accessToken } = data
 
-  const sendAuthorization = async (code: string) => {
-    try {
-      const { data } = await authClientAxios.post(`/account/login/google`, {
-        code,
-      })
-      const { loginStatus, providerToken, accessToken } = data
-
-      if (loginStatus in LOGIN_STATUS) {
-        localStorage.setItem('access_token', accessToken)
-        handleLoginStatus(loginStatus, providerToken, user)
+        if (loginStatus in LOGIN_STATUS) {
+          localStorage.setItem('access_token', accessToken)
+          handleLoginStatus(loginStatus, providerToken, user)
+        }
+      } catch (error) {
+        console.error('sendAuthorization failed:', error)
       }
-    } catch (error) {
-      console.error('sendAuthorization failed:', error)
     }
   }
 
@@ -59,9 +55,11 @@ const useAuth = () => {
     providerToken?: string,
     userData?: User | null,
   ) => {
-    const actions = {
-      [LOGIN_STATUS.LoginSuccess]: handleLoginSuccess,
-      [LOGIN_STATUS.SignInRequired]: () => {
+    switch (loginStatus) {
+      case LOGIN_STATUS.LoginSuccess:
+        handleLoginSuccess(userData!)
+        break
+      case LOGIN_STATUS.SignInRequired:
         setProviderToken(providerToken || null)
         openAlert({
           title: 'Sbling Trip 회원 가입을 위한 추가 정보를 입력해주세요.',
@@ -69,12 +67,13 @@ const useAuth = () => {
             navigate('/signup', { state: { providerToken } })
           },
         })
-      },
-      [LOGIN_STATUS.DifferentSocialLoginAttempt]:
-        handleDifferentSocialLoginAttempt,
+        break
+      case LOGIN_STATUS.DifferentSocialLoginAttempt:
+        handleDifferentSocialLoginAttempt(userData!)
+        break
+      default:
+        break
     }
-
-    return actions[loginStatus]?.(userData!)
   }
 
   const handleLogout = () => {
