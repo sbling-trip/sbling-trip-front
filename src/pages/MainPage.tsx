@@ -26,7 +26,7 @@ const MainPage = () => {
     staysByType,
     handleStayTypeChange,
     fetchLoadMore,
-    toggleWish,
+    handleToggleWish,
   } = useStayList()
   const [activeTab, setActiveTab] = useState<StayType>(StayType.Hotel)
   const selectedStays = staysByType[activeTab]
@@ -87,7 +87,7 @@ const MainPage = () => {
       <StayList
         stays={stays}
         fetchLoadMore={fetchLoadMore}
-        toggleWish={toggleWish}
+        toggleWish={handleToggleWish}
       />
     </main>
   )

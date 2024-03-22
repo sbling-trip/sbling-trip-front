@@ -35,7 +35,7 @@ const StayDetailPage = () => {
   const didMountRef = useRef(false)
   const stayReviewRef = useRef<HTMLDivElement>(null)
 
-  const { fetchCurrentStay, currentStay, toggleWish } = useStayList()
+  const { fetchCurrentStay, currentStay, handleToggleWish } = useStayList()
   const { rooms } = useRoomList(staySeq || '')
   const roomSeq = rooms && rooms.length > 0 ? rooms[0].roomSeq : undefined
 
@@ -90,7 +90,7 @@ const StayDetailPage = () => {
         <div className={cx('stayDetailInner')}>
           <MainSlide
             currentStay={currentStay}
-            toggleWish={toggleWish}
+            toggleWish={handleToggleWish}
             scrollToStayReview={scrollToStayReview}
           />
           <div className={cx('mainContents')}>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import useWish from '@components/stay/hooks/useWish'
 import { RootState } from '@redux/store'
 import { addStays, setCurrentStay, setStays } from '@redux/staySlice'
 import apiClientAxios from '@api/apiClientAxios'
@@ -9,8 +10,10 @@ import { Stay } from '@models/stay'
 const useStayList = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [staysByType, setStaysByType] = useState<{ [key: number]: Stay[] }>({})
+
   const dispatch = useDispatch()
   const { stays, currentStay } = useSelector((state: RootState) => state.stay)
+  const { toggleWishOnServer } = useWish()
 
   const formatLocation = (address: string) => {
     const [province, city] = address.split(' ', 2)
@@ -84,16 +87,10 @@ const useStayList = () => {
     }
   }
 
-  const toggleWish = async (staySeq: number, wishState: boolean) => {
-    try {
-      if (wishState) {
-        await apiClientAxios.delete(`/wish/remove?staySeq=${staySeq}`)
-      } else {
-        await apiClientAxios.post(`/wish/add?staySeq=${staySeq}`)
-      }
+  const handleToggleWish = async (staySeq: number, wishState: boolean) => {
+    const success = await toggleWishOnServer(staySeq, wishState)
+    if (success) {
       await Promise.all([fetchCurrentStay(staySeq), fetchStayList()])
-    } catch (error) {
-      console.error('Failed to update wish state:', error)
     }
   }
 
@@ -113,7 +110,7 @@ const useStayList = () => {
     staysByType,
     fetchCurrentStay,
     fetchLoadMore,
-    toggleWish,
+    handleToggleWish,
     handleStayTypeChange,
   }
 }

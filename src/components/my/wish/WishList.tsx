@@ -8,7 +8,7 @@ import styles from './WishList.module.scss'
 const cx = classNames.bind(styles)
 
 const WishList = () => {
-  const { stays, toggleWish } = useStayList()
+  const { stays, handleToggleWish } = useStayList()
   const wishStays = stays.filter((stay) => stay.wishState).reverse()
 
   return (
@@ -16,7 +16,11 @@ const WishList = () => {
       <Title title="찜한 숙소" subTitle="" className={cx('wishTitle')} />
       <ul className={cx('wishList')}>
         {wishStays.map((wish) => (
-          <WishItem key={wish.staySeq} wish={wish} toggleWish={toggleWish} />
+          <WishItem
+            key={wish.staySeq}
+            wish={wish}
+            toggleWish={handleToggleWish}
+          />
         ))}
       </ul>
     </div>
