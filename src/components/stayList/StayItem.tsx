@@ -40,7 +40,7 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
         onCancelClick: () => {},
       })
     }
-    toggleWish(staySeq, !!wishState)
+    toggleWish(staySeq, wishState)
   }
 
   return (

@@ -80,7 +80,7 @@ const MainSlide = ({
               stayName={stayName}
               mainImgUrl={kakaoMainImgUrl}
               description={description}
-              wishState={!!wishState}
+              wishState={wishState}
               toggleWish={toggleWish}
             />
           </div>

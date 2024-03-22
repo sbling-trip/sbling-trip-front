@@ -50,7 +50,7 @@ const SocialButton = ({
         onCancelClick: () => {},
       })
     }
-    toggleWish(parseInt(staySeq, 10), !!wishState)
+    toggleWish(parseInt(staySeq, 10), wishState)
   }
 
   return (

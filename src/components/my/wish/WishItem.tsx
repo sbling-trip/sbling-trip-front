@@ -26,7 +26,7 @@ const WishItem = ({ wish, toggleWish }: WishItemProps) => {
     openAlert({
       title: '찜을 해제하시겠습니까?',
       onConfirmClick: () => {
-        toggleWish(staySeq, !!wishState)
+        toggleWish(staySeq, wishState)
       },
       onCancelClick: () => {},
     })
