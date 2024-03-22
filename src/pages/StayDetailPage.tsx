@@ -8,21 +8,23 @@ import StayIntro from '@components/stay/stayDetail/StayIntro'
 import StayFacilities from '@components/stay/stayDetail/StayFacilities'
 import StayInfo from '@components/stay/stayDetail/StayInfo'
 import StayRefundPolicy from '@components/stay/stayDetail/StayRefundPolicy'
-
 import StayMap from '@components/stay/stayDetail/StayMap'
 import Review from '@components/stay/review/Review'
-import DatePicker from '@components/shared/DatePicker'
+import Carousel from '@components/shared/Carousel'
 
 import useLoadKakao from '@hooks/useLoadKakao'
 import useStayList from '@components/stayList/hooks/useStayList'
 import useRoomList from '@components/stay/hooks/useRoomList'
-import useDatePicker from '@hooks/useDatePicker'
 import { setCurrentStay } from '@redux/staySlice'
 
+import banner1 from '@assets/banner_5.png'
+import banner2 from '@assets/banner_1_small.png'
 import classNames from 'classnames/bind'
 import styles from './StayDetailPage.module.scss'
 
 const cx = classNames.bind(styles)
+
+const BANNER_IMAGES = [banner1, banner2]
 
 const StayDetailPage = () => {
   useLoadKakao()
@@ -54,17 +56,6 @@ const StayDetailPage = () => {
     reviewCount,
     reviewScoreAverage,
   } = currentStay! || {}
-
-  const {
-    displayedDate,
-    selectedDate,
-    setSelectedDate,
-    toggleDateDropdown,
-    handleDatePickerComplete,
-    handleReset,
-    isDateDropdownOpen,
-    dateDropdownRef,
-  } = useDatePicker()
 
   const scrollToStayReview = () => {
     if (stayReviewRef.current) {
@@ -126,44 +117,24 @@ const StayDetailPage = () => {
                 <StayRefundPolicy refundPolicy={refundPolicy} />
                 <hr />
               </div>
-              <aside className={cx('aside')} ref={dateDropdownRef}>
-                <div className={cx('sidebar')}>
-                  <button
-                    type="button"
-                    className={cx('dateBtn')}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      toggleDateDropdown()
+              <aside className={cx('aside')}>
+                <div className={cx('bannerWrap')}>
+                  <Carousel
+                    images={BANNER_IMAGES}
+                    navigation={false}
+                    autoplay={true}
+                    autoplayDelay={3000}
+                    effect="fade"
+                    fadeEffect={{
+                      crossFade: true,
+                      duration: 800,
                     }}
-                  >
-                    {(displayedDate && `${displayedDate}`) || '날짜 선택'}
-                  </button>
-                </div>
-                <div className={cx('dropdownContainer')}>
-                  {isDateDropdownOpen && (
-                    <div
-                      className={cx('dropdown')}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className={cx('dropdownInner')}>
-                        <DatePicker
-                          checkIn={selectedDate.checkIn}
-                          checkOut={selectedDate.checkOut}
-                          onChange={(dateRange) => {
-                            setSelectedDate({
-                              checkIn: dateRange.from,
-                              checkOut: dateRange.to,
-                              nights: dateRange.nights,
-                            })
-                          }}
-                          onComplete={() => {
-                            handleDatePickerComplete()
-                          }}
-                          onReset={handleReset}
-                        />
-                      </div>
-                    </div>
-                  )}
+                    pagination={{
+                      type: 'bullets',
+                      clickable: true,
+                    }}
+                    className={cx('carousel')}
+                  />
                 </div>
               </aside>
             </section>
