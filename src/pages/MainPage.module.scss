@@ -6,7 +6,7 @@
   max-width: 1200px;
 
   .stayRecommend {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
   }
 
   .recommendTitle {
@@ -16,6 +16,77 @@
     h2 {
       font-weight: 600;
       @include t2;
+    }
+  }
+
+  .carousel {
+    img {
+      height: 170px;
+      width: 100%;
+      background-position: center;
+    }
+  }
+}
+
+.mainBanner {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+
+  .inner {
+    margin-bottom: 60px;
+  }
+
+  .carousel {
+    animation: fadeInUp 1s ease-in-out;
+
+    img {
+      height: 270px;
+      height: 270px;
+      background-position: center;
+    }
+
+    --swiper-pagination-bottom: 15px;
+    --swiper-pagination-bullet-width: 12px;
+    --swiper-pagination-bullet-height: 12px;
+  }
+}
+
+@include mobile {
+  .mainRecommend {
+    width: calc(100% - 10%);
+
+    .stayRecommend {
+      margin-bottom: 40px;
+    }
+
+    .recommendTitle {
+      margin-top: 30px;
+      margin-bottom: 15px;
+
+      h2 {
+        @include t4;
+      }
+    }
+  }
+
+  .mainBanner {
+    width: calc(100% - 10%);
+
+    .inner {
+      margin-bottom: 40px;
+    }
+
+    .carousel {
+      animation: fadeInUp 1s ease-in-out;
+
+      --swiper-pagination-bottom: 5px;
+      --swiper-pagination-bullet-width: 8px;
+      --swiper-pagination-bullet-height: 8px;
+
+      img {
+        height: 140px;
+      }
     }
   }
 }
