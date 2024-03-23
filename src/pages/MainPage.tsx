@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import StayList from '@components/stayList/StayList'
 import StayTypeMenu from '@components/stayList/StayTypeMenu'
 import StayItemContents from '@components/stayList/StayItemContents'
+import SearchBar from '@components/search/searchBar/SearchBar'
 import Title from '@components/shared/Title'
 import Carousel from '@components/shared/Carousel'
 import CustomCarousel from '@components/shared/CustomCarousel'
@@ -40,12 +41,11 @@ const MainPage = () => {
     handleTabClick(activeTab)
   }, [])
 
-  if (!selectedStays || !stays) {
-    return <div>Loading</div>
-  }
-
   return (
     <main>
+      <section className={cx('mainSearch')}>
+        <SearchBar />
+      </section>
       <section className={cx('mainRecommend')}>
         <div className={cx('stayRecommend')}>
           <Title

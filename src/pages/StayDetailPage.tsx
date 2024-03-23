@@ -8,6 +8,7 @@ import StayIntro from '@components/stay/stayDetail/StayIntro'
 import StayFacilities from '@components/stay/stayDetail/StayFacilities'
 import StayInfo from '@components/stay/stayDetail/StayInfo'
 import StayRefundPolicy from '@components/stay/stayDetail/StayRefundPolicy'
+import SearchBar from '@components/search/searchBar/SearchBar'
 import StayMap from '@components/stay/stayDetail/StayMap'
 import Review from '@components/stay/review/Review'
 import Carousel from '@components/shared/Carousel'
@@ -80,19 +81,16 @@ const StayDetailPage = () => {
     }
   }, [currentStay, dispatch])
 
-  if (!currentStay) {
-    return <div>Loading</div>
-  }
-
   return (
     <main>
       <div className={cx('stayDetailContainer')}>
         <div className={cx('stayDetailInner')}>
           <MainSlide
-            currentStay={currentStay}
+            currentStay={currentStay!}
             toggleWish={handleToggleWish}
             scrollToStayReview={scrollToStayReview}
           />
+          <SearchBar />
           <div className={cx('mainContents')}>
             <section className={cx('info')}>
               <div className={cx('infoBody')}>
