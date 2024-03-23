@@ -1,21 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import SelectionMenu from './SelectionMenu'
-import LocationSearch from './locationSelector/LocationSearch'
-import DatePicker from './dateSelector/DatePicker'
-import CountSelector from './guestSelector/CountSelector'
+import { useDispatch, useSelector } from 'react-redux'
 
-import useDropdown from '@hooks/useDropdown'
-import useDatePicker from '@hooks/useDatePicker'
-import { formatGuestCounts } from '@utils/formatGuestCounts'
+import DateSelector from './dateSelector/DateSelector'
+import GuestSelector from './guestSelector/GuestSelector'
+import MobileSearchResultInput from './MobileSearchResultInput'
+import Title from '@components/shared/Title'
 import { serializeSearchParams } from '@utils/serializeSearchParams'
+import useDatePicker from '@hooks/useDatePicker'
+import useDropdown from '@hooks/useDropdown'
 
 import apiClientAxios from '@api/apiClientAxios'
 import { ListApiResponse } from '@models/api'
 import { Stay } from '@models/stay'
-import { setStays } from '@redux/staySlice'
+import { RootState } from '@redux/store'
+import { setSearchResultStays } from '@redux/staySlice'
+import { setSearch } from '@redux/searchSlice'
+import { setSearchResultRooms } from '@redux/roomSlice'
 
+import IconClose from '@assets/icon/icon-close.svg?react'
 import IconSearch from '@assets/icon/icon-search.svg?react'
 import classNames from 'classnames/bind'
 import styles from './SearchBar.module.scss'
@@ -23,200 +26,142 @@ import styles from './SearchBar.module.scss'
 const cx = classNames.bind(styles)
 
 const SearchBar = () => {
-  const isMobile = window.innerWidth < 768
-  const numberOfMonths = isMobile ? 1 : 2
+  const [displayedDate, setDisplayedDate] = useState<string>('')
+  const [isMobileModalOpen, setIsMobileModalOpen] = useState(false)
+  const [isGuestDropdownOpen, toggleGuestDropdown, guestDropdownRef] =
+    useDropdown(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  const [selectedLocation, setSelectedLocation] = useState<string>('')
-  const [searchLocation, setSearchLocation] = useState<string>('')
-  const [adultCount, setAdultCount] = useState<number>(2)
-  const [childCount, setChildCount] = useState<number>(0)
+  const { checkInDate, checkOutDate, adultGuestCount, childGuestCount } =
+    useSelector((state: RootState) => state.search)
 
   const {
-    displayedDate,
-    setDisplayedDate,
-    selectedDate,
-    setSelectedDate,
-    toggleDateDropdown,
     handleDatePickerComplete,
     handleReset,
+    toggleDateDropdown,
     isDateDropdownOpen,
     dateDropdownRef,
   } = useDatePicker()
-
-  const [isLocationDropdownOpen, toggleLocationDropdown, locationDropdownRef] =
-    useDropdown(false)
-  const [isGuestDropdownOpen, toggleGuestDropdown, guestDropdownRef] =
-    useDropdown(false)
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const requestData = {
-      checkInDate: selectedDate.checkIn || '',
-      checkOutDate: selectedDate.checkOut || '',
-      adultGuestCount: adultCount,
-      childGuestCount: childCount,
+      checkInDate: checkInDate || '',
+      checkOutDate: checkOutDate || '',
+      adultGuestCount: adultGuestCount,
+      childGuestCount: childGuestCount,
     }
 
+    dispatch(setSearch(requestData))
     const searchString = serializeSearchParams(requestData)
+    let apiUrl = ''
 
-    const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
-      `/stay/reservation-available?${searchString}`,
-    )
-
-    dispatch(setStays(data.result))
-    navigate(`/search?${searchString}`)
+    if (location.pathname === '/' || location.pathname.startsWith('/search')) {
+      apiUrl = `/search/stay/list?${searchString}`
+      try {
+        const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(apiUrl)
+        dispatch(setSearchResultStays(data.result))
+        navigate(`/search?${searchString}`)
+      } catch (error) {
+        console.error('Error fetching stays:', error)
+      }
+    } else if (location.pathname.startsWith('/stay')) {
+      const staySeq = location.pathname.split('/')[2]
+      apiUrl = `/search/room/list?staySeq=${staySeq}&${searchString}`
+      try {
+        const { data } = await apiClientAxios.get(apiUrl)
+        dispatch(setSearchResultRooms(data.result))
+        navigate(`/stay/${staySeq}?${searchString}`)
+      } catch (error) {
+        console.error('Error fetching rooms:', error)
+      }
+    }
   }
 
-  const handleLocationEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    handleLocationSubmit()
-  }
-
-  const handleLocationSubmit = () => {
-    setSelectedLocation(searchLocation)
-    setSearchLocation('')
-    toggleLocationDropdown()
-  }
-
-  const handleLocationClear = () => {
-    setSelectedLocation('')
-  }
-
-  const handleInputClear = () => {
-    setSearchLocation('')
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchLocation(e.target.value)
-  }
-
-  const handleDropdownToggle = (dropdown: 'location' | 'guest' | 'date') => {
-    if (dropdown === 'location') {
-      toggleLocationDropdown()
-    } else if (dropdown === 'guest') {
+  const handleDropdownToggle = (dropdown: 'guest' | 'date') => {
+    if (dropdown === 'guest') {
       toggleGuestDropdown()
     } else if (dropdown === 'date') {
       toggleDateDropdown()
     }
   }
 
-  const renderLocationDropdown = () =>
-    isLocationDropdownOpen && (
-      <LocationSearch
-        searchTerm={searchLocation}
-        submittedTerm={selectedLocation}
-        onInputChange={handleInputChange}
-        onInputClear={handleInputClear}
-        onIconClick={handleLocationClear}
-        onEnter={handleLocationEnter}
-      />
-    )
+  const handleMobileSearchInput = () => {
+    setIsMobileModalOpen((prev) => !prev)
+  }
 
-  const renderDateDropdown = () => (
-    <div
-      className={cx('dropdown', 'date')}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className={cx('dropdownInner')}>
-        <DatePicker
-          checkIn={selectedDate.checkIn}
-          checkOut={selectedDate.checkOut}
-          onChange={(dateRange) => {
-            setSelectedDate({
-              checkIn: dateRange.from,
-              checkOut: dateRange.to,
-              nights: dateRange.nights,
-            })
-          }}
-          onComplete={() => {
-            handleDatePickerComplete()
-          }}
-          onReset={handleReset}
-          numberOfMonths={numberOfMonths}
-        />
-      </div>
-    </div>
-  )
-
-  const renderGuestDropdown = () => (
-    <div
-      className={cx('dropdown', 'guest')}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className={cx('dropdownInner')}>
-        <CountSelector
-          title="성인"
-          description="13세 이상"
-          initialCount={adultCount}
-          onChange={(count) => setAdultCount(count)}
-        />
-        <CountSelector
-          title="어린이"
-          description="2세~12세"
-          initialCount={childCount}
-          onChange={(count) => setChildCount(count)}
-        />
-      </div>
-    </div>
-  )
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const requestData = {
+      checkInDate: searchParams.get('checkInDate') || '',
+      checkOutDate: searchParams.get('checkOutDate') || '',
+      adultGuestCount: parseInt(searchParams.get('adultGuestCount') || '0'),
+      childGuestCount: parseInt(searchParams.get('childGuestCount') || '0'),
+    }
+    dispatch(setSearch(requestData))
+  }, [location, dispatch])
 
   return (
-    <main>
-      <div className={cx('searchContainer')}>
-        <header className={cx('header')}>
-          <form onSubmit={handleFormSubmit} className={cx('form')}>
-            <div className={cx('contents')}>
-              <SelectionMenu
-                label="여행지"
-                isOpen={isLocationDropdownOpen}
-                selectedResult={selectedLocation}
-                setSelectedResult={setSelectedLocation}
-                onToggle={() => handleDropdownToggle('location')}
-                ref={locationDropdownRef}
-              >
-                {renderLocationDropdown()}
-              </SelectionMenu>
-              <div className={cx('division')}></div>
-              <SelectionMenu
-                label="일정"
-                isOpen={isDateDropdownOpen}
-                selectedResult={displayedDate}
-                setSelectedResult={setDisplayedDate}
-                onResultClear={handleReset}
-                onToggle={() => handleDropdownToggle('date')}
-                ref={dateDropdownRef}
-              >
-                {renderDateDropdown()}
-              </SelectionMenu>
-              <div className={cx('division')}></div>
-              <SelectionMenu
-                label="인원"
-                isOpen={isGuestDropdownOpen}
-                showCloseIcon={false}
-                selectedResult={formatGuestCounts(adultCount, childCount)}
-                onToggle={() => handleDropdownToggle('guest')}
-                ref={guestDropdownRef}
-              >
-                {renderGuestDropdown()}
-              </SelectionMenu>
-              <div className={cx('btnContainer')}>
-                <button type="submit" className={cx('submitBtn')}>
-                  <IconSearch
-                    width={30}
-                    height={30}
-                    className={cx('iconSearch')}
-                  />
-                </button>
+    <>
+      <MobileSearchResultInput
+        onClick={handleMobileSearchInput}
+        displayedDate={displayedDate}
+        adultCount={adultGuestCount}
+        childCount={childGuestCount}
+      />
+      <div className={cx('mobileModal', { open: isMobileModalOpen })}>
+        <Title
+          title="숙소 찾기"
+          subTitle=""
+          className={cx('mobileModalTitle')}
+        />
+        <button
+          type="button"
+          className={cx('closeBtn')}
+          onClick={handleMobileSearchInput}
+        >
+          <IconClose width={20} height={20} />
+        </button>
+        <div className={cx('searchContainer')}>
+          <header className={cx('header')}>
+            <form onSubmit={handleFormSubmit} className={cx('form')}>
+              <div className={cx('contents')}>
+                <DateSelector
+                  isOpen={isDateDropdownOpen}
+                  displayedDate={displayedDate}
+                  setDisplayedDate={setDisplayedDate}
+                  selectedDate={{ checkInDate, checkOutDate }}
+                  onToggle={() => handleDropdownToggle('date')}
+                  dateDropdownRef={dateDropdownRef}
+                  onReset={handleReset}
+                  onComplete={handleDatePickerComplete}
+                />
+                <div className={cx('division')}></div>
+                <GuestSelector
+                  isOpen={isGuestDropdownOpen}
+                  adultCount={adultGuestCount}
+                  childCount={childGuestCount}
+                  onToggle={() => handleDropdownToggle('guest')}
+                  guestDropdownRef={guestDropdownRef}
+                />
+                <div className={cx('btnContainer')}>
+                  <button type="submit" className={cx('submitBtn')}>
+                    <span>숙소 검색</span>
+                    <IconSearch
+                      width={30}
+                      height={30}
+                      className={cx('iconSearch')}
+                    />
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
-        </header>
+            </form>
+          </header>
+        </div>
       </div>
-    </main>
+    </>
   )
 }
 

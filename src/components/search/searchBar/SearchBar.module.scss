@@ -1,5 +1,9 @@
 @import 'src/styles/mixins';
 
+.mobileModalTitle {
+  display: none;
+}
+
 .searchContainer {
   width: 100%;
   padding: 60px 0 20px;
@@ -52,6 +56,7 @@
 .date {
   width: auto;
   left: -50%;
+  left: 0%;
   padding: 20px 15px 10px;
 }
 
@@ -76,6 +81,150 @@
 
     &:hover {
       background-color: var(--blue100);
+    }
+  }
+
+  span,
+  .iconArrow {
+    display: none;
+  }
+}
+
+.closeBtn {
+  display: none;
+}
+
+@include mobile {
+  .mobileModal {
+    position: relative;
+    position: fixed;
+    top: 60px;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--blue50);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      animation: fadeInDown 0.4s ease-in-out;
+    }
+
+    .mobileModalTitle {
+      display: block;
+      padding: 40px 40px 0;
+      font-weight: 600;
+
+      h2 {
+        @include t3;
+      }
+    }
+
+    .closeBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      background-color: var(--white);
+      border: 1px solid var(--blue80);
+
+      &:hover {
+        background-color: var(--blue80);
+      }
+    }
+  }
+
+  .searchContainer {
+    position: relative;
+    padding: 20px;
+    background-color: var(--blue50);
+  }
+
+  .header {
+    z-index: 0;
+  }
+
+  .form {
+    border-radius: 0;
+    border: none;
+    background-color: var(--blue50);
+  }
+
+  .contents {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding-right: 0;
+    padding: 0;
+  }
+
+  .division {
+    display: none;
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 90px;
+    max-width: 360px;
+    width: 100%;
+  }
+
+  .dropdownInner {
+    padding: 20px;
+  }
+
+  .date {
+    width: auto;
+    left: 0;
+    padding: 0;
+  }
+
+  .btnContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 78px;
+
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--white);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+    .submitBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border-radius: 10px;
+      @include StyledButton(large, success, null);
+    }
+
+    span {
+      display: block;
+      font-weight: 600;
+      @include t4;
+    }
+
+    .iconSearch {
+      display: none;
+    }
+
+    .iconArrow {
+      display: block;
     }
   }
 }
