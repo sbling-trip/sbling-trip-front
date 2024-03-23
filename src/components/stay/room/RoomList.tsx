@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux'
 import Title from '@components/shared/Title'
 import RoomItem from './RoomItem'
 import useRoomList from '../hooks/useRoomList'
+import { RootState } from '@redux/store'
 
 import classNames from 'classnames/bind'
 import styles from './RoomList.module.scss'
@@ -12,7 +14,8 @@ interface RoomListProps {
 }
 
 const RoomList = ({ staySeq }: RoomListProps) => {
-  const { rooms } = useRoomList(staySeq)
+  const { rooms: initialRooms } = useRoomList(staySeq)
+  const { searchResultRooms } = useSelector((state: RootState) => state.room)
 
   return (
     <div className={cx('container')}>
@@ -22,9 +25,13 @@ const RoomList = ({ staySeq }: RoomListProps) => {
         className={cx('roomsTitle')}
       />
       <div className={cx('roomListWrap')}>
-        <ul className={cx('roomList')}>
-          {rooms?.map((room) => <RoomItem key={room.roomSeq} room={room} />)}
-        </ul>
+        {initialRooms && searchResultRooms.length > 0 ? (
+          initialRooms.map((room) => (
+            <RoomItem key={room.roomSeq} room={room} />
+          ))
+        ) : (
+          <p>예약 가능한 객실이 없습니다.</p>
+        )}
       </div>
     </div>
   )
