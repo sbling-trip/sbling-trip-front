@@ -31,13 +31,6 @@ header {
     gap: 8px;
     height: 100%;
 
-    .search {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 48px;
-    }
-
     .user {
       display: flex;
       align-items: center;
@@ -54,11 +47,6 @@ header {
         background-color: var(--blue500);
       }
     }
-
-    .menuIconBtn {
-      display: none;
-      box-shadow: none;
-    }
   }
 }
 
@@ -71,16 +59,6 @@ header {
 
       .logo {
         width: 90px;
-      }
-    }
-
-    .navItem {
-      .user {
-        display: none;
-      }
-
-      .menuIconBtn {
-        display: block;
       }
     }
   }

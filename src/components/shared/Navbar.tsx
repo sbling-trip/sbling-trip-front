@@ -2,8 +2,6 @@ import { useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useAuth from '@auth/useAuth'
 
-import IconMenu from '@assets/icon/icon-menu.svg?react'
-import IconSearch from '@assets/icon/icon-search.svg?react'
 import IconUser from '@assets/icon/icon-user.svg?react'
 import classNames from 'classnames/bind'
 import styles from './Navbar.module.scss'
@@ -17,7 +15,6 @@ interface LogoutButtonProps {
 const Navbar = () => {
   const location = useLocation()
   const isLoginOrSignupPage = ['/login', '/signup'].includes(location.pathname)
-
   const { user, handleLogout } = useAuth()
 
   const scrollToTop = () => {
@@ -82,17 +79,7 @@ const Navbar = () => {
               />
             </Link>
           </h1>
-          <div className={cx('navItem')}>
-            <div className={cx('search')}>
-              <Link to="/search">
-                <IconSearch width={30} height={30} fill="var(--blue400)" />
-              </Link>
-            </div>
-            {renderUserButton()}
-            <button type="button" className={cx('menuIconBtn')}>
-              <IconMenu width={38} height={38} fill="var(--blue400)" />
-            </button>
-          </div>
+          <div className={cx('navItem')}>{renderUserButton()}</div>
         </nav>
       </header>
     </>
