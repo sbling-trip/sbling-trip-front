@@ -1,3 +1,5 @@
+import { useDispatch } from 'react-redux'
+import { setGuestCounts } from '@redux/searchSlice'
 import { useEffect, useState } from 'react'
 
 import IconMinus from '@assets/icon/icon-minus.svg?react'
@@ -8,19 +10,22 @@ import styles from './CountSelector.module.scss'
 const cx = classNames.bind(styles)
 
 interface CountSelectorProps {
-  title: string
-  description: string
+  title?: string
+  description?: string
+  minCount?: number
   initialCount?: number
-  onChange: (count: number) => void
+  isAdult?: boolean
 }
 
 const CountSelector = ({
   title,
   description,
+  minCount = 0,
   initialCount = 0,
-  onChange,
+  isAdult = false,
 }: CountSelectorProps) => {
-  const [count, setCount] = useState(initialCount)
+  const dispatch = useDispatch()
+  const [count, setCount] = useState(initialCount ?? 0)
 
   const handleDecrement = () => {
     if (count > 0) {
@@ -33,8 +38,13 @@ const CountSelector = ({
   }
 
   useEffect(() => {
-    onChange(count)
-  }, [count, onChange])
+    dispatch(
+      setGuestCounts({
+        adultCount: isAdult ? count : 2,
+        childCount: !isAdult ? count : 0,
+      }),
+    )
+  }, [dispatch, isAdult, count])
 
   return (
     <div className={cx('selector')}>
@@ -47,7 +57,7 @@ const CountSelector = ({
           type="button"
           className={cx('btn')}
           onClick={handleDecrement}
-          disabled={title === '성인' ? count === 1 : count === 0}
+          disabled={count === minCount}
         >
           <IconMinus width={24} height={20} />
         </button>
