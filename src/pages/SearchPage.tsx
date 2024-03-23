@@ -1,6 +1,13 @@
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Title from '@components/shared/Title'
 import SearchBar from '@components/search/searchBar/SearchBar'
+import StayItem from '@components/stayList/StayItem'
+import useStayList from '@components/stayList/hooks/useStayList'
 import { RootState } from '@redux/store'
+import { setSearch } from '@redux/searchSlice'
 
 import classNames from 'classnames/bind'
 import styles from './SearchPage.module.scss'
@@ -8,17 +15,34 @@ import styles from './SearchPage.module.scss'
 const cx = classNames.bind(styles)
 
 const SearchPage = () => {
-  const { stays } = useSelector((state: RootState) => state.stay)
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const { searchResultStays } = useSelector((state: RootState) => state.stay)
+  const { handleToggleWish } = useStayList()
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const requestData = {
+      checkInDate: searchParams.get('checkInDate') || '',
+      checkOutDate: searchParams.get('checkOutDate') || '',
+      adultGuestCount: parseInt(searchParams.get('adultGuestCount') || '0'),
+      childGuestCount: parseInt(searchParams.get('childGuestCount') || '0'),
+    }
+    dispatch(setSearch(requestData))
+  }, [location, dispatch])
 
   return (
     <main>
       <SearchBar />
       <div className={cx('searchResultContainer')}>
+        <Title
+          title="숙소 검색 결과"
+          subTitle=""
+          className={cx('resultTitle')}
+        />
         <ul className={cx('resultList')}>
-          {stays.map((stay, index) => (
-            <li key={index}>
-              <p>{stay.stayName}</p>
-            </li>
+          {searchResultStays.map((stay, index) => (
+            <StayItem stay={stay} key={index} toggleWish={handleToggleWish} />
           ))}
         </ul>
       </div>
