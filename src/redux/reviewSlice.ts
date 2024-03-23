@@ -17,12 +17,10 @@ const reviewSlice = createSlice({
   reducers: {
     setReviews: (
       state,
-      action: PayloadAction<{ reviews: Review[]; totalReviewCount?: number }>,
+      action: PayloadAction<{ reviews: Review[]; totalReviewCount: number }>,
     ) => {
       state.reviews = action.payload.reviews
-      if (action.payload.totalReviewCount !== undefined) {
-        state.totalReviewCount = action.payload.totalReviewCount
-      }
+      state.totalReviewCount = action.payload.totalReviewCount
     },
   },
 })
