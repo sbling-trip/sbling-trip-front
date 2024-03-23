@@ -1,0 +1,83 @@
+@import 'src/styles/mixins';
+
+.mobileSearchResult {
+  display: none;
+  cursor: pointer;
+}
+
+@include mobile {
+  .mobileSearchResult {
+    display: block;
+    width: 100%;
+
+    .container {
+      width: calc(100% - 10%);
+      margin: 0 auto;
+    }
+
+    .inner {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      height: 65px;
+      margin-top: 40px;
+      margin-bottom: 60px;
+      border-radius: 50px;
+      @include t5;
+    }
+
+    .searchIconWrap,
+    .arrowBtn {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .searchIconWrap {
+      left: 18px;
+    }
+
+    .arrowBtn {
+      right: 18px;
+      box-shadow: none;
+      color: var(--blue400);
+
+      .iconArrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    .searchResultText {
+      width: 100%;
+      height: 100%;
+      padding: 10px 20px 10px 65px;
+      font-weight: 500;
+      border-radius: 30px;
+      background-color: var(--blue50);
+      cursor: pointer;
+      @include t6;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      white-space: nowrap;
+
+      strong {
+        width: calc(100% - 20%);
+        color: var(--gray800);
+        font-weight: bold;
+        @include truncate;
+      }
+
+      span {
+        width: calc(100% - 20%);
+        color: var(--gray700);
+        @include t6;
+        @include truncate;
+      }
+    }
+  }
+}
