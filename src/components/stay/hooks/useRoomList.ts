@@ -4,7 +4,7 @@ import { Room } from '@models/room'
 import { ListApiResponse } from '@models/api'
 
 const useRoomList = (staySeq: string) => {
-  const [rooms, setRooms] = useState<Room[] | null>(null)
+  const [rooms, setRooms] = useState<Room[]>([])
 
   useEffect(() => {
     const fetchRooms = async () => {

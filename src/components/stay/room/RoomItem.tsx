@@ -10,7 +10,7 @@ import Carousel from '@components/shared/Carousel'
 import useStayList from '@components/stayList/hooks/useStayList'
 import delimiter from '@utils/delimiter'
 import { Room } from '@models/room'
-import { setRoom } from '@redux/roomSlice'
+import { setSelectedRoom } from '@redux/roomSlice'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
@@ -48,7 +48,7 @@ const RoomItem = ({ room }: RoomItemProps) => {
   }
 
   const handleReservationClick = () => {
-    dispatch(setRoom(room))
+    dispatch(setSelectedRoom(room))
     navigate('/reservation')
   }
 
