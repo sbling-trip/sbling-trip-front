@@ -17,32 +17,21 @@ interface SelectedStayProps {
 }
 
 const SelectedStay = ({ currentStayInfo }: SelectedStayProps) => {
-  const { date } = useSelector((state: RootState) => state.date)
-  const { room } = useSelector((state: RootState) => state.room)
+  const { checkInDate, checkOutDate, adultGuestCount, childGuestCount } =
+    useSelector((state: RootState) => state.search)
+  const { selectedRoom } = useSelector((state: RootState) => state.room)
 
   const checkInTime = currentStayInfo?.checkInTime || ''
   const checkOutTime = currentStayInfo?.checkOutTime || ''
-  const mainStayImage = currentStayInfo?.roomImageUrlList[0]
+  const selectedStayImage = currentStayInfo?.roomImageUrlList[0]
+  const selectedStayName = currentStayInfo?.stayName
 
-  const renderSelectedDate = () => {
-    if (date && date.checkIn && date.checkOut) {
-      const formattedCheckIn = format(
-        parseISO(date.checkIn),
-        'yy년 M월 d일 (E)',
-        { locale: ko },
-      )
-      const formattedCheckOut = format(
-        parseISO(date.checkOut),
-        'yy년 M월 d일 (E)',
-        { locale: ko },
-      )
-      return (
-        <span>
-          {`${formattedCheckIn} ~ ${formattedCheckOut}, ${date.nights}박`}
-        </span>
-      )
-    }
-  }
+  const formattedCheckIn = checkInDate
+    ? format(parseISO(checkInDate), 'yy년 MM월 dd일 (E)', { locale: ko })
+    : ''
+  const formattedCheckOut = checkOutDate
+    ? format(parseISO(checkOutDate), 'yy년 MM월 dd일 (E)', { locale: ko })
+    : ''
 
   return (
     <section className={cx('sectionContainer')}>
@@ -53,18 +42,21 @@ const SelectedStay = ({ currentStayInfo }: SelectedStayProps) => {
         leftContent={
           <div className={cx('leftContent')}>
             <img
-              src={mainStayImage}
-              alt={`${currentStayInfo?.stayName} 숙소 사진`}
+              src={selectedStayImage}
+              alt={`${selectedStayName} 숙소 사진`}
             />
           </div>
         }
         mainContent={
           <div className={cx('mainContentTitle')}>
-            <h3>{currentStayInfo?.stayName}</h3>
+            <h3>{selectedStayName}</h3>
             <div className={cx('schedule')}>
-              {renderSelectedDate()}
-              <span>{room?.roomName}</span>
-              <span>{`입실: ${checkInTime}, 퇴실: ${checkOutTime}`}</span>
+              {formattedCheckIn && formattedCheckOut && (
+                <span>{`${formattedCheckIn} - ${formattedCheckOut}`}</span>
+              )}
+              <span>{`성인: ${adultGuestCount}, 아동: ${childGuestCount}`}</span>
+              <span>{selectedRoom?.roomName}</span>
+              <span>{`입실: ${checkInTime} - 퇴실: ${checkOutTime}`}</span>
             </div>
           </div>
         }
