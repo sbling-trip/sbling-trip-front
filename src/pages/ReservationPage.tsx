@@ -10,11 +10,14 @@ import Title from '@components/shared/Title'
 
 import useStayList from '@components/stayList/hooks/useStayList'
 import { useAlertContext } from '@hooks/useAlertContext'
-import useUserPoint from '@auth/useUserPoint'
+import useUserPoint from '@hooks/useUserPoint'
 
+import apiClientAxios from '@api/apiClientAxios'
 import { RootState } from '@redux/store'
 import { setCurrentStay } from '@redux/staySlice'
 import { setPoints } from '@redux/pointSlice'
+import { resetRoom } from '@redux/roomSlice'
+import { resetDates } from '@redux/searchSlice'
 import { Point } from '@models/point'
 
 import classNames from 'classnames/bind'
@@ -31,6 +34,7 @@ const ReservationPage = () => {
     isPhoneValid: false,
     totalPayment: 0,
   })
+
   const [inputPoints, setInputPoints] = useState<number>(0)
   const [usedPoints, setUsedPoints] = useState<number>(0)
 
@@ -39,6 +43,9 @@ const ReservationPage = () => {
 
   const dispatch = useDispatch()
   const { currentStay } = useSelector((state: RootState) => state.stay)
+  const { selectedRoom } = useSelector((state: RootState) => state.room)
+  const { checkInDate, checkOutDate, adultGuestCount, childGuestCount } =
+    useSelector((state: RootState) => state.search)
   const { stays } = useStayList()
   const { points, fetchUserPoint } = useUserPoint()
   const { point } = points ? points : { point: 0 }
@@ -46,7 +53,39 @@ const ReservationPage = () => {
   const currentStayInfo = stays.find(
     (stay) => stay.staySeq === currentStay?.staySeq,
   )
-  const stayPrice = currentStayInfo?.minimumRoomPrice ?? 0
+  const roomPrice = selectedRoom?.roomPrice
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    try {
+      const reservationData = {
+        staySeq: currentStay?.staySeq,
+        roomSeq: selectedRoom?.roomSeq,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
+        adultGuestCount: adultGuestCount,
+        childGuestCount: childGuestCount,
+        specialRequests: '',
+        paymentPrice: roomPrice,
+      }
+
+      await apiClientAxios.post('/reservation/add', reservationData)
+
+      openAlert({
+        title: '숙소 예약이 완료되었습니다.',
+        onConfirmClick: () => {
+          navigate('/my')
+        },
+      })
+    } catch (error) {
+      console.error('Error occurred while making reservation:', error)
+      openAlert({
+        title: '예약에 실패했습니다. 다시 시도해주세요.',
+        onConfirmClick: () => {},
+      })
+    }
+  }
 
   const handlePaymentButtonClick = () => {
     const updatedPoint: Point = {
@@ -56,13 +95,6 @@ const ReservationPage = () => {
     }
 
     dispatch(setPoints(updatedPoint))
-
-    openAlert({
-      title: '숙소 예약이 완료되었습니다.',
-      onConfirmClick: () => {
-        navigate('/my')
-      },
-    })
   }
 
   const validateField = (name: string, value: string) => {
@@ -114,30 +146,30 @@ const ReservationPage = () => {
       setFormData({
         ...formData,
       })
-      setUsedPoints(stayPrice)
+      setUsedPoints(roomPrice!)
     } else {
       setFormData({
         ...formData,
       })
-      setUsedPoints(Math.min(point, stayPrice))
+      setUsedPoints(Math.min(point, roomPrice!))
     }
   }
 
   useEffect(() => {
     setFormData({
       ...formData,
-      totalPayment: stayPrice - usedPoints,
+      totalPayment: roomPrice! - usedPoints,
     })
-  }, [usedPoints, stayPrice])
+  }, [usedPoints, roomPrice])
 
   useEffect(() => {
-    if (currentStayInfo) {
+    if (roomPrice) {
       setFormData({
         ...formData,
-        totalPayment: currentStayInfo.minimumRoomPrice,
+        totalPayment: roomPrice,
       })
     }
-  }, [currentStayInfo])
+  }, [roomPrice])
 
   useEffect(() => {
     dispatch(setCurrentStay(currentStay))
@@ -145,12 +177,18 @@ const ReservationPage = () => {
     if (currentStay) {
       fetchUserPoint()
     }
+
+    return () => {
+      dispatch(resetDates())
+      dispatch(resetRoom())
+      dispatch(setCurrentStay(null))
+    }
   }, [dispatch, currentStay])
 
   return (
     <main>
-      <div className={cx('reservationContainer')}>
-        <div className={cx('reservationInner')}>
+      <form className={cx('reservationForm')} onSubmit={handleFormSubmit}>
+        <div className={cx('inner')}>
           <Title
             title="예약 확인 및 결제"
             subTitle=""
@@ -178,7 +216,7 @@ const ReservationPage = () => {
             </div>
             <PaymentSidebar
               formData={{
-                stayPrice,
+                roomPrice: roomPrice ?? 0,
                 usedPoints: usedPoints,
                 isNameValid: formData.isNameValid,
                 isPhoneValid: formData.isPhoneValid,
@@ -188,7 +226,7 @@ const ReservationPage = () => {
             />
           </div>
         </div>
-      </div>
+      </form>
     </main>
   )
 }
