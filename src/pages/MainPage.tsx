@@ -56,11 +56,15 @@ const MainPage = () => {
           <StayTypeMenu activeTab={activeTab} handleTabClick={handleTabClick} />
           <CustomCarousel
             className={cx('carousel')}
-            items={selectedStays.map((stay) => ({
-              imageUrl: stay.roomImageUrlList[0],
-              staySeq: stay.staySeq,
-              contents: <StayItemContents stay={stay} />,
-            }))}
+            items={
+              selectedStays
+                ? selectedStays.map((stay) => ({
+                    imageUrl: stay.roomImageUrlList[0],
+                    staySeq: stay.staySeq,
+                    contents: <StayItemContents stay={stay} />,
+                  }))
+                : []
+            }
           />
         </div>
       </section>
