@@ -1,5 +1,5 @@
 import Title from '@components/shared/Title'
-import useUserPoint from '@auth/useUserPoint'
+import useUserPoint from '@hooks/useUserPoint'
 import delimiter from '@utils/delimiter'
 
 import classNames from 'classnames/bind'
@@ -13,7 +13,7 @@ const Point = () => {
   const myPoint = point || 0
 
   if (!point) {
-    return
+    return <p>포인트가 없습니다.</p>
   }
 
   return (
