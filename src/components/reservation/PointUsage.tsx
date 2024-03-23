@@ -33,7 +33,7 @@ const PointUsage = ({
         mainContent={
           <div className={cx('mainContent')}>
             <span>보유 포인트</span>
-            <strong>{`${delimiter(point - usedPoints)}원`}</strong>
+            <strong>{`${delimiter(point)}원`}</strong>
           </div>
         }
         rightContent={
