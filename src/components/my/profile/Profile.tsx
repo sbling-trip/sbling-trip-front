@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import ProfileImage from './ProfileImage'
 import ProfileInfoItem from './ProfileInfoItem'
 import TermsAgreementItem from './TermsAgreementItem'
-import useUserInfo from '@auth/useUserInfo'
 import useAuth from '@auth/useAuth'
 import { useAlertContext } from '@hooks/useAlertContext'
 
@@ -13,8 +12,7 @@ const cx = classNames.bind(styles)
 
 const Profile = () => {
   const { openAlert } = useAlertContext()
-  const { handleSignOut } = useAuth()
-  const { user, fetchUpdateUserInfo } = useUserInfo()
+  const { user, fetchUpdateUserInfo, handleSignOut } = useAuth()
   const {
     userName: initialUserName,
     userEmail: initialUserEmail,
