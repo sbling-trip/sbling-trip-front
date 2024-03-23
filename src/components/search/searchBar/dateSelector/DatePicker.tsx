@@ -1,9 +1,16 @@
 import { DateFormatter, DateRange, DayPicker } from 'react-day-picker'
-import { differenceInDays, format, isSameDay, parseISO } from 'date-fns'
+import {
+  addDays,
+  addMonths,
+  differenceInDays,
+  format,
+  isSameDay,
+  parseISO,
+} from 'date-fns'
 import { ko } from 'date-fns/locale'
 
-import IconReset from '@assets/icon/icon-reset.svg?react'
 import 'react-day-picker/dist/style.css'
+import IconReset from '@assets/icon/icon-reset.svg?react'
 import classNames from 'classnames/bind'
 import styles from './DatePicker.module.scss'
 
@@ -30,21 +37,25 @@ const DatePicker = ({
 }: DatePickerProps) => {
   const today = new Date()
 
+  const isDefaultDateRange =
+    checkIn === format(addMonths(today, 1), DATE_FORMAT) &&
+    checkOut === format(addDays(addMonths(today, 1), 1), DATE_FORMAT)
+
   const handleDayClick = (dateRange: DateRange | undefined) => {
-    if (dateRange == null) {
+    if (dateRange == null || !dateRange.from || !dateRange.to) {
       return
     }
 
     const { from, to } = dateRange
 
-    if (from && to && isSameDay(from, to)) {
+    if (isSameDay(from, to)) {
       return
     }
 
     onChange({
-      from: from ? format(from, DATE_FORMAT) : undefined,
-      to: to ? format(to, DATE_FORMAT) : undefined,
-      nights: from && to ? differenceInDays(to, from) : 0,
+      from: format(from, DATE_FORMAT),
+      to: format(to, DATE_FORMAT),
+      nights: differenceInDays(to, from),
     })
   }
 
@@ -53,8 +64,18 @@ const DatePicker = ({
     to: checkOut != null ? parseISO(checkOut) : undefined,
   }
 
-  const resetDates = () => {
-    onReset()
+  const handleComplete = () => {
+    onComplete()
+    onChange({
+      from: selectedDate.from
+        ? format(selectedDate.from, DATE_FORMAT)
+        : undefined,
+      to: selectedDate.to ? format(selectedDate.to, DATE_FORMAT) : undefined,
+      nights:
+        selectedDate.from && selectedDate.to
+          ? differenceInDays(selectedDate.to, selectedDate.from)
+          : 0,
+    })
   }
 
   const formatCaption: DateFormatter = (date, options) => {
@@ -85,7 +106,8 @@ const DatePicker = ({
         <button
           type="button"
           className={cx('btn', 'reset')}
-          onClick={resetDates}
+          onClick={onReset}
+          disabled={isDefaultDateRange}
         >
           <IconReset width={18} height={18} />
           초기화
@@ -93,7 +115,7 @@ const DatePicker = ({
         <button
           type="button"
           className={cx('btn', 'complete')}
-          onClick={onComplete}
+          onClick={handleComplete}
         >
           선택 완료
         </button>

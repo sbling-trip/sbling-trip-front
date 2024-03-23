@@ -1,44 +1,18 @@
 import { useEffect, useState } from 'react'
-import { addDays, addMonths, format, parseISO } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { addDays, addMonths, format } from 'date-fns'
 import useDropdown from '@hooks/useDropdown'
 import { useDispatch } from 'react-redux'
-import { resetDate, setDate } from '@redux/dateSlice'
-
-interface UseDatePickerResult {
-  displayedDate: string
-  setDisplayedDate: React.Dispatch<React.SetStateAction<string>>
-  selectedDate: {
-    checkIn?: string
-    checkOut?: string
-    nights: number
-  }
-  setSelectedDate: React.Dispatch<
-    React.SetStateAction<{
-      checkIn?: string | undefined
-      checkOut?: string | undefined
-      nights: number
-    }>
-  >
-  toggleDateDropdown: () => void
-  handleDatePickerComplete: () => void
-  handleReset: () => void
-  isDateDropdownOpen: boolean
-  dateDropdownRef: React.RefObject<HTMLDivElement>
-}
+import { setDates, resetDates } from '@redux/searchSlice'
 
 const DATE_FORMAT = 'yyyy-MM-dd'
 
-const useDatePicker = (): UseDatePickerResult => {
-  const [displayedDate, setDisplayedDate] = useState<string>('')
+const useDatePicker = () => {
   const [selectedDate, setSelectedDate] = useState<{
     checkIn?: string
     checkOut?: string
-    nights: number
   }>({
     checkIn: format(addMonths(new Date(), 1), DATE_FORMAT),
     checkOut: format(addDays(addMonths(new Date(), 1), 1), DATE_FORMAT),
-    nights: 1,
   })
 
   const [isDateDropdownOpen, toggleDateDropdown, dateDropdownRef] =
@@ -48,40 +22,33 @@ const useDatePicker = (): UseDatePickerResult => {
 
   const handleDatePickerComplete = () => {
     if (selectedDate.checkIn && selectedDate.checkOut) {
-      const formattedcheckIn = format(
-        parseISO(selectedDate.checkIn),
-        'M월 d일 ',
-        { locale: ko },
-      )
-      const formattedcheckOut = format(
-        parseISO(selectedDate.checkOut),
-        'M월 d일 ',
-        { locale: ko },
-      )
-      setDisplayedDate(
-        `${formattedcheckIn} ~ ${formattedcheckOut} (${selectedDate.nights}박)`,
-      )
       toggleDateDropdown()
     }
   }
 
   const handleReset = () => {
-    setDisplayedDate('')
     setSelectedDate({
       checkIn: format(addMonths(new Date(), 1), DATE_FORMAT),
       checkOut: format(addDays(addMonths(new Date(), 1), 1), DATE_FORMAT),
-      nights: 1,
     })
-    dispatch(resetDate())
+    dispatch(resetDates())
   }
 
   useEffect(() => {
-    dispatch(setDate(selectedDate))
+    if (
+      selectedDate.checkIn !== undefined &&
+      selectedDate.checkOut !== undefined
+    ) {
+      dispatch(
+        setDates({
+          checkIn: selectedDate.checkIn,
+          checkOut: selectedDate.checkOut,
+        }),
+      )
+    }
   }, [dispatch, selectedDate])
 
   return {
-    displayedDate,
-    setDisplayedDate,
     selectedDate,
     setSelectedDate,
     toggleDateDropdown,
