@@ -4,11 +4,13 @@ import { Stay } from '@models/stay'
 interface StayState {
   stays: Stay[]
   currentStay: Stay | null
+  searchResultStays: Stay[]
 }
 
 const initialState: StayState = {
   stays: [],
   currentStay: null,
+  searchResultStays: [],
 }
 
 const staySlice = createSlice({
@@ -24,8 +26,12 @@ const staySlice = createSlice({
     addStays: (state, action: PayloadAction<Stay[]>) => {
       state.stays = [...state.stays, ...action.payload]
     },
+    setSearchResultStays: (state, action: PayloadAction<Stay[]>) => {
+      state.searchResultStays = action.payload
+    },
   },
 })
 
-export const { setStays, addStays, setCurrentStay } = staySlice.actions
+export const { setStays, addStays, setCurrentStay, setSearchResultStays } =
+  staySlice.actions
 export default staySlice.reducer
