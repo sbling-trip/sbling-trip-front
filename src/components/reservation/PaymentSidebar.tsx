@@ -10,7 +10,7 @@ const cx = classNames.bind(styles)
 
 interface PaymentSidebarProps {
   formData: {
-    stayPrice: number
+    roomPrice: number
     usedPoints: number
     isNameValid: boolean
     isPhoneValid: boolean
@@ -23,8 +23,7 @@ const PaymentSidebar = ({
   formData,
   handlePaymentButtonClick,
 }: PaymentSidebarProps) => {
-  const { stayPrice, usedPoints, isNameValid, isPhoneValid, totalPayment } =
-    formData
+  const { roomPrice, usedPoints, totalPayment } = formData
 
   const {
     selectAllTerms,
@@ -34,9 +33,6 @@ const PaymentSidebar = ({
   } = useTermsAgreement({
     initialTerms: { term1: false, term2: false, term3: false },
   })
-
-  const isPaymentButtonEnabled =
-    isNameValid && isPhoneValid && totalPayment === 0 && termsAgreed.term1
 
   return (
     <aside className={cx('aside')}>
@@ -51,7 +47,7 @@ const PaymentSidebar = ({
             <div className={cx('paymentInfo')}>
               <div className={cx('flexBlock')}>
                 <span>예약 금액</span>
-                <strong>{`${delimiter(stayPrice)}원`}</strong>
+                <strong>{`${delimiter(roomPrice)}원`}</strong>
               </div>
               <div className={cx('flexBlock')}>
                 <span>포인트 사용</span>
@@ -74,9 +70,8 @@ const PaymentSidebar = ({
           />
           <div className={cx('btnWrap')}>
             <button
-              type="button"
+              type="submit"
               className={cx('paymentBtn')}
-              disabled={!isPaymentButtonEnabled}
               onClick={handlePaymentButtonClick}
             >
               {`${delimiter(totalPayment)}원 결제하기`}

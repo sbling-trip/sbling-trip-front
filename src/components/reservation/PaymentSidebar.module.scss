@@ -80,3 +80,14 @@
     }
   }
 }
+
+@include mobile {
+  .aside {
+    width: 100%;
+    margin-left: 0;
+
+    .inner {
+      width: 100%;
+    }
+  }
+}
