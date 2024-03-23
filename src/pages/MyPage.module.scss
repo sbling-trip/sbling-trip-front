@@ -22,3 +22,16 @@
     }
   }
 }
+
+@include mobile {
+  .myContainer {
+    .inner {
+      flex-direction: column;
+      margin-top: 0;
+
+      .leftSide {
+        margin-left: 0;
+      }
+    }
+  }
+}

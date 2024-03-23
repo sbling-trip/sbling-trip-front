@@ -38,3 +38,10 @@
   color: var(--blue500);
   fill: var(--blue500);
 }
+
+@include mobile {
+  .sidebar {
+    width: 100%;
+    border-radius: 0;
+  }
+}

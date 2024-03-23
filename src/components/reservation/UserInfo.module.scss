@@ -66,3 +66,21 @@
     color: var(--error);
   }
 }
+
+@include mobile {
+  .sectionContainer {
+    margin: 10px 0;
+
+    .sectionTitle {
+      padding: 8px 0;
+
+      h2 {
+        @include t4;
+      }
+    }
+
+    .reservationPerson {
+      gap: 15px;
+    }
+  }
+}
