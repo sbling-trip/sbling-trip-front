@@ -6,11 +6,16 @@
   padding: 20px;
 
   .reservationTitle {
-    margin-bottom: 16px;
+    margin-bottom: 4px;
 
     h2 {
       font-weight: 600;
       @include t2;
     }
+  }
+
+  .reservations {
+    display: flex;
+    flex-direction: column;
   }
 }

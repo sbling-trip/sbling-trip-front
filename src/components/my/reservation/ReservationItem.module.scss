@@ -1,0 +1,24 @@
+@import 'src/styles/mixins';
+
+.item {
+  padding: 16px 0;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray100);
+
+  .inner {
+    display: flex;
+    gap: 40px;
+    color: var(--gray700);
+  }
+
+  .stayName {
+    margin-bottom: 10px;
+    font-weight: 500;
+    @include t4;
+  }
+
+  li {
+    margin-bottom: 5px;
+    @include t6;
+  }
+}
