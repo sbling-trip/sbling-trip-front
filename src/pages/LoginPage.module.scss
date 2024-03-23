@@ -76,3 +76,22 @@
     }
   }
 }
+
+@include mobile {
+  .loginFormContainer {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .formTitle {
+    padding-top: 40px;
+
+    h2 {
+      @include t4;
+    }
+
+    h3 {
+      @include t4;
+    }
+  }
+}
