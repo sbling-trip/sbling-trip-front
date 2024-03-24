@@ -18,7 +18,7 @@ import useStayList from '@components/stayList/hooks/useStayList'
 import useRoomList from '@components/stay/hooks/useRoomList'
 import { setCurrentStay } from '@redux/staySlice'
 
-import banner1 from '@assets/banner_5.png'
+import banner1 from '@assets/banner_4.png'
 import banner2 from '@assets/banner_1_small.png'
 import classNames from 'classnames/bind'
 import styles from './StayDetailPage.module.scss'
@@ -80,6 +80,10 @@ const StayDetailPage = () => {
       didMountRef.current = true
     }
   }, [currentStay, dispatch])
+
+  if (!currentStay) {
+    return <p>해당 숙소가 없습니다.</p>
+  }
 
   return (
     <main>

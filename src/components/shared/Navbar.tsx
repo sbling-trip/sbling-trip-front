@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useAuth from '@auth/useAuth'
 
+import logo from '@assets/logo.png'
 import IconUser from '@assets/icon/icon-user.svg?react'
 import classNames from 'classnames/bind'
 import styles from './Navbar.module.scss'
@@ -68,15 +69,11 @@ const Navbar = () => {
           <h1>
             <Link
               to="/"
-              aria-label="Sibling Trip 홈페이지"
+              aria-label="Sbling Trip 홈페이지"
               role="link"
               onClick={scrollToTop}
             >
-              <img
-                src="/src/assets/logo.png"
-                alt="Sbling Trip"
-                className={cx('logo')}
-              />
+              <img src={logo} alt="Sbling Trip" className={cx('logo')} />
             </Link>
           </h1>
           <div className={cx('navItem')}>{renderUserButton()}</div>

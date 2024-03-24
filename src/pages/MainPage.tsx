@@ -13,7 +13,7 @@ import { StayType } from '@models/stay'
 import banner1 from '@assets/banner_1.png'
 import banner2 from '@assets/banner_2.png'
 import banner3 from '@assets/banner_3.png'
-import banner4 from '@assets/banner_5.png'
+import banner4 from '@assets/banner_4.png'
 import classNames from 'classnames/bind'
 import styles from './MainPage.module.scss'
 
