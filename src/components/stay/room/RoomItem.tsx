@@ -7,12 +7,12 @@ import Title from '@components/shared/Title'
 import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
 
-import useStayList from '@components/stayList/hooks/useStayList'
 import useAuth from '@auth/useAuth'
 import { useAlertContext } from '@hooks/useAlertContext'
 import delimiter from '@utils/delimiter'
 import { Room } from '@models/room'
 import { setSelectedRoom } from '@redux/roomSlice'
+import { Stay } from '@models/stay'
 
 import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
@@ -22,9 +22,10 @@ const cx = classNames.bind(styles)
 
 interface RoomItemProps {
   room: Room
+  stay: Stay
 }
 
-const RoomItem = ({ room }: RoomItemProps) => {
+const RoomItem = ({ room, stay }: RoomItemProps) => {
   const [showRoomDetailModal, setShowRoomDetailModal] = useState<boolean>(false)
   const {
     roomAvailableCount,
@@ -35,7 +36,6 @@ const RoomItem = ({ room }: RoomItemProps) => {
     minPeople,
     maxPeople,
   } = room
-  const { stays } = useStayList()
   const { user } = useAuth()
   const { openAlert } = useAlertContext()
 
@@ -44,8 +44,6 @@ const RoomItem = ({ room }: RoomItemProps) => {
 
   const soldOut = roomAvailableCount === 0
   const reservationLabel = soldOut ? '매진' : '예약하기'
-
-  const stay = stays.find((stay) => stay.staySeq === room.staySeq)
 
   const handleCloseModal = () => {
     setShowRoomDetailModal(false)
@@ -63,10 +61,6 @@ const RoomItem = ({ room }: RoomItemProps) => {
         },
       })
     }
-  }
-
-  if (!stay) {
-    return null
   }
 
   return (

@@ -98,7 +98,7 @@ const StayDetailPage = () => {
           <div className={cx('mainContents')}>
             <section className={cx('info')}>
               <div className={cx('infoBody')}>
-                <RoomList staySeq={staySeq!} />
+                <RoomList currentStay={currentStay} />
                 <hr />
                 <StayIntro description={description} />
                 <hr />

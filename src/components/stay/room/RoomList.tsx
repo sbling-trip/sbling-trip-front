@@ -3,6 +3,7 @@ import Title from '@components/shared/Title'
 import RoomItem from './RoomItem'
 import useRoomList from '../hooks/useRoomList'
 import { RootState } from '@redux/store'
+import { Stay } from '@models/stay'
 
 import classNames from 'classnames/bind'
 import styles from './RoomList.module.scss'
@@ -10,11 +11,11 @@ import styles from './RoomList.module.scss'
 const cx = classNames.bind(styles)
 
 interface RoomListProps {
-  staySeq: string
+  currentStay: Stay
 }
 
-const RoomList = ({ staySeq }: RoomListProps) => {
-  const { rooms: initialRooms } = useRoomList(staySeq)
+const RoomList = ({ currentStay }: RoomListProps) => {
+  const { rooms: initialRooms } = useRoomList(currentStay.staySeq.toString())
   const { searchResultRooms } = useSelector((state: RootState) => state.room)
 
   return (
@@ -27,7 +28,7 @@ const RoomList = ({ staySeq }: RoomListProps) => {
       <div className={cx('roomListWrap')}>
         {initialRooms && searchResultRooms.length > 0 ? (
           initialRooms.map((room) => (
-            <RoomItem key={room.roomSeq} room={room} />
+            <RoomItem key={room.roomSeq} room={room} stay={currentStay} />
           ))
         ) : (
           <p>예약 가능한 객실이 없습니다.</p>
