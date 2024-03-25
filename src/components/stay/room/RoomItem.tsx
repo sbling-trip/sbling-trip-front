@@ -8,6 +8,8 @@ import ListRow from '@components/shared/ListRow'
 import Carousel from '@components/shared/Carousel'
 
 import useStayList from '@components/stayList/hooks/useStayList'
+import useAuth from '@auth/useAuth'
+import { useAlertContext } from '@hooks/useAlertContext'
 import delimiter from '@utils/delimiter'
 import { Room } from '@models/room'
 import { setSelectedRoom } from '@redux/roomSlice'
@@ -34,6 +36,8 @@ const RoomItem = ({ room }: RoomItemProps) => {
     maxPeople,
   } = room
   const { stays } = useStayList()
+  const { user } = useAuth()
+  const { openAlert } = useAlertContext()
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -48,8 +52,17 @@ const RoomItem = ({ room }: RoomItemProps) => {
   }
 
   const handleReservationClick = () => {
-    dispatch(setSelectedRoom(room))
-    navigate('/reservation')
+    if (user) {
+      dispatch(setSelectedRoom(room))
+      navigate('/reservation')
+    } else {
+      openAlert({
+        title: '로그인 페이지로 이동합니다.',
+        onConfirmClick: () => {
+          navigate('/login')
+        },
+      })
+    }
   }
 
   if (!stay) {
