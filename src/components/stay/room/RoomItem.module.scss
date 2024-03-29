@@ -2,7 +2,6 @@
 
 .roomItem {
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
   padding: 20px;
   margin-bottom: 15px;
@@ -10,6 +9,23 @@
   border: 1px solid var(--blue100);
   box-shadow: 0px 2px 4px 0px rgba(33, 37, 41, 0.1);
   background-color: var(--blue50);
+
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+
+    img {
+      height: 180px;
+      border-radius: 4px;
+    }
+
+    .carousel {
+      --swiper-navigation-size: 20px;
+      --swiper-navigation-top-offset: 50%;
+      --swiper-navigation-sides-offset: 15px;
+    }
+  }
 
   .mainContent {
     display: flex;
@@ -50,24 +66,6 @@
           background-color: var(--blue100);
         }
       }
-    }
-  }
-
-  .leftContent {
-    display: flex;
-    flex-direction: column;
-    width: 230px;
-    width: 40%;
-
-    img {
-      height: 180px;
-      border-radius: 4px;
-    }
-
-    .carousel {
-      --swiper-navigation-size: 20px;
-      --swiper-navigation-top-offset: 50%;
-      --swiper-navigation-sides-offset: 15px;
     }
   }
 
@@ -118,6 +116,86 @@
       font-weight: 700;
       @include t4;
       color: var(--gray700);
+    }
+  }
+}
+
+@include mobile {
+  .roomItem {
+    position: relative;
+    flex-direction: column;
+    padding: 15px;
+    margin-bottom: 15px;
+    gap: 15px;
+
+    .leftContent {
+      width: 100%;
+
+      .carousel {
+        --swiper-navigation-size: 16px;
+        --swiper-navigation-sides-offset: 12px;
+      }
+    }
+
+    .mainContent {
+      padding-top: 0;
+      padding-left: 0;
+      padding: 0 10px;
+
+      .mainContentTitle {
+        h2 {
+          margin-bottom: 10px;
+          @include t5;
+        }
+      }
+    }
+
+    .rightContent {
+      position: initial;
+      padding: 0 10px;
+      border-left: 0;
+      border-top: 1px solid var(--blue80);
+
+      .roomDetailBtn {
+        position: absolute;
+        right: 10px;
+        top: 210px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        white-space: nowrap;
+        font-weight: 800;
+        @include t7;
+        letter-spacing: -1px;
+        box-shadow: none;
+        color: var(--blue600);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .flexBlock {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0;
+      }
+
+      .selectBtn {
+        border-radius: 6px;
+        @include StyledButton(medium, null, success);
+        box-shadow: none;
+        padding: 6px 10px;
+        @include t7;
+      }
+
+      .price {
+        font-weight: 700;
+        @include t4;
+        color: var(--gray700);
+      }
     }
   }
 }

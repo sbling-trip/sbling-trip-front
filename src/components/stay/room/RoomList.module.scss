@@ -28,14 +28,24 @@
 .roomListWrap {
   width: 100%;
   margin: 0 auto;
+}
 
-  .roomList {
-    margin: 32px 0px;
-    display: flex;
-    flex-wrap: wrap;
-
+@include mobile {
+  .roomsTitle {
     width: 100%;
-    margin: 0 auto;
-    gap: 20px;
+    padding-bottom: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-weight: 600;
+      @include t4;
+    }
+
+    h3 {
+      @include t6;
+    }
   }
 }
