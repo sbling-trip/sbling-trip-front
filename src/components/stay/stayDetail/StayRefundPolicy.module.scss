@@ -45,3 +45,22 @@
     }
   }
 }
+
+@include mobile {
+  .container {
+    .stayTitle {
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .infoList {
+      margin-top: 0;
+
+      li {
+        margin: 3px 0 3px 3px;
+      }
+    }
+  }
+}

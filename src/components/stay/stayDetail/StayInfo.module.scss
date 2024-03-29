@@ -25,16 +25,17 @@
 
     .infoSection {
       display: grid;
-      gap: 16px;
-
+      gap: 8px;
       padding-top: 16px;
-      padding-bottom: 8px;
       word-break: keep-all;
-      border-radius: 8px;
 
       .infoTitle {
         font-weight: 600;
         color: var(--gray800);
+
+        h3 {
+          @include t5;
+        }
       }
     }
 
@@ -68,6 +69,37 @@
 
         &:hover {
           color: var(--blue500);
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .container {
+    .stayTitle {
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .detailInfoContainer {
+      .infoSection {
+        display: grid;
+        gap: 4px;
+        padding-top: 4px;
+      }
+
+      .infoList {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0px, 1fr));
+        margin-top: 10px;
+        color: var(--gray600);
+
+        li {
+          margin: 3px 0 3px 3px;
+          @include t6;
         }
       }
     }

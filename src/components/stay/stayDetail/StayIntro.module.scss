@@ -78,4 +78,34 @@
       color: var(--blue500);
     }
   }
+
+  .iconArrow {
+    transform: rotate(90deg);
+  }
+}
+
+@include mobile {
+  .container {
+    .stayTitle {
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .intro {
+      p {
+        @include t6;
+      }
+    }
+
+    .btnWrap {
+      justify-content: flex-start;
+
+      .showAllBtn {
+        font-weight: 700;
+        @include t6;
+      }
+    }
+  }
 }

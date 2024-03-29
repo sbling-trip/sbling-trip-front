@@ -32,9 +32,6 @@ const StayInfo = ({
             <h3 className={cx('infoTitle')}>기본 정보</h3>
             <ul className={cx('infoList')}>
               <li>{`입실: ${checkInTime} ~ 퇴실: ${checkOutTime}`}</li>
-              <li>무료 Wi-Fi</li>
-              <li>전 객실 금연</li>
-              <li>Bath Amenity (치약, 칫솔 유료)</li>
               <li>{parkingAvailable ? '주차 가능' : '주차 불가'}</li>
               {manager && (
                 <li>

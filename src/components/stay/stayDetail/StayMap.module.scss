@@ -62,7 +62,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 6px 12px;
         border-radius: 4px;
         border: 1px solid var(--gray200);
         @include t4;
@@ -70,6 +69,60 @@
 
         &:hover {
           background-color: var(--gray50);
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .stayMapContainer {
+    max-width: 1200px;
+    position: relative;
+
+    .stayMapTitle {
+      h2 {
+        font-weight: 600;
+        @include t4;
+      }
+    }
+
+    .stayMapRef {
+      height: 400px;
+    }
+
+    .stayMapContent {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      flex-wrap: wrap;
+      gap: 12px;
+
+      width: 100%;
+      padding: 15px 20px;
+      box-shadow: 0 1px 14px 0 rgba(0, 0, 0, 0.1);
+
+      .address {
+        padding-left: 0;
+        @include t6;
+      }
+
+      .btnContainer {
+        display: flex;
+        gap: 10px;
+
+        .btn {
+          @include StyledButton(small, null, null);
+          @include t7;
+          padding: 6px 8px;
+          font-weight: 500;
+          color: var(--gray800);
+
+          svg {
+            width: 15px;
+            height: 15px;
+          }
         }
       }
     }
