@@ -58,6 +58,7 @@ const useSignupForm = () => {
 
       openAlert({
         title: '회원가입이 완료되었습니다.',
+        subTitle: '축하금 1000만 포인트를 지급해드렸습니다 :)',
         onConfirmClick: handleConfirmClick,
       })
     } catch (error) {
