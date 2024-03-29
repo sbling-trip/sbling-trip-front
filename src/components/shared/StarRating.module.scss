@@ -12,3 +12,13 @@
     @include t3;
   }
 }
+
+@include mobile {
+  .starRating {
+    strong,
+    span {
+      font-weight: 600;
+      @include t4;
+    }
+  }
+}
