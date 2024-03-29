@@ -88,7 +88,7 @@ const SearchBar = () => {
     }
   }
 
-  const handleMobileSearchInput = () => {
+  const handleMobileSearchClose = () => {
     setIsMobileModalOpen((prev) => !prev)
   }
 
@@ -106,7 +106,7 @@ const SearchBar = () => {
   return (
     <>
       <MobileSearchResultInput
-        onClick={handleMobileSearchInput}
+        onClick={handleMobileSearchClose}
         displayedDate={displayedDate}
         adultCount={adultGuestCount}
         childCount={childGuestCount}
@@ -120,7 +120,7 @@ const SearchBar = () => {
         <button
           type="button"
           className={cx('closeBtn')}
-          onClick={handleMobileSearchInput}
+          onClick={handleMobileSearchClose}
         >
           <IconClose width={20} height={20} />
         </button>
@@ -147,7 +147,11 @@ const SearchBar = () => {
                   guestDropdownRef={guestDropdownRef}
                 />
                 <div className={cx('btnContainer')}>
-                  <button type="submit" className={cx('submitBtn')}>
+                  <button
+                    type="submit"
+                    className={cx('submitBtn')}
+                    onClick={handleMobileSearchClose}
+                  >
                     <span>숙소 검색</span>
                     <IconSearch
                       width={30}
