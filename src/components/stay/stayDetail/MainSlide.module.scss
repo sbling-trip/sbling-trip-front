@@ -82,7 +82,6 @@
   }
 
   .slideSocial {
-    height: 100%;
     display: flex;
 
     .socialButtons {
@@ -105,5 +104,85 @@
     background-color: rgba(0, 0, 0, 0.25);
     font-weight: 600;
     @include t5;
+  }
+}
+
+@include mobile {
+  .mainSlide {
+    img {
+      height: 440px;
+    }
+
+    .carousel {
+      --swiper-navigation-size: 25px;
+      --swiper-navigation-sides-offset: 20px;
+    }
+
+    .slideInfo {
+      flex-wrap: wrap;
+      height: 100px;
+      padding: 10px 20px;
+    }
+
+    .slideTitle {
+      h2 {
+        margin-bottom: 8px;
+        font-weight: 600;
+        @include t4;
+      }
+
+      h3 {
+        display: none;
+      }
+    }
+
+    .starRatingWrap {
+      gap: 3px;
+      margin-top: 5px;
+      margin-left: -4px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .starRating {
+        strong,
+        span {
+          @include t7;
+        }
+      }
+
+      .goToReviewBtn {
+        font-weight: 500;
+
+        span {
+          @include t7;
+        }
+      }
+    }
+
+    .slideSocial {
+      .socialButtons {
+        gap: 8px;
+        padding-top: 5px;
+
+        svg {
+          width: 28px;
+          height: 28px;
+        }
+
+        small {
+          font-weight: 500;
+          color: var(--gray700);
+          display: none;
+        }
+      }
+    }
+
+    .pagination {
+      padding: 4px 12px;
+      @include t6;
+    }
   }
 }
