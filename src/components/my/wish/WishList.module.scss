@@ -14,6 +14,13 @@
     }
   }
 
+  .noWishMsg {
+    padding-top: 10px;
+    color: var(--gray800);
+    font-weight: 500;
+    @include t5;
+  }
+
   .wishList {
     display: flex;
     flex-direction: column;

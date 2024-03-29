@@ -22,14 +22,18 @@ const ReservationList = () => {
   return (
     <div className={cx('reservationList')}>
       <Title title="예약 내역" subTitle="" className={cx('reservationTitle')} />
-      <ul className={cx('reservations')}>
-        {reservations.map((reservation) => (
-          <ReservationItem
-            key={reservation.staySeq}
-            reservation={reservation}
-          />
-        ))}
-      </ul>
+      {reservations.length === 0 ? (
+        <p className={cx('noReservationsMsg')}>예약 내역이 없습니다.</p>
+      ) : (
+        <ul className={cx('reservations')}>
+          {reservations.map((reservation) => (
+            <ReservationItem
+              key={reservation.staySeq}
+              reservation={reservation}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

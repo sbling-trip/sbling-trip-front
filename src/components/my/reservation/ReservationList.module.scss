@@ -6,12 +6,19 @@
   padding: 20px;
 
   .reservationTitle {
-    margin-bottom: 4px;
+    margin-bottom: 16px;
 
     h2 {
       font-weight: 600;
       @include t2;
     }
+  }
+
+  .noReservationsMsg {
+    padding-top: 10px;
+    color: var(--gray800);
+    font-weight: 500;
+    @include t5;
   }
 
   .reservations {

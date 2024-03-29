@@ -14,15 +14,19 @@ const WishList = () => {
   return (
     <div className={cx('wishListContainer')}>
       <Title title="찜한 숙소" subTitle="" className={cx('wishTitle')} />
-      <ul className={cx('wishList')}>
-        {wishStays.map((wish) => (
-          <WishItem
-            key={wish.staySeq}
-            wish={wish}
-            toggleWish={handleToggleWish}
-          />
-        ))}
-      </ul>
+      {wishStays.length === 0 ? (
+        <p className={cx('noWishMsg')}>찜한 숙소가 없습니다.</p>
+      ) : (
+        <ul className={cx('wishList')}>
+          {wishStays.map((wish) => (
+            <WishItem
+              key={wish.staySeq}
+              wish={wish}
+              toggleWish={handleToggleWish}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
