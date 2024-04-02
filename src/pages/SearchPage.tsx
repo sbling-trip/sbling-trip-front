@@ -40,11 +40,17 @@ const SearchPage = () => {
           subTitle=""
           className={cx('resultTitle')}
         />
-        <ul className={cx('resultList')}>
-          {searchResultStays.map((stay, index) => (
-            <StayItem stay={stay} key={index} toggleWish={handleToggleWish} />
-          ))}
-        </ul>
+        {searchResultStays.length === 0 ? (
+          <p className={cx('noSearchResultMsg')}>
+            해당하는 검색 결과가 없습니다.
+          </p>
+        ) : (
+          <ul className={cx('resultList')}>
+            {searchResultStays.map((stay, index) => (
+              <StayItem stay={stay} key={index} toggleWish={handleToggleWish} />
+            ))}
+          </ul>
+        )}
       </div>
     </main>
   )
