@@ -17,6 +17,8 @@ interface RoomListProps {
 const RoomList = ({ currentStay }: RoomListProps) => {
   const { rooms: initialRooms } = useRoomList(currentStay.staySeq.toString())
   const { searchResultRooms } = useSelector((state: RootState) => state.room)
+  const searchParams = new URLSearchParams(location.search)
+  const hasSearchParams = searchParams.toString() !== ''
 
   return (
     <div className={cx('container')}>
@@ -26,12 +28,18 @@ const RoomList = ({ currentStay }: RoomListProps) => {
         className={cx('roomsTitle')}
       />
       <div className={cx('roomListWrap')}>
-        {initialRooms && searchResultRooms.length > 0 ? (
+        {hasSearchParams ? (
+          searchResultRooms.length > 0 ? (
+            searchResultRooms.map((room) => (
+              <RoomItem key={room.roomSeq} room={room} stay={currentStay} />
+            ))
+          ) : (
+            <p>예약 가능한 객실이 없습니다.</p>
+          )
+        ) : (
           initialRooms.map((room) => (
             <RoomItem key={room.roomSeq} room={room} stay={currentStay} />
           ))
-        ) : (
-          <p>예약 가능한 객실이 없습니다.</p>
         )}
       </div>
     </div>
