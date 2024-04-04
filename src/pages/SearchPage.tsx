@@ -47,7 +47,12 @@ const SearchPage = () => {
         ) : (
           <ul className={cx('resultList')}>
             {searchResultStays.map((stay, index) => (
-              <StayItem stay={stay} key={index} toggleWish={handleToggleWish} />
+              <StayItem
+                stay={stay}
+                key={index}
+                toggleWish={handleToggleWish}
+                to={`/stay/${stay.staySeq}${location.search}`}
+              />
             ))}
           </ul>
         )}

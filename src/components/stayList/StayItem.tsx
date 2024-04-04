@@ -19,9 +19,10 @@ const cx = classNames.bind(styles)
 interface StayItemProps {
   stay: Stay
   toggleWish: (staySeq: number, wishState: boolean) => void
+  to?: string
 }
 
-const StayItem = ({ stay, toggleWish }: StayItemProps) => {
+const StayItem = ({ stay, toggleWish, to }: StayItemProps) => {
   const { user } = useSelector((state: RootState) => state.user)
   const { openAlert } = useAlertContext()
   const navigate = useNavigate()
@@ -45,7 +46,7 @@ const StayItem = ({ stay, toggleWish }: StayItemProps) => {
 
   return (
     <li className={cx('stayItem')}>
-      <Link to={`/stay/${staySeq}`}>
+      <Link to={to || `/stay/${staySeq}`}>
         <ListRow
           as="div"
           className={cx('stayItemInner')}
