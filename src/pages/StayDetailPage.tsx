@@ -17,6 +17,11 @@ import useLoadKakao from '@hooks/useLoadKakao'
 import useStayList from '@components/stayList/hooks/useStayList'
 import useRoomList from '@components/stay/hooks/useRoomList'
 import { setCurrentStay } from '@redux/staySlice'
+import { setSearch } from '@redux/searchSlice'
+import { setSearchResultRooms } from '@redux/roomSlice'
+import apiClientAxios from '@api/apiClientAxios'
+import { ListApiResponse } from '@models/api'
+import { Room } from '@models/room'
 
 import banner1 from '@assets/banner_4.png'
 import banner2 from '@assets/banner_1_small.png'
@@ -63,6 +68,33 @@ const StayDetailPage = () => {
       stayReviewRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const requestData = {
+      checkInDate: searchParams.get('checkInDate') || '',
+      checkOutDate: searchParams.get('checkOutDate') || '',
+      adultGuestCount: parseInt(searchParams.get('adultGuestCount') || '0'),
+      childGuestCount: parseInt(searchParams.get('childGuestCount') || '0'),
+    }
+
+    dispatch(setSearch(requestData))
+
+    const fetchSearchResultRooms = async () => {
+      if (searchParams.toString() !== '') {
+        const apiUrl = `/search/room/list?staySeq=${staySeq}&${searchParams.toString()}`
+        try {
+          const { data } =
+            await apiClientAxios.get<ListApiResponse<Room>>(apiUrl)
+          dispatch(setSearchResultRooms(data.result))
+        } catch (error) {
+          console.error('Error fetching rooms:', error)
+        }
+      }
+    }
+
+    fetchSearchResultRooms()
+  }, [location, dispatch])
 
   useEffect(() => {
     const staySeqNumber = parseInt(staySeq ?? '', 10)
