@@ -10,7 +10,7 @@ import {
 import { ko } from 'date-fns/locale'
 
 import 'react-day-picker/dist/style.css'
-import IconReset from '@assets/icon/icon-reset.svg?react'
+import IconReset from '/public/assets/icon/icon-reset.svg?react'
 import classNames from 'classnames/bind'
 import styles from './DatePicker.module.scss'
 

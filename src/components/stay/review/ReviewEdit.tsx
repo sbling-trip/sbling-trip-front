@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Dimmed from '@components/shared/Dimmed'
 import { Review } from '@models/review'
 
-import IconClose from '@assets/icon/icon-close.svg?react'
-import IconStar from '@assets/icon/icon-star.svg?react'
+import IconClose from '/public/assets/icon/icon-close.svg?react'
+import IconStar from '/public/assets/icon/icon-star.svg?react'
 import classNames from 'classnames/bind'
 import styles from './ReviewEdit.module.scss'
 

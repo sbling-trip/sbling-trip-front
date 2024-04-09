@@ -5,10 +5,10 @@ import useShareKakao from '@components/stay/hooks/useShareKakao'
 import { useAlertContext } from '../../../hooks/useAlertContext'
 import { RootState } from '@redux/store'
 
-import IconLink from '@assets/icon/icon-link.svg?react'
-import IconKakao from '@assets/icon/icon-kakao.svg?react'
-import IconWish from '@assets/icon/icon-wish.svg?react'
-import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
+import IconLink from '/public/assets/icon/icon-link.svg?react'
+import IconKakao from '/public/assets/icon/icon-kakao.svg?react'
+import IconWish from '/public/assets/icon/icon-wish.svg?react'
+import IconWishFill from '/public/assets/icon/icon-wish-fill.svg?react'
 
 interface SocialButtonProps {
   staySeq: string

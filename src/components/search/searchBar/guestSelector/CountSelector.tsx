@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux'
 import { setGuestCounts } from '@redux/searchSlice'
 import { useEffect, useState } from 'react'
 
-import IconMinus from '@assets/icon/icon-minus.svg?react'
-import IconPlus from '@assets/icon/icon-plus.svg?react'
+import IconMinus from '/public/assets/icon/icon-minus.svg?react'
+import IconPlus from '/public/assets/icon/icon-plus.svg?react'
 import classNames from 'classnames/bind'
 import styles from './CountSelector.module.scss'
 

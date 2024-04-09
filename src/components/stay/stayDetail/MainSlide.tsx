@@ -7,7 +7,7 @@ import StarRating from '@components/shared/StarRating'
 import SocialButton from '@components/stay/stayDetail/SocialButton'
 import { Stay } from '@models/stay'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './MainSlide.module.scss'
 

@@ -10,16 +10,17 @@ import CustomCarousel from '@components/shared/CustomCarousel'
 import useStayList from '@components/stayList/hooks/useStayList'
 import { StayType } from '@models/stay'
 
-import banner1 from '@assets/banner_1.png'
-import banner2 from '@assets/banner_2.png'
-import banner3 from '@assets/banner_3.png'
-import banner4 from '@assets/banner_4.png'
 import classNames from 'classnames/bind'
 import styles from './MainPage.module.scss'
 
 const cx = classNames.bind(styles)
 
-const MAIN_BANNER_IMAGES = [banner1, banner2, banner3, banner4]
+const MAIN_BANNER_IMAGES = [
+  '/assets/banner_1.png',
+  '/assets/banner_2.png',
+  '/assets/banner_3.png',
+  '/assets/banner_4.png',
+]
 
 const MainPage = () => {
   const {

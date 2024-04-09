@@ -3,7 +3,7 @@ import Title from '@components/shared/Title'
 import delimiter from '@utils/delimiter'
 import { Room } from '@models/room'
 
-import IconClose from '@assets/icon/icon-close.svg?react'
+import IconClose from '/public/assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
 import styles from './RoomDetail.module.scss'
 

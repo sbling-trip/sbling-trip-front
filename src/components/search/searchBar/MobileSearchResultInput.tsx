@@ -1,7 +1,7 @@
 import { formatGuestCounts } from '@utils/formatGuestCounts'
 
-import IconSearch from '@assets/icon/icon-search.svg?react'
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconSearch from '/public/assets/icon/icon-search.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './MobileSearchResultInput.module.scss'
 

@@ -23,14 +23,12 @@ import apiClientAxios from '@api/apiClientAxios'
 import { ListApiResponse } from '@models/api'
 import { Room } from '@models/room'
 
-import banner1 from '@assets/banner_4.png'
-import banner2 from '@assets/banner_1_small.png'
 import classNames from 'classnames/bind'
 import styles from './StayDetailPage.module.scss'
 
 const cx = classNames.bind(styles)
 
-const BANNER_IMAGES = [banner1, banner2]
+const BANNER_IMAGES = ['/assets/banner_4.png', '/assets/banner_1_small.png']
 
 const StayDetailPage = () => {
   useLoadKakao()

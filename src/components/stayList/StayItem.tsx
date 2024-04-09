@@ -9,8 +9,8 @@ import { useAlertContext } from '../../hooks/useAlertContext'
 import { RootState } from '@redux/store'
 import { Stay } from '@models/stay'
 
-import IconWish from '@assets/icon/icon-wish.svg?react'
-import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
+import IconWish from '/public/assets/icon/icon-wish.svg?react'
+import IconWishFill from '/public/assets/icon/icon-wish-fill.svg?react'
 import styles from './StayItem.module.scss'
 import classNames from 'classnames/bind'
 

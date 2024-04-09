@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
-import IconClose from '@assets/icon/icon-close.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
+import IconClose from '/public/assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
 import styles from './SelectionMenu.module.scss'
 

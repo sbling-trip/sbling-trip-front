@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { User } from '@models/user'
 
-import IconUser from '@assets/icon/icon-userProfile.svg?react'
+import IconUser from '/public/assets/icon/icon-userProfile.svg?react'
 import classNames from 'classnames/bind'
 import styles from './ProfileImage.module.scss'
 

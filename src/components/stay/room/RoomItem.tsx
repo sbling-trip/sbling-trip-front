@@ -14,7 +14,7 @@ import { Room } from '@models/room'
 import { setSelectedRoom } from '@redux/roomSlice'
 import { Stay } from '@models/stay'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './RoomItem.module.scss'
 

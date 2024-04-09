@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './Sidebar.module.scss'
 

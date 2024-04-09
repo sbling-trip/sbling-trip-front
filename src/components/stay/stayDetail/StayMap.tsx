@@ -1,8 +1,8 @@
 import Title from '@components/shared/Title'
 import useKakaoMap from '../hooks/useKakaoMap'
 
-import IconCopy from '@assets/icon/icon-copy.svg?react'
-import IconMap from '@assets/icon/icon-map.svg?react'
+import IconCopy from '/public/assets/icon/icon-copy.svg?react'
+import IconMap from '/public/assets/icon/icon-map.svg?react'
 import classNames from 'classnames/bind'
 import styles from './StayMap.module.scss'
 

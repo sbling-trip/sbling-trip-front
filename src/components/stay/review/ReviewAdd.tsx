@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import useReview from '../hooks/useReview'
 
-import IconStar from '@assets/icon/icon-star.svg?react'
+import IconStar from '/public/assets/icon/icon-star.svg?react'
 import classNames from 'classnames/bind'
 import styles from './ReviewAdd.module.scss'
 

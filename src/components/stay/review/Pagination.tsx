@@ -1,6 +1,6 @@
 import calculatePageNumbers from '@utils/pagination'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './Pagination.module.scss'
 

@@ -2,9 +2,9 @@ import Title from '@components/shared/Title'
 import useAuth from '@auth/useAuth'
 import { useAlertContext } from '@hooks/useAlertContext'
 
-import IconGoogle from '@assets/icon/icon-google.svg?react'
-import IconKakao from '@assets/icon/icon-kakao.svg?react'
-import IconNaver from '@assets/icon/icon-naver.svg?react'
+import IconGoogle from '/public/assets/icon/icon-google.svg?react'
+import IconKakao from '/public/assets/icon/icon-kakao.svg?react'
+import IconNaver from '/public/assets/icon/icon-naver.svg?react'
 
 import classNames from 'classnames/bind'
 import styles from './LoginPage.module.scss'

@@ -1,6 +1,6 @@
 import { TermsState } from '@hooks/useTermsAgreement'
-import IconCheck from '@assets/icon/icon-check.svg?react'
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
+import IconCheck from '/public/assets/icon/icon-check.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
 import classNames from 'classnames/bind'
 import styles from './TermsAndConditions.module.scss'
 

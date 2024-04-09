@@ -5,8 +5,8 @@ import IconButton from '@components/shared/IconButton'
 import { useAlertContext } from '@hooks/useAlertContext'
 import { Wish } from '@models/wish'
 
-import IconWishFill from '@assets/icon/icon-wish-fill.svg?react'
-import IconWish from '@assets/icon/icon-wish.svg?react'
+import IconWishFill from '/public/assets/icon/icon-wish-fill.svg?react'
+import IconWish from '/public/assets/icon/icon-wish.svg?react'
 import classNames from 'classnames/bind'
 import styles from './WishItem.module.scss'
 

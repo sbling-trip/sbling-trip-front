@@ -1,4 +1,4 @@
-import IconStar from '@assets/icon/icon-star.svg?react'
+import IconStar from '/public/assets/icon/icon-star.svg?react'
 import classNames from 'classnames/bind'
 import styles from './StarRating.module.scss'
 

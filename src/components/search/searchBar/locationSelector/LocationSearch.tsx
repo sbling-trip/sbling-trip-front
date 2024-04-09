@@ -1,5 +1,5 @@
-import IconSearch from '@assets/icon/icon-search.svg?react'
-import IconClose from '@assets/icon/icon-close.svg?react'
+import IconSearch from '/public/assets/icon/icon-search.svg?react'
+import IconClose from '/public/assets/icon/icon-close.svg?react'
 import classNames from 'classnames/bind'
 import styles from './LocationSearch.module.scss'
 

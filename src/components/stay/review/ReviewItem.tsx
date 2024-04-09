@@ -7,8 +7,8 @@ import useReview from '../hooks/useReview'
 import { RootState } from '@redux/store'
 import { Review } from '@models/review'
 
-import IconArrow from '@assets/icon/icon-arrowRight.svg?react'
-import IconStar from '@assets/icon/icon-star.svg?react'
+import IconArrow from '/public/assets/icon/icon-arrowRight.svg?react'
+import IconStar from '/public/assets/icon/icon-star.svg?react'
 import classNames from 'classnames/bind'
 import styles from './ReviewItem.module.scss'
 
