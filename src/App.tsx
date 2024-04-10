@@ -7,6 +7,7 @@ import MyPage from '@pages/MyPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/SignupPage'
 import AuthCallbackPage from '@pages/AuthCallbackPage'
+import NotFoundPage from '@pages/NotFoundPage'
 
 import ReservationList from '@components/my/reservation/ReservationList'
 import Point from '@components/my/Point'
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   )
