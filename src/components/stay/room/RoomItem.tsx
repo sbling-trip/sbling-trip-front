@@ -50,15 +50,19 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
   }
 
   const handleReservationClick = () => {
-    if (user) {
+    const searchParams = new URLSearchParams(location.search)
+
+    if (user && searchParams.toString() !== '') {
       dispatch(setSelectedRoom(room))
       navigate('/reservation')
     } else {
       openAlert({
-        title: '로그인 페이지로 이동합니다.',
+        title: '로그인이 필요합니다.',
+        subTitle: '로그인 페이지로 이동하시겠습니까?',
         onConfirmClick: () => {
           navigate('/login')
         },
+        onCancelClick: () => {},
       })
     }
   }
