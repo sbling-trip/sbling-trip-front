@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import RoomDetail from './RoomDetail'
@@ -41,6 +41,7 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const soldOut = roomAvailableCount === 0
   const reservationLabel = soldOut ? '매진' : '예약하기'
