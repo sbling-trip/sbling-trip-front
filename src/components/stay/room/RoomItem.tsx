@@ -56,7 +56,7 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
     if (user && searchParams.toString() !== '') {
       dispatch(setSelectedRoom(room))
       navigate('/reservation')
-    } else {
+    } else if (!user) {
       openAlert({
         title: '로그인이 필요합니다.',
         subTitle: '로그인 페이지로 이동하시겠습니까?',
@@ -64,6 +64,11 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
           navigate('/login')
         },
         onCancelClick: () => {},
+      })
+    } else if (searchParams.toString() == '') {
+      openAlert({
+        title: '여행 날짜를 선택해주세요.',
+        onConfirmClick: () => {},
       })
     }
   }
