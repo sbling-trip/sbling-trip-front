@@ -22,6 +22,7 @@ export const AlertContext = createContext<AlertContextValue | undefined>(
 const defaultValues: AlertProps = {
   isOpen: false,
   onConfirmClick: () => {},
+  onCancelClick: () => {},
 }
 
 export const AlertContextProvider = ({
@@ -30,11 +31,10 @@ export const AlertContextProvider = ({
   children: React.ReactNode
 }) => {
   const [alertState, setAlertState] = useState(defaultValues)
-
   const $root_portal = document.getElementById('root-portal')
 
   const closeAlert = useCallback(() => {
-    setAlertState(defaultValues)
+    setAlertState((prev) => ({ ...prev, isOpen: false }))
   }, [])
 
   const openAlert = useCallback(
@@ -43,14 +43,12 @@ export const AlertContextProvider = ({
         ...options,
         onConfirmClick: () => {
           closeAlert()
-          onConfirmClick()
+          onConfirmClick && onConfirmClick()
         },
-        onCancelClick: onCancelClick
-          ? () => {
-              closeAlert()
-              onCancelClick()
-            }
-          : undefined,
+        onCancelClick: () => {
+          closeAlert()
+          onCancelClick && onCancelClick()
+        },
         isOpen: true,
       })
     },
@@ -62,7 +60,7 @@ export const AlertContextProvider = ({
   return (
     <AlertContext.Provider value={values}>
       {children}
-      {$root_portal != null
+      {$root_portal !== null
         ? createPortal(<Alert {...alertState} />, $root_portal)
         : null}
     </AlertContext.Provider>
