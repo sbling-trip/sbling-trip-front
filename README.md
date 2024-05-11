@@ -27,7 +27,14 @@
 
 # 3. 아키텍처
 
-![image](https://github.com/sbling-trip/sbling-trip-front/assets/112460430/4c6edc3f-1f17-413d-94e4-785216c951e3)
+![image](https://github.com/sbling-trip/sbling-trip-front/assets/112460430/c9c5a4b8-edd4-4149-a28d-aaec037a81a0)
+
+<br>
+
+
+# 4. 서비스 흐름 및 주요 기능
+
+![image](https://github.com/sbling-trip/sbling-trip-front/assets/112460430/85f8a777-a432-4f97-acc0-f7de12556b56)
 
 <br>
 
