@@ -4,6 +4,7 @@ import {
   useCallback,
   useMemo,
   useState,
+  useRef,
 } from 'react'
 import { createPortal } from 'react-dom'
 import Alert from '@components/shared/Alert'
@@ -31,7 +32,11 @@ export const AlertContextProvider = ({
   children: React.ReactNode
 }) => {
   const [alertState, setAlertState] = useState(defaultValues)
-  const $root_portal = document.getElementById('root-portal')
+  const $rootPortal = useRef<HTMLElement | null>(null)
+
+  if (!$rootPortal.current) {
+    $rootPortal.current = document.getElementById('root-portal')
+  }
 
   const closeAlert = useCallback(() => {
     setAlertState((prev) => ({ ...prev, isOpen: false }))
@@ -43,11 +48,11 @@ export const AlertContextProvider = ({
         ...options,
         onConfirmClick: () => {
           closeAlert()
-          onConfirmClick && onConfirmClick()
+          onConfirmClick?.()
         },
         onCancelClick: () => {
           closeAlert()
-          onCancelClick && onCancelClick()
+          onCancelClick?.()
         },
         isOpen: true,
       })
@@ -60,8 +65,8 @@ export const AlertContextProvider = ({
   return (
     <AlertContext.Provider value={values}>
       {children}
-      {$root_portal !== null
-        ? createPortal(<Alert {...alertState} />, $root_portal)
+      {$rootPortal.current !== null
+        ? createPortal(<Alert {...alertState} />, $rootPortal.current)
         : null}
     </AlertContext.Provider>
   )
