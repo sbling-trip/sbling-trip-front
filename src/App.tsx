@@ -1,45 +1,49 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MainPage from '@pages/MainPage'
-import StayDetailPage from '@pages/StayDetailPage'
-import SearchPage from '@pages/SearchPage'
-import ReservationPage from '@pages/ReservationPage'
-import MyPage from '@pages/MyPage'
-import LoginPage from '@pages/LoginPage'
-import SignupPage from '@pages/SignupPage'
-import AuthCallbackPage from '@pages/AuthCallbackPage'
-import NotFoundPage from '@pages/NotFoundPage'
-
-import ReservationList from '@components/my/reservation/ReservationList'
-import Point from '@components/my/Point'
-import WishList from '@components/my/wish/WishList'
-import Profile from '@components/my/profile/Profile'
-
 import ScrollToTop from '@components/shared/ScrollToTop'
 import Navbar from '@components/shared/Navbar'
+
+const MainPage = lazy(() => import('@pages/MainPage'))
+const StayDetailPage = lazy(() => import('@pages/StayDetailPage'))
+const SearchPage = lazy(() => import('@pages/SearchPage'))
+const ReservationPage = lazy(() => import('@pages/ReservationPage'))
+const MyPage = lazy(() => import('@pages/MyPage'))
+const LoginPage = lazy(() => import('@pages/LoginPage'))
+const SignupPage = lazy(() => import('@pages/SignupPage'))
+const AuthCallbackPage = lazy(() => import('@pages/AuthCallbackPage'))
+const NotFoundPage = lazy(() => import('@pages/NotFoundPage'))
+const ReservationList = lazy(
+  () => import('@components/my/reservation/ReservationList'),
+)
+const Point = lazy(() => import('@components/my/Point'))
+const WishList = lazy(() => import('@components/my/wish/WishList'))
+const Profile = lazy(() => import('@components/my/profile/Profile'))
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Navbar />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/stay/:staySeq" element={<StayDetailPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/reservation" element={<ReservationPage />} />
+      <Suspense fallback={<></>}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/stay/:staySeq" element={<StayDetailPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/reservation" element={<ReservationPage />} />
 
-        <Route path="/my" element={<MyPage />}>
-          <Route index element={<ReservationList />} />
-          <Route path="point" element={<Point />} />
-          <Route path="wish" element={<WishList />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
+          <Route path="/my" element={<MyPage />}>
+            <Route index element={<ReservationList />} />
+            <Route path="point" element={<Point />} />
+            <Route path="wish" element={<WishList />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/auth/callback" element={<AuthCallbackPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
