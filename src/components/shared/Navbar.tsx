@@ -76,6 +76,8 @@ const Navbar = () => {
                 src="/assets/logo.png"
                 alt="Sbling Trip"
                 className={cx('logo')}
+                width="120"
+                height="55"
               />
             </Link>
           </h1>
