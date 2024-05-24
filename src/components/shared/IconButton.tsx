@@ -13,7 +13,12 @@ const IconButton = ({
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
   return (
-    <button type="button" onClick={onClick} className={cx('btn')}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cx('btn')}
+      aria-label={`${label} 버튼`}
+    >
       <IconComponent width={35} height={35} />
       <small className={cx('label')}>{label}</small>
     </button>

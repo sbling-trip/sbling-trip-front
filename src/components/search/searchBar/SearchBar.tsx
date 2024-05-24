@@ -152,6 +152,7 @@ const SearchBar = () => {
                     type="submit"
                     className={cx('submitBtn')}
                     onClick={handleMobileSearchClose}
+                    aria-label="숙소 검색 버튼"
                   >
                     <span>숙소 검색</span>
                     <IconSearch
