@@ -32,7 +32,8 @@
       "@redux/*": ["src/redux/*"],
       "@hooks/*": ["src/hooks/*"],
       "@contexts/*": ["src/contexts/*"],
-      "@auth/*": ["src/auth/*"]
+      "@auth/*": ["src/auth/*"],
+      "@metadata/*": ["src/metadata/*"]
     },
 
     /* Linting */

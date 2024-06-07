@@ -44,6 +44,7 @@ export default defineConfig({
       { find: '@hooks', replacement: '/src/hooks' },
       { find: '@contexts', replacement: '/src/contexts' },
       { find: '@auth', replacement: '/src/auth' },
+      { find: '@metadata', replacement: '/src/metadata' },
     ],
   },
 })
