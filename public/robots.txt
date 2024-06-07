@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /reservation/
+Disallow: /my/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /auth/callback/
+
+Sitemap: https://www.sbling-trip.click/sitemap.xml
