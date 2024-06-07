@@ -22,6 +22,7 @@ import { setSearchResultRooms } from '@redux/roomSlice'
 import apiClientAxios from '@api/apiClientAxios'
 import { ListApiResponse } from '@models/api'
 import { Room } from '@models/room'
+import MetaData from '@metadata/MetaData'
 
 import classNames from 'classnames/bind'
 import styles from './StayDetailPage.module.scss'
@@ -117,6 +118,13 @@ const StayDetailPage = () => {
 
   return (
     <main>
+      <MetaData
+        description={`Sbling Trip | ${currentStay.description}`}
+        keywords={`${currentStay.stayName} | 숙소 정보`}
+        ogTitle={`${currentStay.stayName} | 숙소 정보`}
+        ogDescription={`Sbling Trip | ${currentStay.description}`}
+        ogUrl={`https://www.sbling-trip.click/stay/${staySeq}`}
+      />
       <div className={cx('stayDetailContainer')}>
         <div className={cx('stayDetailInner')}>
           <MainSlide

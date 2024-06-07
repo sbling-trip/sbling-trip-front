@@ -9,6 +9,7 @@ import CustomCarousel from '@components/shared/CustomCarousel'
 
 import useStayList from '@components/stayList/hooks/useStayList'
 import { StayType } from '@models/stay'
+import MetaData from '@metadata/MetaData'
 
 import classNames from 'classnames/bind'
 import styles from './MainPage.module.scss'
@@ -44,6 +45,7 @@ const MainPage = () => {
 
   return (
     <main>
+      <MetaData />
       <section className={cx('mainSearch')}>
         <SearchBar />
       </section>

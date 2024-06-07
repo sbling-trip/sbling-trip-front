@@ -8,6 +8,7 @@ import StayItem from '@components/stayList/StayItem'
 import useStayList from '@components/stayList/hooks/useStayList'
 import { RootState } from '@redux/store'
 import { setSearch } from '@redux/searchSlice'
+import MetaData from '@metadata/MetaData'
 
 import classNames from 'classnames/bind'
 import styles from './SearchPage.module.scss'
@@ -33,6 +34,13 @@ const SearchPage = () => {
 
   return (
     <main>
+      <MetaData
+        description="숙소 검색 결과 | 다양한 숙소를 비교해보세요."
+        keywords="숙소 검색 결과 | Sbling Trip"
+        ogTitle="숙소 검색 결과 | Sbling Trip"
+        ogDescription="숙소 검색 결과 | 다양한 숙소를 비교해보세요."
+        ogUrl={`https://www.sbling-trip.click/search/${location.search}`}
+      />
       <SearchBar />
       <div className={cx('searchResultContainer')}>
         <Title
