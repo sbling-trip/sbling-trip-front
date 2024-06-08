@@ -33,6 +33,7 @@ const Pagination = ({
         type="button"
         onClick={prevPageReviews}
         disabled={prevPageDisabled}
+        aria-label="화살표 버튼"
       >
         <IconArrow
           width={25}
@@ -59,6 +60,7 @@ const Pagination = ({
         type="button"
         onClick={nextPageReviews}
         disabled={nextPageDisabled || totalPages === endPage}
+        aria-label="다음 페이지 이동 버튼"
       >
         <IconArrow
           width={25}

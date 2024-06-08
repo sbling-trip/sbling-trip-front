@@ -38,7 +38,11 @@ const MobileSearchResultInput = ({
                 : `${formatGuestCounts(adultCount, childCount)}`}
             </span>
           </div>
-          <button type="button" className={cx('arrowBtn')}>
+          <button
+            type="button"
+            className={cx('arrowBtn')}
+            aria-label="숙소 검색 드롭다운 버튼"
+          >
             <IconArrow
               width={25}
               height={25}

@@ -54,6 +54,7 @@ const PointUsage = ({
               type="button"
               className={cx('pointBtn')}
               onClick={handleClickUseAllPoints}
+              aria-label="포인트 사용 버튼"
             >
               모두 사용
             </button>

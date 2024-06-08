@@ -58,13 +58,19 @@ const CountSelector = ({
           className={cx('btn')}
           onClick={handleDecrement}
           disabled={count === minCount}
+          aria-label="인원 감소 버튼"
         >
           <IconMinus width={24} height={20} />
         </button>
         <div className={cx('count')}>
           <span>{count}</span>
         </div>
-        <button type="button" className={cx('btn')} onClick={handleIncrement}>
+        <button
+          type="button"
+          className={cx('btn')}
+          onClick={handleIncrement}
+          aria-label="인원 증가 버튼"
+        >
           <IconPlus width={24} height={20} />
         </button>
       </div>

@@ -33,6 +33,7 @@ const LoginPage = () => {
               type="button"
               onClick={handleGoogleLogin}
               className={cx('btn', 'google')}
+              aria-label="구글 로그인 버튼"
             >
               <IconGoogle width={28} height={28} />
               <span>구글로 시작하기</span>
@@ -41,6 +42,7 @@ const LoginPage = () => {
               type="button"
               className={cx('btn', 'kakao')}
               onClick={handleUnderDevelopment}
+              aria-label="카카오 로그인 버튼"
             >
               <IconKakao width={35} height={35} />
               <span>카카오로 시작하기</span>
@@ -49,6 +51,7 @@ const LoginPage = () => {
               type="button"
               className={cx('btn', 'naver')}
               onClick={handleUnderDevelopment}
+              aria-label="네이버 로그인 버튼"
             >
               <IconNaver width={35} height={35} />
               <span>네이버로 시작하기</span>

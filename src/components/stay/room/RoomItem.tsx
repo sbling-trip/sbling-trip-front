@@ -103,6 +103,7 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
             type="button"
             className={cx('roomDetailBtn')}
             onClick={() => setShowRoomDetailModal(true)}
+            aria-label="상세 정보 확인 버튼"
           >
             <span>상세 정보</span>
             <IconArrow width={20} height={20} fill="var(--blue600)" />
@@ -125,6 +126,7 @@ const RoomItem = ({ room, stay }: RoomItemProps) => {
               disabled={soldOut}
               className={cx('selectBtn')}
               onClick={handleReservationClick}
+              aria-label="예약 버튼"
             >
               {reservationLabel}
             </button>

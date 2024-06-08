@@ -108,6 +108,7 @@ const DatePicker = ({
           className={cx('btn', 'reset')}
           onClick={onReset}
           disabled={isDefaultDateRange}
+          aria-label="일정 초기화 버튼"
         >
           <IconReset width={18} height={18} />
           초기화
@@ -116,6 +117,7 @@ const DatePicker = ({
           type="button"
           className={cx('btn', 'complete')}
           onClick={handleComplete}
+          aria-label="일정 선택 완료 버튼"
         >
           선택 완료
         </button>

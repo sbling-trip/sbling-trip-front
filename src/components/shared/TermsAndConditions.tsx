@@ -56,7 +56,11 @@ const TermsAndConditions = ({
                 </span>
                 <label htmlFor=""></label>
               </div>
-              <button type="button" className={cx('labelBtn')}>
+              <button
+                type="button"
+                className={cx('labelBtn')}
+                aria-label="버튼"
+              >
                 <span>{label}</span>
                 <div className={cx('arrowBox')}>
                   <IconArrow

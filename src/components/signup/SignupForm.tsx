@@ -77,6 +77,7 @@ const SignupForm = ({
             type="button"
             className={cx('userNameBtn')}
             onClick={handleGenerateUserName}
+            aria-label="사용자 이름 랜덤 생성 버튼"
           >
             랜덤 생성
           </button>
@@ -149,6 +150,7 @@ const SignupForm = ({
           type="submit"
           className={cx('submitBtn')}
           disabled={isSubmitButtonDisabled}
+          aria-label="작성 완료 버튼"
         >
           작성 완료
         </button>

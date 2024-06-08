@@ -46,6 +46,7 @@ const Alert = ({
             <button
               onClick={onCancelClick}
               className={`${className ?? ''} ${cx('btn', 'cancel')}`}
+              aria-label="취소 버튼"
             >
               {cancelTxt}
             </button>
@@ -53,6 +54,7 @@ const Alert = ({
           <button
             onClick={onConfirmClick}
             className={`${className ?? ''} ${cx('btn', 'comfirm')}`}
+            aria-label="확인 버튼"
           >
             {confirmTxt}
           </button>

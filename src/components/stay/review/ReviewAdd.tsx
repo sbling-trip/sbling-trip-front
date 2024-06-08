@@ -152,6 +152,7 @@ const ReviewAdd = ({ roomSeq, staySeq }: ReviewAddProps) => {
               type="submit"
               className={cx('submitBtn')}
               onClick={handleSubmitReview}
+              aria-label="등록 버튼"
             >
               등록
             </button>

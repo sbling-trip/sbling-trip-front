@@ -83,19 +83,29 @@ const ReviewEdit = ({
               />
             </div>
             <div className={cx('btnWrap')}>
-              <button className={cx('cancelBtn')} onClick={onClose}>
+              <button
+                className={cx('cancelBtn')}
+                onClick={onClose}
+                aria-label="취소 버튼"
+              >
                 취소
               </button>
               <button
                 type="submit"
                 className={cx('submitBtn')}
                 onClick={handleSubmitReview}
+                aria-label="저장 버튼"
               >
                 저장하기
               </button>
             </div>
           </div>
-          <button type="button" className={cx('closeBtn')} onClick={onClose}>
+          <button
+            type="button"
+            className={cx('closeBtn')}
+            onClick={onClose}
+            aria-label="닫기 버튼"
+          >
             <IconClose width={20} height={20} />
           </button>
         </div>

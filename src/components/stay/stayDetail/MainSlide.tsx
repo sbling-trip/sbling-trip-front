@@ -61,6 +61,7 @@ const MainSlide = ({
                 type="button"
                 className={cx('goToReviewBtn')}
                 onClick={scrollToStayReview}
+                aria-label="리뷰 보기 버튼"
               >
                 <span>리뷰보기</span>
                 <IconArrow

@@ -26,14 +26,23 @@ const Navbar = () => {
 
   const LoginButton = () => (
     <Link to="/login">
-      <button type="button" className={cx('userLogBtn')}>
+      <button
+        type="button"
+        className={cx('userLogBtn')}
+        aria-label="로그인/회원가입 버튼"
+      >
         로그인 / 회원가입
       </button>
     </Link>
   )
 
   const LogoutButton = ({ onClick }: LogoutButtonProps) => (
-    <button type="button" onClick={onClick} className={cx('userLogBtn')}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cx('userLogBtn')}
+      aria-label="로그아웃 버튼"
+    >
       로그아웃
     </button>
   )

@@ -121,6 +121,7 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
                 type="button"
                 className={cx('btn', 'edit')}
                 onClick={() => setShowEditModal(true)}
+                aria-label="수정 버튼"
               >
                 수정
               </button>
@@ -136,6 +137,7 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
                 type="button"
                 className={cx('btn', 'delete')}
                 onClick={handleDelete}
+                aria-label="삭제 버튼"
               >
                 삭제
               </button>
@@ -155,6 +157,7 @@ const ReviewItem = ({ review, staySeq }: ReviewItemProps) => {
                 type="button"
                 className={cx('showAllBtn')}
                 onClick={handleShowAllClick}
+                aria-label="더 보기 버튼"
               >
                 더 보기
                 <IconArrow

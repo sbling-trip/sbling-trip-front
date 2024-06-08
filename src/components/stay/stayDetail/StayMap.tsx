@@ -39,6 +39,7 @@ const StayMap = ({ latitude, longitude, address }: StayMapProps) => {
             type="button"
             className={cx('btn')}
             onClick={handleCopyAddress}
+            aria-label="주소 복사 버튼"
           >
             <span className={cx('flexBlock')}>
               <IconCopy width={25} height={25} />
@@ -49,6 +50,7 @@ const StayMap = ({ latitude, longitude, address }: StayMapProps) => {
             type="button"
             className={cx('btn', 'iconMap')}
             onClick={handleViewMap}
+            aria-label="지도 보기 버튼"
           >
             <span className={cx('flexBlock', 'iconGap')}>
               <IconMap width={23} height={23} />

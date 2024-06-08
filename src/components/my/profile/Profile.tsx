@@ -92,6 +92,7 @@ const Profile = () => {
                   type="button"
                   className={cx('editBtn')}
                   onClick={handleEditProfile}
+                  aria-label="프로필 수정 버튼"
                 >
                   프로필 수정
                 </button>
@@ -182,12 +183,17 @@ const Profile = () => {
                   type="button"
                   className={cx('btn')}
                   onClick={handleCancelEdit}
+                  aria-label="편집 취소 버튼"
                 >
                   취소
                 </button>
               </div>
               <div className={cx('btn__width50')}>
-                <button type="submit" className={cx('btn')}>
+                <button
+                  type="submit"
+                  className={cx('btn')}
+                  aria-label="편집 저장 버튼"
+                >
                   저장
                 </button>
               </div>
@@ -202,6 +208,7 @@ const Profile = () => {
           type="button"
           className={cx('signOutBtn')}
           onClick={handleSignOut}
+          aria-label="회원 탈퇴 버튼"
         >
           회원 탈퇴
         </button>

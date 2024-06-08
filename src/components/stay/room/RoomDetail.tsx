@@ -60,7 +60,12 @@ const RoomDetail = ({
       <div className={cx('roomDetail')}>
         <div className={cx('inner')}>
           <div className={cx('top')}>
-            <button type="button" className={cx('closeBtn')} onClick={onClose}>
+            <button
+              type="button"
+              className={cx('closeBtn')}
+              onClick={onClose}
+              aria-label="닫기 버튼"
+            >
               <IconClose width={30} height={30} />
             </button>
           </div>

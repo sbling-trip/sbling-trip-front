@@ -122,6 +122,7 @@ const SearchBar = () => {
           type="button"
           className={cx('closeBtn')}
           onClick={handleMobileSearchClose}
+          aria-label="닫기 버튼"
         >
           <IconClose width={20} height={20} />
         </button>
