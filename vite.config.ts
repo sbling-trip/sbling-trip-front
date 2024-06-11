@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import legacy from '@vitejs/plugin-legacy'
 import svgr from 'vite-plugin-svgr'
 import viteImagemin from 'vite-plugin-imagemin'
 
@@ -8,6 +9,9 @@ export default defineConfig({
   plugins: [
     svgr(),
     react(),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
+    }),
     viteImagemin({
       optipng: {
         optimizationLevel: 7, // PNG 최적화 수준 설정 (0-7)
