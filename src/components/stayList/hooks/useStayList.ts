@@ -10,6 +10,7 @@ import { Stay } from '@models/stay'
 const useStayList = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [staysByType, setStaysByType] = useState<{ [key: number]: Stay[] }>({})
+  const [isMoreDataAvailable, setIsMoreDataAvailable] = useState(true)
 
   const dispatch = useDispatch()
   const { stays, currentStay } = useSelector((state: RootState) => state.stay)
@@ -33,12 +34,15 @@ const useStayList = () => {
     }))
 
   const fetchStayList = async () => {
+    if (!isMoreDataAvailable) return // 더 이상 불러올 데이터가 없으면 함수를 종료
     try {
       const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
         `/stay/list?cursor=${currentPage}`,
       )
 
-      if (currentPage === 0) {
+      if (data.result.length === 0) {
+        setIsMoreDataAvailable(false) // 더 이상 불러올 데이터가 없는 경우
+      } else if (currentPage === 0) {
         dispatch(setStays(formatStays(data.result)))
       } else {
         dispatch(addStays(formatStays(data.result)))
@@ -74,14 +78,19 @@ const useStayList = () => {
   }
 
   const fetchLoadMore = async () => {
+    if (!isMoreDataAvailable) return // 더 이상 불러올 데이터가 없으면 함수 종료
     try {
       const nextPage = currentPage + 1
       const { data } = await apiClientAxios.get<ListApiResponse<Stay>>(
         `/stay/list?cursor=${nextPage}`,
       )
 
-      dispatch(addStays(formatStays(data.result)))
-      setCurrentPage(nextPage)
+      if (data.result.length === 0) {
+        setIsMoreDataAvailable(false) // 더 이상 불러올 데이터가 없는 경우
+      } else {
+        dispatch(addStays(formatStays(data.result)))
+        setCurrentPage(nextPage)
+      }
     } catch (error) {
       console.error('Error fetching more stays:', error)
     }
